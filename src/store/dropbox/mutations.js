@@ -28,9 +28,9 @@ export function createHowl (state, payload) {
 
     newHowl.state = state
     newHowl.page = which
-    debugger
+
     newHowl.on('end', () => {
-      debugger
+
       which.next()
     })
     // vue.set(which, 'metadata', payload.response.metadata)

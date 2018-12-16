@@ -25,17 +25,12 @@ export function silence (state, payload) {
 }
 
 export function endHowlPlay (state, payload) {
-  let page = payload.page
-  // get it off of playing
+  // let page = payload.page
+  // get it off of playing - if only one playing, let's guess it's me...
   if (state.playing.length === 1) {
     state.playing.pop()
   }
   else {
     // iterate to remove, or just leave it there for now.
-  }
-
-  // What to do to trigger next?
-  if (state.delayPlayNext) {
-    page.next()
   }
 }

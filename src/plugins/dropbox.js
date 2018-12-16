@@ -85,7 +85,7 @@ export default ({app, router, Vue}) => {
       })
     }
     else {
-      debugger
+
       if (window.jim_DEBUG_FULL) console.log('No store?')
     }
   }
