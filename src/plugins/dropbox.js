@@ -1,4 +1,6 @@
+/* eslint-disable camelcase,no-extra-boolean-cast */
 import Dropbox from 'dropbox'
+import Store from '../store'
 
 const parseQueryString = function (str) {
   let ret = Object.create(null)
@@ -29,10 +31,10 @@ const parseQueryString = function (str) {
     if (ret[key] === undefined) {
       ret[key] = val
     }
- else if (Array.isArray(ret[key])) {
+    else if (Array.isArray(ret[key])) {
       ret[key].push(val)
     }
- else {
+    else {
       ret[key] = [ret[key], val]
     }
   })
@@ -50,49 +52,46 @@ export default ({app, router, Vue}) => {
   // let CLIENT_ID = '80z0vbjkw50ybvb' // memoRead - all dropbox
   let CLIENT_ID = 'b7ggii7duwya8gj' // PlayItAgainKid - only subfolder
 
-  // Parses the url and gets the access token if it is in the urls hash
-  function getAccessTokenFromUrl () {
-    return parseQueryString(window.location.hash).access_token
-  }
-
   // If the user was just redirected from authenticating, the urls hash will
   // contain the access token.
-  function isAuthenticated () {
-    return !!getAccessTokenFromUrl()
-  }
-
-  // Render a list of items to #files
-  // function listItems (items) {
-  //   items.forEach(function (item) {
-  //     console.log(item.name)
-  //   })
+  // function isAuthenticated () {
+  //   return !!getAccessTokenFromUrl()
   // }
 
   // This example keeps both the authenticate and non-authenticated setions
   // in the DOM and uses this function to show/hide the correct section.
-  if (isAuthenticated()) {
+  let queryString = parseQueryString(window.location.hash)
+  let access_token = queryString.access_token
+  let token_type = queryString.token_type
+  let uid = queryString.uid
+  let account_id = queryString.account_id
+
+  if (!!access_token) {
     // Create an instance of Dropbox with the access token and use it to
     // fetch and render the files in the users root directory.
-    let dbx = new Dropbox.Dropbox({ accessToken: getAccessTokenFromUrl() })
+
+    let dbx = new Dropbox.Dropbox({accessToken: access_token})
     Vue.prototype.$dbx = dbx
 
-    // /PlayItAgainKid/book1
-    /*
-    dbx.filesListFolder({
-      path: '',
-      include_media_info: true
-    })
-      .then(function (response) {
-        listItems(response.entries)
+    if (Store) {
+      let store = Store()
+      if (window.jim_DEBUG_FULL) console.dir(store)
+
+      store.commit('dropboxCredentials', {
+        access_token,
+        token_type,
+        uid,
+        account_id,
       })
-      .catch(function (error) {
-        console.error(error)
-      })
-    */
+    }
+    else {
+      debugger
+      if (window.jim_DEBUG_FULL) console.log('No store?')
+    }
   }
- else {
+  else {
     // Set the login anchors href using dbx.getAuthenticationUrl()
-    let dbx = new Dropbox.Dropbox({ clientId: CLIENT_ID })
+    let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID})
     Vue.prototype.$dbx = dbx
     let authUrl = dbx.getAuthenticationUrl('https://localhost:8080/auth')
     console.log('authUrl')
@@ -107,7 +106,7 @@ export default ({app, router, Vue}) => {
   myToken = 'K637rkl3w9UAAAAAAAAO6EwDPADy3tiG-UF5Ap3KZ8hx6EHCNL0CQMEIPegvE5ZE' // playItAgainKid
   // myToken = 'K637rkl3w9UAAAAAAAAO6SRSimVr5yYJ82-eNMl_D3Igt5FHqb94vAoGW4I4emXC' // memoRead
   // let fetch = false
-  let dbx = new Dropbox({accessToken: myToken})
+  let dbx = new Dropbox({access_token: myToken})
 
   Vue.prototype.$Dropbox = Dropbox
   Vue.prototype.$dbx = dbx

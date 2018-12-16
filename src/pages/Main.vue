@@ -1,41 +1,19 @@
 <template>
   <q-page class="flex flex-center">
-    <h4
-      v-if="isLoading"
-    >
-      Hi, Jim!  {{authURL}}
-    </h4>
-    <a id="authlink" :href="authURL" class="button">Authenticate</a>
-
-    <q-input
-      id="folder"
-      v-model="folder"
-      autofocus
-      placeholder="folder"
-    ></q-input>
-    <q-btn @click="readDropboxFolder">Get</q-btn>
-    <q-btn @click="createFolder">Create Folder</q-btn>
-
-    <h4
-      v-if="!isLoading"
-    >
-      Content:
-    </h4>
 
     <q-card v-for="a in TOC" v-bind:key="a.id">
       <q-card-media overlay-position="bottom" v-if="a.thumbnail">
         <img    :src="a.thumbnail" :alt="a.name">
         <q-card-title slot="overlay" >
           {{a.name}}&nbsp;
-          <span slot="subtitle">{{a.size}}</span>
+          <!--<span slot="subtitle">{{a.size}}</span>-->
         </q-card-title>
       </q-card-media>
       <q-card-main>
-        {{a.path_display}}
-        <div  v-if="a.media_info">
+<!--        <div  v-if="a.media_info">
           <h6>Media Info:</h6>
           [{{ a.media_info.metadata.dimensions.width }}px x {{a.media_info.metadata.dimensions.height}}px]
-        </div>
+        </div>-->
 <!--        <audio
           controls
           :src="a.link"
@@ -44,13 +22,25 @@
         </audio>-->
 
       </q-card-main>
-      <q-card-actions v-if="a['.tag'] === 'folder'">
+      <q-card-actions v-if="a['.tag'] === 'folder'" >
         <q-btn
           flat
           color="primary"
           label="play book"
           @click="playBook(a)"
         ></q-btn>
+
+
+        <q-btn
+          flat
+          color="primary"
+          :label="'Page ' + p "
+          v-for="p in pageOrder(a)"
+          v-if="p"
+          v-bind:key="p"
+          @click="playBookPage(a, p)"
+        ></q-btn>
+
       </q-card-actions>
       <q-card-actions v-if="a.ext === 'mp3'">
         <q-btn
@@ -70,6 +60,23 @@
         ></q-btn>
       </q-card-actions>
     </q-card>
+
+    <a id="authlink" :href="authURL" class="button">Authenticate</a>
+
+    <q-input
+      id="folder"
+      v-model="folder"
+      autofocus
+      placeholder="folder"
+    ></q-input>
+    <q-btn @click="readDropboxFolder">Get</q-btn>
+    <h4
+      v-if="!isLoading"
+    >
+      Content:
+    </h4>
+
+
   </q-page>
 </template>
 
@@ -84,9 +91,6 @@ export default {
   components: {},
   mixins: [ mixinSound ],
   methods: {
-    playBook (folder) {
-      alert('play book ' + folder.name)
-    },
     savedEntry (returnedEntry) {
 
       let found = this.ids[returnedEntry.id]
@@ -122,17 +126,6 @@ export default {
     },
     listItems (items) {
       console.dir(items)
-    },
-    createFolder () {
-      if (window.jim_DEBUG_FULL) console.log('Create Folder: ' + this.folder)
-
-      this.$dbx.filesCreateFolderV2({path: this.folder, autorename: true})
-        .then((result) => {
-          if (window.jim_DEBUG_FULL) {
-            console.log('result')
-            console.dir(result)
-          }
-        })
     },
     readDropboxFolder () {
       let self = this

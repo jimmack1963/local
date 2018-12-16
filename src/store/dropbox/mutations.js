@@ -6,15 +6,6 @@ export function saveTempLink (state, payload) {
   if (which) {
     vue.set(which, 'link', payload.response.link)
     vue.set(which, 'linkTime', new Date())
-    /*
-    let newHowl =  new Howl({
-      src: [src],
-      format: ['wav'],
-      preload: true
-    })
-    vue.set(which, 'howl', newHowl)
-    */
-    // vue.set(which, 'metadata', payload.response.metadata)
   }
   else {
 
@@ -34,6 +25,14 @@ export function createHowl (state, payload) {
       preload: true,
     })
     vue.set(which, 'howl', newHowl)
+
+    newHowl.state = state
+    newHowl.page = which
+    debugger
+    newHowl.on('end', () => {
+      debugger
+      which.next()
+    })
     // vue.set(which, 'metadata', payload.response.metadata)
   }
   else {
@@ -48,7 +47,6 @@ export function saveThumbnail (state, payload) {
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
-    debugger
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
@@ -118,12 +116,13 @@ export function saveEntry (state, payload) {
             if (pageNumber) {
               base.pages = base.pages || {}
               base.pages[pageNumber] = base.pages[pageNumber] || {
-                mp3: {},
-                png: {},
-                json: {},
+                mp3: [],
+                png: [],
+                json: [],
                 // txt: {},
               }
-              base.pages[pageNumber][entry.ext][entry.name] = entry
+              entry.pageNumber = pageNumber
+              base.pages[pageNumber][entry.ext].push(entry)
               placed = true
             }
           }
