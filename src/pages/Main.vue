@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex flex-center">
+    <h1>&nbsp;</h1>
 
     <q-card v-for="a in TOC" v-bind:key="a.id">
       <q-card-media overlay-position="bottom" v-if="a.thumbnail">
@@ -10,10 +11,27 @@
         </q-card-title>
       </q-card-media>
       <q-card-main>
-<!--        <div  v-if="a.media_info">
-          <h6>Media Info:</h6>
-          [{{ a.media_info.metadata.dimensions.width }}px x {{a.media_info.metadata.dimensions.height}}px]
-        </div>-->
+   <!--     <transition
+          appear
+          enter-active-class="animated bounceInRight"
+          leave-active-class="animated slideOutLeft"
+        >
+          &lt;!&ndash; Wrapping only one DOM element, defined by QBtn &ndash;&gt;
+          <div class="pageIndicatorStart fit text-center" v-if="playingPage">
+            {{playingPage}}
+          </div>
+        </transition>-->
+
+        <div
+          v-show="playingPage"
+          ref="playingPage"
+          class="pageIndicatorStart text-center"
+          animate-bounce>{{playingPage}}</div>
+
+        <!--        <div  v-if="a.media_info">
+                  <h6>Media Info:</h6>
+                  [{{ a.media_info.metadata.dimensions.width }}px x {{a.media_info.metadata.dimensions.height}}px]
+                </div>-->
 <!--        <audio
           controls
           :src="a.link"
@@ -26,15 +44,21 @@
         <q-btn
           flat
           color="primary"
-          label="play book"
+          label="play All"
           @click="playBook(a)"
+        ></q-btn>
+        <q-btn
+          flat
+          color="secondary"
+          label="Silence"
+          @click="endHowlPlay(a)"
         ></q-btn>
 
 
         <q-btn
           flat
           color="primary"
-          :label="'Page ' + p "
+          :label="p"
           v-for="p in pageOrder(a)"
           v-if="p"
           v-bind:key="p"
@@ -61,26 +85,44 @@
       </q-card-actions>
     </q-card>
 
-    <a id="authlink" :href="authURL" class="button">Authenticate</a>
+    <a v-if="!uid" id="authlink" :href="authURL" class="button">Authenticate</a>
 
-    <q-input
+<!--    <q-input
       id="folder"
       v-model="folder"
       autofocus
       placeholder="folder"
     ></q-input>
-    <q-btn @click="readDropboxFolder">Get</q-btn>
-    <h4
-      v-if="!isLoading"
-    >
-      Content:
-    </h4>
 
+    <q-btn @click="readDropboxFolder">Get</q-btn>
+    -->
 
   </q-page>
 </template>
 
 <style>
+  /*
+  .pageIndicatorLeave {
+    font-size: 1em;
+    font-weight: bolder;
+    position: absolute;
+    top: 40%;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+  }
+  */
+
+  .pageIndicatorStart {
+    font-size: 10em;
+    font-weight: bolder;
+    /*position: absolute;*/
+    position: fixed;
+    top: 10%;
+    /*height: 50px;*/
+    /*width: 100%;*/
+    z-index: 100;
+  }
 </style>
 
 <script>
@@ -170,6 +212,7 @@ export default {
   mounted () {
     window.jim = window.jim || {}
     window.jim.main = this
+    this.readDropboxFolder()
   }
 }
 </script>

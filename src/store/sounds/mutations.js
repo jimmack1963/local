@@ -16,7 +16,7 @@ export function playHowlAlso (state, payload) {
   payload.page.howl.play()
 }
 
-export function silence (state, payload) {
+export function silence (state) {
   let killing = state.playing.pop()
   while (killing) {
     killing.howl.stop()

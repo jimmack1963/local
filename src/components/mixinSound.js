@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex'
+import { animate } from 'quasar'
 
 export const mixinSound = {
   data () {
@@ -7,20 +8,41 @@ export const mixinSound = {
     }
   },
   computed: {
-    ...mapGetters(['ids', 'TOC', 'folders'])
+    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid'])
   },
   methods: {
     next () {
 
     },
     playBookPage (folder, page) {
+      if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
+
       let vue = this
+      animate.start({
+        name: 'page-for-attention',
+        from: 1,
+        to: 100,
+        duration: 1000,
+        apply (pos) {
+          vue.$refs.playingPage.forEach( r => {
+            r.style.left = `${100 - pos}%`
+            // r.style.fontsize = `${pos}px`
+            // r.style.top = `${pos}px`
+          })
+        },
+        done () {
+          console.log(`we're done!`)
+        }
+      })
       let played = false
       let myFolder = this.folders[folder.path_lower.substr(1)]
       if (myFolder) {
+        let pagesOrdered = this.pageOrder(folder)
+        if (page === -1) {
+          page = pagesOrdered[0]
+        }
         let currentPageProperties = myFolder.pages[page.toString()]
 
-        let pagesOrdered = this.pageOrder(folder)
         let offset = pagesOrdered.indexOf(page)
         let nextPageNumber = false
         if (offset < pagesOrdered.length) {
@@ -51,7 +73,7 @@ export const mixinSound = {
                 }
               }
               else {
-                alert('NO NEXT PAGE after ' + page)
+                // alert('NO NEXT PAGE after ' + page)
               }
             }
             vue.$store.commit('playHowl', {
@@ -64,8 +86,11 @@ export const mixinSound = {
       }
       if (!played) alert('FAIL: play book ' + folder.name + ' page ' + page)
     },
+    endHowlPlay () {
+      this.$store.commit('silence')
+    },
     playBook (folder) {
-      alert('play book ' + folder.name)
+      this.playBookPage(folder, -1)
     },
     pageOrder (folder) {
 
@@ -101,7 +126,16 @@ export const mixinSound = {
         console.dir(assemble)
         }
 
-      return assemble
+      let myArray = assemble.filter( function (x) {
+        return (x !== (undefined || null || ''))
+      })
+
+      if (window.jim_DEBUG_FULL) {
+        console.log('myArray')
+        console.dir(myArray)
+        }
+
+      return myArray
     },
     async playSound () {
 
