@@ -8,11 +8,29 @@ export const mixinSound = {
     }
   },
   computed: {
-    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid'])
+    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid', 'delayPlayNext', 'mostRecentPage'])
   },
   methods: {
-    next () {
-
+    pageAfter (folder, page) {
+      debugger
+      let pagesOrdered = this.pageOrder(folder)
+      let offset = pagesOrdered.indexOf(page)
+      let nextPageNumber = false
+      if (offset < pagesOrdered.length) {
+        nextPageNumber = pagesOrdered[offset + 1]
+      }
+      return nextPageNumber
+    },
+    continuePlaying (folder) {
+      debugger
+      this.setDelayPlayNext(1)
+      let nextPage = this.pageAfter(folder, this.mostRecentPage)
+      if (nextPage) {
+        this.playBookPage(folder, nextPage)
+      }
+      else {
+        this.playBook(folder)
+      }
     },
     playBookPage (folder, page) {
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
@@ -69,17 +87,20 @@ export const mixinSound = {
               // find the next page to play
               if (nextPageNumber) {
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
-                if (nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
+                if (vue.delayPlayNext && nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
                   // cue up next page
                   // TODO: generally, this should be kept so it can be cancelled
 
                   setTimeout(function () {
                       vue.playBookPage(folder, nextPageNumber)
-                  }, 1000)
-                  // TODO: set the seconds
+                  }, vue.delayPlayNext)
                 }
                 else {
-                  alert('No narrator when next page = ' + nextPageNumber)
+                  if (window.jim_DEBUG_FULL) {
+                    console.log(vue.delayPlayNext
+                      ? 'No mp3 in ' + nextPageNumber
+                      : 'Not set to continue')
+                  }
                 }
               }
               else {
@@ -96,10 +117,14 @@ export const mixinSound = {
       }
       if (!played) alert('FAIL: play book ' + folder.name + ' page ' + page)
     },
+    setDelayPlayNext (seconds) {
+      this.$store.commit('delayPlayNext', seconds * 1000)
+    },
     endHowlPlay () {
       this.$store.commit('silence')
     },
     playBook (folder) {
+      this.setDelayPlayNext(1)
       return this.playBookPage(folder, -1)
     },
     pageCount (folder) {

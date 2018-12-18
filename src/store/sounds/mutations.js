@@ -1,4 +1,4 @@
-// import vue from 'vue'
+import vue from 'vue'
 
 export function playHowl (state, payload) {
   let killing = state.playing.pop()
@@ -9,6 +9,7 @@ export function playHowl (state, payload) {
 
   state.playing.push(payload.page)
   payload.page.howl.play()
+  state.mostRecentPage = payload.page.pageNumber
 }
 
 export function playHowlAlso (state, payload) {
@@ -33,4 +34,8 @@ export function endHowlPlay (state, payload) {
   else {
     // iterate to remove, or just leave it there for now.
   }
+}
+
+export function delayPlayNext (state, ms) {
+  vue.set(state, 'delayPlayNext', ms)
 }

@@ -60,6 +60,13 @@
           v-bind:key="p"
           @click="playBookPage(a, p)"
         ></q-btn>
+        <q-btn
+          flat
+          color="primary"
+          label="continue"
+          @click="continuePlaying(a)"
+          v-if="pageCount(a) > 0"
+        ></q-btn>
 
       </q-card-actions>
 

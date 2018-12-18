@@ -8,7 +8,24 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "be": "quasar build -m electron",
+    "bp": "quasar build -m pwa",
+    "co": "cypress open",
+    "dv": "dview src",
+    "e": "quasar dev -m electron",
+    "icons": "opn \"https://material.io/tools/icons/?search=&style=baseline\"",
+    "ip": "ipconfig",
+    "latest": "node latest.js",
+    "lint": "eslint --ext .js,.vue src",
+    "now": "now dist/src-mat",
+    "p": "quasar dev -m pwa",
+    "qb": "quasar build",
+    "sp": "quasar serve dist/pwa-mat",
+    "test": "echo \"No test specified\" && exit 0",
+    "touch": "node touch.js",
+    "ws": "webstorm64 .",
+    "debug_chrome_android": "adb start-server"
   },
   "dependencies": {
     "auth0-js": "^9.8.2",

@@ -1,4 +1,5 @@
 export default {
   playing: [],
-  delayPlayNext: 1
+  mostRecentPage: false,
+  delayPlayNext: 1000
 }
