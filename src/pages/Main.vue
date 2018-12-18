@@ -10,48 +10,44 @@
           <!--<span slot="subtitle">{{a.size}}</span>-->
         </q-card-title>
       </q-card-media>
-      <q-card-main>
-   <!--     <transition
-          appear
-          enter-active-class="animated bounceInRight"
-          leave-active-class="animated slideOutLeft"
-        >
-          &lt;!&ndash; Wrapping only one DOM element, defined by QBtn &ndash;&gt;
-          <div class="pageIndicatorStart fit text-center" v-if="playingPage">
-            {{playingPage}}
-          </div>
-        </transition>-->
+      <q-card-title v-else>
+        {{a.name}}
+        <span slot="subtitle">Take a selfie!</span>
+      </q-card-title>
 
+
+      <q-card-main>
         <div
           v-show="playingPage"
           ref="playingPage"
           class="pageIndicatorStart text-center"
-          animate-bounce>{{playingPage}}</div>
-
-        <!--        <div  v-if="a.media_info">
-                  <h6>Media Info:</h6>
-                  [{{ a.media_info.metadata.dimensions.width }}px x {{a.media_info.metadata.dimensions.height}}px]
-                </div>-->
-<!--        <audio
-          controls
-          :src="a.link"
-          v-if="a.link">
-
-        </audio>-->
-
+          v-html="`<small>pg</small>&nbsp;<b><big>${playingPage}</big></b>`"
+          animate-bounce></div>
       </q-card-main>
+
+      <!--if book (folder)-->
       <q-card-actions v-if="a['.tag'] === 'folder'" >
+        <q-btn
+          flat
+          color="primary"
+          label="Take Selfie"
+          @click="selfie(a)"
+          v-if="!a.thumbnail"
+        ></q-btn>
+
         <q-btn
           flat
           color="primary"
           label="play All"
           @click="playBook(a)"
+          v-if="pageCount(a) > 0"
         ></q-btn>
         <q-btn
           flat
           color="secondary"
           label="Silence"
           @click="endHowlPlay(a)"
+          v-if="pageCount(a) > 0"
         ></q-btn>
 
 
@@ -66,6 +62,8 @@
         ></q-btn>
 
       </q-card-actions>
+
+      <!--if sound-->
       <q-card-actions v-if="a.ext === 'mp3'">
         <q-btn
           v-if="savedEntry(a).howl"
@@ -114,8 +112,8 @@
   */
 
   .pageIndicatorStart {
-    font-size: 10em;
-    font-weight: bolder;
+    font-size: 4em;
+    /*font-weight: bolder;*/
     /*position: absolute;*/
     position: fixed;
     top: 10%;

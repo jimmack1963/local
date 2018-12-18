@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 export function playing (state) {
-  return state.playing[0]
+  return state.playing
 }
 
 export function playingPage (state) {
-  return state.playing[0] ? state.playing[0].pageNumber : false
+  return state.playing.length > 0 ? state.playing[0].pageNumber : false
 }
 

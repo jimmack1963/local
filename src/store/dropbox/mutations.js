@@ -50,16 +50,13 @@ export function saveThumbnail (state, payload) {
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
-      let pathLower = which.dir
-      Object.values(state.folders._TOC).some(book => {
-          if (book.path_lower === pathLower) {
-            let target = state.folders._TOC[book.name]
-            vue.set(target, 'thumbnail', payload.thumbnail)
-            if (window.jim_DEBUG_FULL) console.log('TOC thumbnail set: ' + pathLower)
-            return true
-          }
-        }
-      )
+      let key = which.dir
+      let target = state._TOC[key]
+      if (target) {
+        vue.set(target, 'thumbnail', payload.thumbnail)
+        if (window.jim_DEBUG_FULL) console.log('TOC thumbnail set: ' + which.name)
+        return true
+      }
     }
   }
   else {
@@ -76,11 +73,96 @@ export function saveEntry (state, payload) {
   vue.set(state.ids, entry.id, entry)
 
   if (entry.path_lower) {
+    // let org = entry.parts.dir.split('/')
+    // let base = state.folders
+
+    if (entry.parts.dir !== '/') {
+
+      // make easier to get as used often
+      entry.dir = entry.parts.dir
+      entry.fname = entry.parts.name
+      if (!(entry.dir in state.folders)) {
+        vue.set(state.folders, entry.dir, {})
+      }
+
+      let base = state.folders[entry.dir]
+
+      if (entry['.tag'] === 'file') {
+        let pageParts = entry.fname.match(/([pP]+)(\d*)/)
+        if (!pageParts) {
+          base[entry.fname] = base[entry.fname] || {
+            mp3: [],
+            png: [],
+            json: [],
+            // txt: {},
+          }
+          base[entry.fname][entry.ext].push(entry)
+          placed = true
+        }
+        else {
+          let pageNumber
+          switch (pageParts.length) {
+            case 3: {
+              pageNumber = parseInt(pageParts[2]).toString()
+              break
+            }
+            case 2: {
+              pageNumber = parseInt(pageParts[0]).toString()
+              break
+            }
+            default: {
+              let err = {
+                message: 'saveEntry fail: NO PAGE NUMBER for ' + entry.path_lower,
+              }
+              throw err
+            }
+          }
+          if (pageNumber) {
+            base.pages = base.pages || {}
+            base.pages[pageNumber] = base.pages[pageNumber] || {
+              mp3: [],
+              png: [],
+              json: [],
+              // txt: {},
+            }
+            entry.pageNumber = pageNumber
+            base.pages[pageNumber][entry.ext].push(entry)
+            placed = true
+          }
+        }
+      }
+      else {
+        vue.set(base, entry.fname, entry)
+        placed = true
+      }
+
+    }
+  }
+
+  if (!placed) {
+    let folder = payload.folder || '_TOC'
+    let key = entry.path_lower
+    if (!state[folder]) {
+      vue.set(state, folder, {})
+    }
+    vue.set(state[folder], key, entry)
+    console.dir(['saveEntry', folder, key, entry, state[folder]])
+  }
+}
+
+export function saveEntryOld (state, payload) {
+  let placed = false
+
+  let entry = payload.entry
+  vue.set(state.ids, entry.id, entry)
+  debugger
+
+  if (entry.path_lower) {
     let org = entry.parts.dir.split('/')
     let base = state.folders
 
     if (entry.parts.dir !== '/') {
-      entry.dir = entry.parts.dir
+      // entry.dir = entry.parts.dir
       entry.fname = entry.parts.name
       if (org.length > 1) {
         // the first char of a path is the /, which is split into an empty string
@@ -137,11 +219,11 @@ export function saveEntry (state, payload) {
 
   if (!placed) {
     let folder = payload.folder || '_TOC'
-    let name = entry.name
-    if (!state.folders[folder]) {
-      vue.set(state.folders, folder, {})
+    let key = entry.path_lower
+    if (!state[folder]) {
+      vue.set(state, folder, {})
     }
-    vue.set(state.folders[folder], name, entry)
-    console.dir(['saveEntry', folder, name, entry, state.folders[folder]])
+    vue.set(state[folder], key, entry)
+    console.dir(['saveEntry', folder, key, entry, state[folder]])
   }
 }

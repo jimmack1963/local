@@ -20,7 +20,7 @@ export const mixinSound = {
       let vue = this
       animate.start({
         name: 'page-for-attention',
-        from: 1,
+        from: 30,
         to: 100,
         duration: 1000,
         apply (pos) {
@@ -31,17 +31,22 @@ export const mixinSound = {
           })
         },
         done () {
-          console.log(`we're done!`)
         }
       })
       let played = false
-      let myFolder = this.folders[folder.path_lower.substr(1)]
+      let myFolder = this.folders[folder.path_lower]
       if (myFolder) {
         let pagesOrdered = this.pageOrder(folder)
         if (page === -1) {
           page = pagesOrdered[0]
         }
-        let currentPageProperties = myFolder.pages[page.toString()]
+        let currentPageProperties
+        if (page in myFolder) {
+          currentPageProperties = myFolder[page]
+        }
+        else {
+          currentPageProperties = myFolder.pages[page.toString()]
+        }
 
         let offset = pagesOrdered.indexOf(page)
         let nextPageNumber = false
@@ -53,8 +58,8 @@ export const mixinSound = {
           let target = currentPageProperties.mp3[0]
           if (target.howl) {
 
+            // the function to play the next sound
             target.next = function () {
-
 
               // end current page playing
               vue.$store.commit('endHowlPlay', {
@@ -66,7 +71,12 @@ export const mixinSound = {
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
                 if (nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
                   // cue up next page
-                  vue.playBookPage(folder, nextPageNumber)
+                  // TODO: generally, this should be kept so it can be cancelled
+
+                  setTimeout(function () {
+                      vue.playBookPage(folder, nextPageNumber)
+                  }, 1000)
+                  // TODO: set the seconds
                 }
                 else {
                   alert('No narrator when next page = ' + nextPageNumber)
@@ -90,13 +100,21 @@ export const mixinSound = {
       this.$store.commit('silence')
     },
     playBook (folder) {
-      this.playBookPage(folder, -1)
+      return this.playBookPage(folder, -1)
+    },
+    pageCount (folder) {
+      let destFolders = this.folders[folder.path_lower]
+      if (destFolders) {
+        return Object.keys(destFolders.pages).length
+      }
+      else {
+        return 0
+      }
     },
     pageOrder (folder) {
-
       let numberTest = /^\d|$/
       let assemble = []
-      let sourceFolder = this.folders[folder.path_lower.substr(1)]
+      let sourceFolder = this.folders[folder.path_lower]
 
       if (sourceFolder) {
 
