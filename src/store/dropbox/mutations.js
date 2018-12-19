@@ -42,6 +42,7 @@ export function createHowl (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
+  debugger
   // TODO cache the thumbnails locally
   let which = state.ids[payload.entry.id]
   if (which) {
@@ -92,6 +93,7 @@ export function saveEntry (state, payload) {
           base[entry.fname] = base[entry.fname] || {
             mp3: [],
             png: [],
+            jpg: [],
             json: [],
             NoExt: []
             // txt: {},
@@ -122,6 +124,7 @@ export function saveEntry (state, payload) {
             base.pages[pageNumber] = base.pages[pageNumber] || {
               mp3: [],
               png: [],
+              jpg: [],
               json: [],
               // txt: {},
             }
@@ -208,6 +211,7 @@ export function saveEntryOld (state, payload) {
               base.pages[pageNumber] = base.pages[pageNumber] || {
                 mp3: [],
                 png: [],
+                jpg: [],
                 json: [],
                 // txt: {},
               }

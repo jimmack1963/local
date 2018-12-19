@@ -10,6 +10,7 @@ export const saveLevel = (context, payload) => {
     entry.ext = entry.parts.ext.toLowerCase().replace('.', '')
     switch (entry.ext) {
       // 'w32h32' | 'w64h64' | 'w128h128' | 'w256h256' | 'w480h320' | 'w640h480' | 'w960h640' | 'w1024h768' | 'w2048h1536'
+      case 'jpg':
       case 'png': {
         dbx.filesGetThumbnail({
           path: entry.path_lower,
