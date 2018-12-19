@@ -10,4 +10,4 @@ export function folders (state) {
   return state.folders
 }
 
-
+export function activeFolder (state) { return state.activeFolder }

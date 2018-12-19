@@ -131,12 +131,13 @@
 </style>
 
 <script>
-import { mixinSound } from '../components/mixinSound'
+  import { mixinSound } from '../components/mixinSound'
+  import { mixinGeneral } from '../components/mixinGeneral'
 
 export default {
   name: 'Main',
   components: {},
-  mixins: [ mixinSound ],
+  mixins: [ mixinGeneral, mixinSound ],
   methods: {
     savedEntry (returnedEntry) {
 

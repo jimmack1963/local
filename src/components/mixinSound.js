@@ -129,7 +129,7 @@ export const mixinSound = {
     },
     pageCount (folder) {
       let destFolders = this.folders[folder.path_lower]
-      if (destFolders) {
+      if (destFolders && destFolders.pages) {
         return Object.keys(destFolders.pages).length
       }
       else {
@@ -141,7 +141,7 @@ export const mixinSound = {
       let assemble = []
       let sourceFolder = this.folders[folder.path_lower]
 
-      if (sourceFolder) {
+      if (sourceFolder && sourceFolder.pages) {
 
         Object.keys(sourceFolder.pages).forEach((key) => {
           if (numberTest.test(key)) {

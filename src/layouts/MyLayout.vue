@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
+    <q-layout-header @click.native.stop="home">
       <q-toolbar
         color="primary"
         :glossy="$q.theme === 'mat'"
@@ -32,13 +32,19 @@
         link
         inset-delimiter
       >
+
+        <q-item to="/selfie" >
+          <q-item-side icon="add a photo" />
+          <q-item-main label="Selfie" sublabel="You, the book, your kid" />
+        </q-item>
+
         <q-list-header>Essential Links</q-list-header>
-        <q-item @click.native="delayPlayNext(1)">
+        <q-item @click.native="setDelayPlayNext(1)">
           <q-item-side icon="playlist_play" />
           <q-item-main label="Play All" sublabel="Continue to end of book" />
         </q-item>
 
-        <q-item @click.native="delayPlayNext(0)">
+        <q-item @click.native="setDelayPlayNext(0)">
           <q-item-side icon="play arrow" />
           <q-item-main label="Play One" sublabel="Waits for you to advance" />
         </q-item>
@@ -57,10 +63,12 @@
 </template>
 
 <script>
+  import { mixinGeneral } from '../components/mixinGeneral'
 import { openURL } from 'quasar'
 
 export default {
   name: 'MyLayout',
+  mixins: [ mixinGeneral ],
   data () {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop
@@ -68,9 +76,6 @@ export default {
   },
   methods: {
     openURL,
-    delayPlayNext (seconds) {
-      this.$store.commit('delayPlayNext', seconds * 1000)
-    },
   }
 }
 </script>

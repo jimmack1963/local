@@ -93,9 +93,10 @@ export function saveEntry (state, payload) {
             mp3: [],
             png: [],
             json: [],
+            NoExt: []
             // txt: {},
           }
-          base[entry.fname][entry.ext].push(entry)
+          base[entry.fname][(entry.ext || 'NoExt')].push(entry)
           placed = true
         }
         else {
@@ -147,6 +148,14 @@ export function saveEntry (state, payload) {
     vue.set(state[folder], key, entry)
     console.dir(['saveEntry', folder, key, entry, state[folder]])
   }
+}
+
+export function setActiveFolder (state, payload) {
+  state.activeFolder = payload.activeFolder
+  state.activePage = payload.activePage || 0
+}
+export function setActivePage (state, payload) {
+  state.activePage = payload.activePage || 0
 }
 
 export function saveEntryOld (state, payload) {
@@ -226,3 +235,5 @@ export function saveEntryOld (state, payload) {
     console.dir(['saveEntry', folder, key, entry, state[folder]])
   }
 }
+
+
