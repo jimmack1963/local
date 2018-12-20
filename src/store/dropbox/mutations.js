@@ -160,6 +160,10 @@ export function setActivePage (state, payload) {
   state.activePage = payload.activePage || 0
 }
 
+export function activeSlide (state, payload) {
+  state.activeSlide = payload.activeSlide
+}
+
 export function saveEntryOld (state, payload) {
   let placed = false
 

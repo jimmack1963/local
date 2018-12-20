@@ -34,6 +34,9 @@ export const mixinSound = {
     },
     playBookPage (folder, page) {
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
+      this.$store.commit('setActivePage', {
+        activePage: page
+      })
 
       let vue = this
       animate.start({
@@ -42,11 +45,13 @@ export const mixinSound = {
         to: 100,
         duration: 1000,
         apply (pos) {
-          vue.$refs.playingPage.forEach( r => {
-            r.style.left = `${100 - pos}%`
-            // r.style.fontsize = `${pos}px`
-            // r.style.top = `${pos}px`
-          })
+          if (vue.$refs.playingPage) {
+            vue.$refs.playingPage.forEach( r => {
+              r.style.left = `${100 - pos}%`
+              // r.style.fontsize = `${pos}px`
+              // r.style.top = `${pos}px`
+            })
+          }
         },
         done () {
         }
@@ -137,6 +142,7 @@ export const mixinSound = {
       }
     },
     pageOrder (folder) {
+      // TODO: this should be a property on the TOC
       let numberTest = /^\d|$/
       let assemble = []
       let sourceFolder = this.folders[folder.path_lower]
@@ -164,17 +170,13 @@ export const mixinSound = {
           assemble[0] = 'cover'
         }
       }
-      if (window.jim_DEBUG_FULL) {
-        console.log('assemble')
-        console.dir(assemble)
-        }
 
       let myArray = assemble.filter( function (x) {
         return (x !== (undefined || null || ''))
       })
 
       if (window.jim_DEBUG_FULL) {
-        console.log('myArray')
+        console.log('myArray SHOULD BE PROPERTY OF TOC TODO')
         console.dir(myArray)
         }
 

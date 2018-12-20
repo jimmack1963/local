@@ -11,3 +11,5 @@ export function folders (state) {
 }
 
 export function activeFolder (state) { return state.activeFolder }
+
+export function activeSlide (state) { return state.activeSlide }

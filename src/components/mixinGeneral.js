@@ -4,14 +4,32 @@ export const mixinGeneral = {
   data () {
     return {
       myPages: [],
-      myImages: [],
-      sourcePages: {}
+      myImages: [], // TODO: should be in VUEX as TOC element
+      sourcePages: {} // TODO: maybe should be a getter in VUEX
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder'])
+    ...mapGetters(['TOC', 'activeFolder']),
+    slide: {
+      get: function () {
+        if (this.activePage || this.activeSlide) {
+          return this.activeSlide
+        }
+      },
+      set: function (value) {
+        this.$store.commit('activeSlide', {
+          activeSlide: value
+        })
+      }
+    }
   },
   methods: {
+    slideEvent (index, direction) {
+      if (window.jim_DEBUG_FULL) console.log('SlideEvent: ', index, direction)
+
+      let desiredPage = this.myPages[index]
+      this.playBookPage(this.activeFolder, desiredPage)
+    },
     imageForPage (page) {
       let collection = this.sourcePages[page] || this.sourcePages.pages[page]
       let possible = false

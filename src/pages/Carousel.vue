@@ -11,8 +11,14 @@
           color="white"
           arrows
           quick-nav
+          handle-arrow-keys
+          :animation="1000"
+          :easing="overshoot"
+          :swipe-easing="overshoot"
           class="text-white full-height"
           :thumbnails="myImages"
+          @slide="slideEvent"
+          v-model="slide"
         >
           <q-carousel-slide
             v-for="(p, n) in myPages" :key="`full-${n}`"
@@ -54,7 +60,6 @@
     mixins: [ mixinGeneral, mixinSound ],
     data () {
       return {
-        slide: 0,
         autoplay: true,
         overshoot: easing.overshoot,
         colors: [
