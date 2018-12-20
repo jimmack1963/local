@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 export function ids (state) {
   return state.ids
 }
@@ -13,3 +15,19 @@ export function folders (state) {
 export function activeFolder (state) { return state.activeFolder }
 
 export function activeSlide (state) { return state.activeSlide }
+
+export function access_token (state) {
+  return state.access_token
+}
+
+export function token_type (state) {
+  return state.token_type
+}
+
+export function uid (state) {
+  return state.uid
+}
+
+export function account_id (state) {
+  return state.account_id
+}

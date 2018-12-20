@@ -7,8 +7,6 @@ import sounds from './sounds'
 
 Vue.use(Vuex)
 
-// TODO: move dropbox url stuff to dropbox from general, add to localstorage
-
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation

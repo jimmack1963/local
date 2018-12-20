@@ -4,5 +4,9 @@ export default {
   activeSlide: false, // 0 based carousel offset
   _TOC: {},
   folders: {},
-  ids: {}
+  ids: {},
+  access_token: false,
+  token_type: false,
+  uid: false,
+  account_id: false,
 }
