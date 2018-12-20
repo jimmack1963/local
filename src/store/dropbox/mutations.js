@@ -164,85 +164,6 @@ export function activeSlide (state, payload) {
   state.activeSlide = payload.activeSlide
 }
 
-export function saveEntryOld (state, payload) {
-  let placed = false
-
-  let entry = payload.entry
-  vue.set(state.ids, entry.id, entry)
-  debugger
-
-  if (entry.path_lower) {
-    let org = entry.parts.dir.split('/')
-    let base = state.folders
-
-    if (entry.parts.dir !== '/') {
-      // entry.dir = entry.parts.dir
-      entry.fname = entry.parts.name
-      if (org.length > 1) {
-        // the first char of a path is the /, which is split into an empty string
-        for (let ctr = 1; ctr < org.length; ctr++) {
-          let part = org[ctr]
-          base[part] = base[part] || {}
-          base = base[part]
-        }
-        if (entry['.tag'] === 'file') {
-          let pageParts = entry.fname.match(/([pP]+)(\d*)/)
-          if (!pageParts) {
-            base[entry.fname] = entry
-            placed = true
-          }
-          else {
-            let pageNumber
-            switch (pageParts.length) {
-              case 3: {
-                pageNumber = parseInt(pageParts[2]).toString()
-                break
-              }
-              case 2: {
-                pageNumber = parseInt(pageParts[0]).toString()
-                break
-              }
-              default: {
-                let err = {
-                  message: 'saveEntry fail: NO PAGE NUMBER for ' + entry.path_lower,
-                }
-                throw err
-              }
-            }
-            if (pageNumber) {
-              base.pages = base.pages || {}
-              base.pages[pageNumber] = base.pages[pageNumber] || {
-                mp3: [],
-                png: [],
-                jpg: [],
-                json: [],
-                // txt: {},
-              }
-              entry.pageNumber = pageNumber
-              base.pages[pageNumber][entry.ext].push(entry)
-              placed = true
-            }
-          }
-        }
-        else {
-          vue.set(base, entry.fname, entry)
-          placed = true
-        }
-      }
-    }
-  }
-
-  if (!placed) {
-    let folder = payload.folder || '_TOC'
-    let key = entry.path_lower
-    if (!state[folder]) {
-      vue.set(state, folder, {})
-    }
-    vue.set(state[folder], key, entry)
-    console.dir(['saveEntry', folder, key, entry, state[folder]])
-  }
-}
-
 export function dropboxCredentials (state, payload) {
   vue.set(state, 'access_token', payload.access_token)
   vue.set(state, 'token_type', payload.token_type)
@@ -250,3 +171,73 @@ export function dropboxCredentials (state, payload) {
   vue.set(state, 'account_id', payload.account_id)
 }
 
+export function calc (state, payload) {
+  let pageOrderProc = function (folder, sourceFolder) {
+    // TODO: this should be a property on the TOC
+    let numberTest = /^\d|$/
+    let assemble = []
+    // let sourceFolder = this.folders[folder.path_lower]
+
+    debugger
+    if (sourceFolder && sourceFolder.pages) {
+
+      Object.keys(sourceFolder.pages).forEach((key) => {
+        if (numberTest.test(key)) {
+          let index = parseInt(key)
+          assemble[index] = key
+        }
+        else {
+          if (key === 'cover') {
+            assemble[0] = key
+          }
+          else {
+            // TODO: handle multiple string keys better
+            let index = assemble.length + 10000
+            assemble[index] = key
+          }
+        }
+      })
+
+      if (sourceFolder.cover) {
+        assemble[0] = 'cover'
+      }
+    }
+
+    let myArray = assemble.filter( function (x) {
+      return (x !== (undefined || null || ''))
+    })
+
+    return myArray
+  }
+
+  debugger
+  let folderName = payload.TOC.path_lower
+  let contents = state.folders[folderName]
+  if (contents) {
+    let pageOrder = pageOrderProc(payload.TOC, contents)
+    vue.set(state._TOC[payload.TOC.path_lower], 'pageOrder', pageOrder)
+    let soundOrder = []
+    let imageOrder = []
+
+    for (let scene = 0; scene < pageOrder.length; scene++) {
+      let thisPageNumber = pageOrder[scene]
+      let entries = contents[thisPageNumber] || contents.pages[thisPageNumber]
+      soundOrder[scene] = entries.mp3.length > 0 ? entries.mp3[0].link : false
+      imageOrder[scene] = entries.png.length > 0 ? entries.png[0].thumbnail : false
+      if (!imageOrder[scene]) {
+        imageOrder[scene] = entries.jpg.length > 0 ? entries.jpg[0].thumbnail : false
+      }
+    }
+
+    vue.set(state._TOC[payload.TOC.path_lower], 'soundOrder', soundOrder)
+    vue.set(state._TOC[payload.TOC.path_lower], 'imageOrder', imageOrder)
+
+    /*
+    Temporarily, only one sound + image per page
+    scene order contiguous zero based
+    page # any based
+    sound & image based on scene
+     */
+
+  }
+}

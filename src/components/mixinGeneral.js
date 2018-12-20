@@ -73,6 +73,7 @@ export const mixinGeneral = {
         })
     },
     home () {
+      this.$store.commit('silence')
       this.$router.push('/')
     },
     selfie (entry) {
@@ -89,6 +90,7 @@ export const mixinGeneral = {
     },
     setDelayPlayNext (seconds) {
       this.$store.commit('delayPlayNext', seconds * 1000)
+      this.$store.dispatch('recalc')
     },
   }
 }

@@ -51,4 +51,20 @@ export const saveLevel = (context, payload) => {
       entry,
     })
   })
+
+  for (let folder of Object.values(context.state._TOC)) {
+    context.commit('calc', {
+      TOC: folder
+    })
+  }
+}
+
+export const recalc = (context) => {
+  if (window.jim_DEBUG_FULL) console.log('RECALC links')
+  
+  for (let folder of Object.values(context.state._TOC)) {
+    context.commit('calc', {
+      TOC: folder
+    })
+  }
 }

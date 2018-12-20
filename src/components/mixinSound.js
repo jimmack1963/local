@@ -182,8 +182,5 @@ export const mixinSound = {
 
       return myArray
     },
-    async playSound () {
-
-    }
   }
 }
