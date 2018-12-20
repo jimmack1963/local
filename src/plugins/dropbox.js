@@ -1,6 +1,7 @@
 /* eslint-disable camelcase,no-extra-boolean-cast */
 import Dropbox from 'dropbox'
 import Store from '../store'
+import { LocalStorage } from 'quasar'
 
 const parseQueryString = function (str) {
   let ret = Object.create(null)
@@ -61,7 +62,21 @@ export default ({app, router, Vue}) => {
   // This example keeps both the authenticate and non-authenticated setions
   // in the DOM and uses this function to show/hide the correct section.
   let queryString = parseQueryString(window.location.hash)
+
+  let saved = LocalStorage.get.item('access_token')
   let access_token = queryString.access_token
+  if (access_token) {
+    if (!saved || saved !== access_token) {
+      LocalStorage.set('access_token', access_token)
+    }
+  }
+  else if (saved) {
+    access_token = saved
+  }
+  else {
+    // need to validate against dropbox
+  }
+
   let token_type = queryString.token_type
   let uid = queryString.uid
   let account_id = queryString.account_id
@@ -93,6 +108,7 @@ export default ({app, router, Vue}) => {
     // Set the login anchors href using dbx.getAuthenticationUrl()
     let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID})
     Vue.prototype.$dbx = dbx
+    // TODO: url for each deployment
     let authUrl = dbx.getAuthenticationUrl('https://localhost:8080/auth')
     console.log('authUrl')
     console.dir(authUrl)
