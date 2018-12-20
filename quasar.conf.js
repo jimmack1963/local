@@ -43,6 +43,10 @@ module.exports = function (ctx) {
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
+        'QModal',
+        'QCarousel',
+        'QCarouselSlide',
+        'QCarouselControl',
         'QCard',
         'QCardTitle',
         'QCardMain',

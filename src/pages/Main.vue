@@ -38,6 +38,13 @@
         <q-btn
           flat
           color="primary"
+          label="carousel"
+          @click="carousel(a)"
+          v-if="pageCount(a) > 0"
+        ></q-btn>
+        <q-btn
+          flat
+          color="primary"
           label="play All"
           @click="playBook(a)"
           v-if="pageCount(a) > 0"
@@ -175,32 +182,6 @@ export default {
     listItems (items) {
       console.dir(items)
     },
-    readDropboxFolder () {
-      let self = this
-      let dbx = this.$dbx
-      // /PlayItAgainKid/book1
-      // TODO: if .has_more call /continue
-      dbx.filesListFolder({
-        path: this.folder,
-        include_media_info: true,
-        recursive: true
-      })
-        .then(function (response) {
-          self.$store.dispatch('saveLevel', {
-            folder: self.folder,
-            response,
-            dbx: self.$dbx
-          })
-
-          self.isLoading = false
-          self.$set(self, 'contents', response.entries)
-          console.dir(response)
-          self.listItems(response.entries)
-        })
-        .catch(function (error) {
-          console.error(error)
-        })
-    }
   },
   computed: {
     authURL () {
@@ -218,7 +199,9 @@ export default {
   mounted () {
     window.jim = window.jim || {}
     window.jim.main = this
-    this.readDropboxFolder()
+    if (Object.keys(this.TOC).length < 1) {
+      this.readDropboxFolder()
+    }
   }
 }
 </script>

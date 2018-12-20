@@ -20,6 +20,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Selfie.vue') }
     ]
+  },
+  {
+    path: '/carousel',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Carousel.vue') }
+    ]
   }
 ]
 

@@ -42,7 +42,6 @@ export function createHowl (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-  debugger
   // TODO cache the thumbnails locally
   let which = state.ids[payload.entry.id]
   if (which) {

@@ -33,10 +33,15 @@
         inset-delimiter
       >
 
-        <q-item to="/selfie" >
+<!--        <q-item to="/selfie" >
           <q-item-side icon="add a photo" />
           <q-item-main label="Selfie" sublabel="You, the book, your kid" />
         </q-item>
+
+        <q-item to="/carousel" >
+          <q-item-side icon="playlist_play" />
+          <q-item-main label="Carousel" sublabel="See the pages" />
+        </q-item>-->
 
         <q-list-header>Essential Links</q-list-header>
         <q-item @click.native="setDelayPlayNext(1)">
@@ -47,6 +52,11 @@
         <q-item @click.native="setDelayPlayNext(0)">
           <q-item-side icon="play arrow" />
           <q-item-main label="Play One" sublabel="Waits for you to advance" />
+        </q-item>
+
+        <q-item @click.native="readDropboxFolder()">
+          <q-item-side icon="refresh" />
+          <q-item-main label="Refresh" sublabel="Reload from DropBox" />
         </q-item>
 <!--        <q-item @click.native="openURL('http://quasar-framework.org')">
           <q-item-side icon="school" />
