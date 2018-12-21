@@ -14,7 +14,7 @@ export function folders (state) {
 
 export function activeFolder (state) { return state.activeFolder }
 
-export function activeSlide (state) { return state.activeSlide }
+export function activeScene (state) { return state.activeScene }
 
 export function access_token (state) {
   return state.access_token

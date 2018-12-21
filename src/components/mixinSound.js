@@ -141,46 +141,5 @@ export const mixinSound = {
         return 0
       }
     },
-    pageOrder (folder) {
-      // TODO: this should be a property on the TOC
-      let numberTest = /^\d|$/
-      let assemble = []
-      let sourceFolder = this.folders[folder.path_lower]
-
-      if (sourceFolder && sourceFolder.pages) {
-
-        Object.keys(sourceFolder.pages).forEach((key) => {
-          if (numberTest.test(key)) {
-            let index = parseInt(key)
-            assemble[index] = key
-          }
-          else {
-            if (key === 'cover') {
-              assemble[0] = key
-            }
-            else {
-              // TODO: handle multiple string keys better
-              let index = assemble.length + 10000
-              assemble[index] = key
-            }
-          }
-        })
-
-        if (sourceFolder.cover) {
-          assemble[0] = 'cover'
-        }
-      }
-
-      let myArray = assemble.filter( function (x) {
-        return (x !== (undefined || null || ''))
-      })
-
-      if (window.jim_DEBUG_FULL) {
-        console.log('myArray SHOULD BE PROPERTY OF TOC TODO')
-        console.dir(myArray)
-        }
-
-      return myArray
-    },
   }
 }

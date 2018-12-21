@@ -9,25 +9,50 @@ export const mixinGeneral = {
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder']),
-    slide: {
+    ...mapGetters(['TOC', 'activeFolder', 'activeScene']),
+    currentSlide: {
       get: function () {
-        if (this.activePage || this.activeSlide) {
-          return this.activeSlide
-        }
+        if (window.jim_DEBUG_FULL) console.log('currentSlide??')
+
+        return this.activeScene
       },
       set: function (value) {
-        this.$store.commit('activeSlide', {
-          activeSlide: value
+        if (window.jim_DEBUG_FULL) console.log('currentSlide!!')
+        this.$store.commit('activeScene', {
+          activeScene: value
         })
       }
     }
   },
   methods: {
-    slideEvent (index, direction) {
-      if (window.jim_DEBUG_FULL) console.log('SlideEvent: ', index, direction)
+    pageOrder (aFolder) {
+      if (aFolder.pageOrder) {
+        return aFolder.pageOrder
+      }
+      else {
+        return []
+      }
+    },
+    imageOrder (aFolder) {
+      if (aFolder.imageOrder) {
+        return aFolder.imageOrder
+      }
+      else {
+        return []
+      }
+    },
+    soundOrder (aFolder) {
+      if (aFolder.soundOrder) {
+        return aFolder.soundOrder
+      }
+      else {
+        return []
+      }
+    },
+    slideTrigger (oldIndex, newIndex, direction) {
+      if (window.jim_DEBUG_FULL) console.log('slideTrigger: ', oldIndex, newIndex, direction)
 
-      let desiredPage = this.myPages[index]
+      let desiredPage = this.myPages[newIndex]
       this.playBookPage(this.activeFolder, desiredPage)
     },
     imageForPage (page) {

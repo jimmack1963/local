@@ -154,14 +154,21 @@ export function saveEntry (state, payload) {
 
 export function setActiveFolder (state, payload) {
   state.activeFolder = payload.activeFolder
-  state.activePage = payload.activePage || 0
+  state.activeScene = payload.activeScene || 0
 }
 export function setActivePage (state, payload) {
-  state.activePage = payload.activePage || 0
+  if (state.activeFolder && state.activeFolder.pageOrder) {
+    let index = state.activeFolder.pageOrder.indexOf(payload.activePage)
+    state.activeScene = index
+    if (window.jim_DEBUG_FULL) console.log(`setActivePage>> ${payload.activePage} set scene ${index}`)
+  }
+  else {
+    state.activeScene = 0
+  }
 }
 
-export function activeSlide (state, payload) {
-  state.activeSlide = payload.activeSlide
+export function activeScene (state, payload) {
+  state.activeScene = payload.activeScene
 }
 
 export function dropboxCredentials (state, payload) {

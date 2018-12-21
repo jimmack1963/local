@@ -17,8 +17,8 @@
           :swipe-easing="overshoot"
           class="text-white full-height"
           :thumbnails="myImages"
-          @slide="slideEvent"
-          v-model="slide"
+          @slide-trigger="slideTrigger"
+          v-model="currentSlide"
         >
           <q-carousel-slide
             v-for="(p, n) in myPages" :key="`full-${n}`"
