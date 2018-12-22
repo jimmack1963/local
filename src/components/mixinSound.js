@@ -12,7 +12,7 @@ export const mixinSound = {
   },
   methods: {
     pageAfter (folder, page) {
-      debugger
+
       let pagesOrdered = this.pageOrder(folder)
       let offset = pagesOrdered.indexOf(page)
       let nextPageNumber = false
@@ -22,7 +22,7 @@ export const mixinSound = {
       return nextPageNumber
     },
     continuePlaying (folder) {
-      debugger
+
       this.setDelayPlayNext(1)
       let nextPage = this.pageAfter(folder, this.mostRecentPage)
       if (nextPage) {
@@ -58,8 +58,9 @@ export const mixinSound = {
       })
       let played = false
       let myFolder = this.folders[folder.path_lower]
-      if (myFolder) {
-        let pagesOrdered = this.pageOrder(folder)
+      let pagesOrdered = this.pageOrder(folder)
+
+      if (myFolder && pagesOrdered.length > 0) {
         if (page === -1) {
           page = pagesOrdered[0]
         }
@@ -120,7 +121,12 @@ export const mixinSound = {
           }
         }
       }
-      if (!played) alert('FAIL: play book ' + folder.name + ' page ' + page)
+      if (!played && myFolder && myFolder.length > 0) {
+        alert('FAIL: play book ' + folder.name + ' page ' + page)
+      }
+      else if (!played) {
+        if (window.jim_DEBUG_FULL) console.log('Not played: empty book')
+      }
     },
     setDelayPlayNext (seconds) {
       this.$store.commit('delayPlayNext', seconds * 1000)

@@ -185,7 +185,6 @@ export function calc (state, payload) {
     let assemble = []
     // let sourceFolder = this.folders[folder.path_lower]
 
-    debugger
     if (sourceFolder && sourceFolder.pages) {
 
       Object.keys(sourceFolder.pages).forEach((key) => {
@@ -217,7 +216,6 @@ export function calc (state, payload) {
     return myArray
   }
 
-  debugger
   let folderName = payload.TOC.path_lower
   let contents = state.folders[folderName]
   if (contents) {

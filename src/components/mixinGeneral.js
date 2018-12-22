@@ -25,6 +25,15 @@ export const mixinGeneral = {
     }
   },
   methods: {
+    logout () {
+      this.$q.localStorage.set('access_token', false)
+      this.$store.commit('dropboxCredentials', {
+        access_token: false,
+        token_type: false,
+        uid: false,
+        account_id: false,
+      })
+    },
     pageOrder (aFolder) {
       if (aFolder.pageOrder) {
         return aFolder.pageOrder
@@ -111,7 +120,12 @@ export const mixinGeneral = {
       this.$store.commit('setActiveFolder', {
         activeFolder: entry
       })
-      this.$router.push('/carousel')
+      if (this.pageCount(entry) > 0) {
+        this.$router.push('/carousel')
+      }
+      else {
+        this.$router.push('/simpleRecord')
+      }
     },
     setDelayPlayNext (seconds) {
       this.$store.commit('delayPlayNext', seconds * 1000)

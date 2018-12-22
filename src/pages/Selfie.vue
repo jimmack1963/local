@@ -82,7 +82,7 @@
           context.drawImage(video, 0, 0, this.width, this.height)
 
           let dataURL = canvas.toDataURL('image/jpeg', 0.95)
-          debugger
+
           this.$store.commit('saveThumbnail', {
             entry: this.activeFolder,
             thumbnail: dataURL,

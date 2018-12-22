@@ -58,10 +58,16 @@
           <q-item-side icon="refresh" />
           <q-item-main label="Refresh" sublabel="Reload from DropBox" />
         </q-item>
-<!--        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>-->
+
+        <q-item @click.native="logout()">
+          <q-item-side icon="logout" />
+          <q-item-main label="Logout" sublabel="Log out from DropBox" />
+        </q-item>
+
+        <!--        <q-item @click.native="openURL('http://quasar-framework.org')">
+                  <q-item-side icon="school" />
+                  <q-item-main label="Docs" sublabel="quasar-framework.org" />
+                </q-item>-->
 
       </q-list>
     </q-layout-drawer>

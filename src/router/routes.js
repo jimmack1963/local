@@ -27,7 +27,15 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Carousel.vue') }
     ]
+  },
+  {
+    path: '/simpleRecord',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/simpleRecord.vue') }
+    ]
   }
+
 ]
 
 // Always leave this as last one

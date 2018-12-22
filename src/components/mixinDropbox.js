@@ -12,7 +12,7 @@ export const mixinDropbox = {
   methods: {
     _base64ToArrayBuffer (base64) {
       // base64 = base64.split('data:image/png;base64,').join('')
-      debugger
+
       base64 = base64.substr('data:image/png;base64,'.length + 1)
       let binaryString = window.atob(base64),
         len = binaryString.length,

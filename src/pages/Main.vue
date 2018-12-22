@@ -3,7 +3,11 @@
     <h1>&nbsp;</h1>
 
     <q-card v-for="a in TOC" v-bind:key="a.id">
-      <q-card-media overlay-position="bottom" v-if="a.thumbnail">
+      <q-card-media
+        overlay-position="bottom"
+        v-if="a.thumbnail"
+        @click.native.stop="carousel(a)"
+      >
         <img    :src="a.thumbnail" :alt="a.name">
         <q-card-title slot="overlay" >
           {{a.name}}&nbsp;
