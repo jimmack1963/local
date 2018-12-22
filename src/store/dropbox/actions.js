@@ -1,4 +1,5 @@
 const pathParse = require('path-parse')
+import { LocalStorage } from 'quasar'
 
 export const saveLevel = (context, payload) => {
   let folder = payload.folder
@@ -8,26 +9,47 @@ export const saveLevel = (context, payload) => {
   entries.forEach((entry) => {
     entry.parts = pathParse(entry.path_lower)
     entry.ext = entry.parts.ext.toLowerCase().replace('.', '')
+    context.commit('saveEntry', {
+      folder,
+      entry,
+    })
     switch (entry.ext) {
       // 'w32h32' | 'w64h64' | 'w128h128' | 'w256h256' | 'w480h320' | 'w640h480' | 'w960h640' | 'w1024h768' | 'w2048h1536'
       case 'jpg':
       case 'png': {
-        dbx.filesGetThumbnail({
-          path: entry.path_lower,
-          format: 'jpeg',
-          size: 'w480h320'
-        })
-          .then((response) => {
-            context.commit('saveThumbnail', {
-              entry,
-              thumbnail: window.URL.createObjectURL(response.fileBlob),
-            })
-          })
-          .catch((error) => {
+        if (3 > 8 && LocalStorage.has(entry.id)) {
+          if (window.jim_DEBUG_FULL) console.log('found thumbnail: ' + entry.id)
 
-            if (window.jim_DEBUG_FULL) console.log('ERROR:')
-            console.log(error)
+          debugger
+          let thumb = LocalStorage.get.item(entry.id)
+
+          context.commit('saveThumbnail', {
+            entry,
+            thumbnail: thumb,
           })
+        }
+        else {
+          dbx.filesGetThumbnail({
+            path: entry.path_lower,
+            format: 'jpeg',
+            size: 'w480h320'
+          })
+            .then((response) => {
+              debugger
+              let useful = window.URL.createObjectURL(response.fileBlob)
+              LocalStorage.set(entry.id, response.fileBlob)
+              if (window.jim_DEBUG_FULL) console.log('saved thumbnail: ' + entry.id)
+              context.commit('saveThumbnail', {
+                entry,
+                thumbnail: useful,
+              })
+            })
+            .catch((error) => {
+
+              if (window.jim_DEBUG_FULL) console.log('ERROR:')
+              console.log(error)
+            })
+        }
         break
       }
       case 'mp3': {
@@ -46,10 +68,6 @@ export const saveLevel = (context, payload) => {
         break
       }
     }
-    context.commit('saveEntry', {
-      folder,
-      entry,
-    })
   })
 
   for (let folder of Object.values(context.state._TOC)) {
@@ -61,7 +79,7 @@ export const saveLevel = (context, payload) => {
 
 export const recalc = (context) => {
   if (window.jim_DEBUG_FULL) console.log('RECALC links')
-  
+
   for (let folder of Object.values(context.state._TOC)) {
     context.commit('calc', {
       TOC: folder

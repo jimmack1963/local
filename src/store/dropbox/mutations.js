@@ -43,9 +43,11 @@ export function createHowl (state, payload) {
 
 export function saveThumbnail (state, payload) {
   // TODO cache the thumbnails locally
+  vue.set(state.thumbnails, payload.entry.id, payload.thumbnail)
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
+    debugger
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
@@ -60,7 +62,7 @@ export function saveThumbnail (state, payload) {
   }
   else {
 
-    if (window.jim_DEBUG_FULL) console.log('Fail save thumbnail: ')
+    if (window.jim_DEBUG_FULL) console.log('Fail save thumbnail: ', payload.entry.id)
     if (window.jim_DEBUG_FULL) console.dir(payload)
   }
 }

@@ -1,4 +1,5 @@
 export default {
+  thumbnails: {},
   activeFolder: false,
   activeScene: false, // 0 based carousel offset
   _TOC: {},
