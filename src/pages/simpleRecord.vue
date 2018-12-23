@@ -50,7 +50,8 @@
       ></q-btn>
     </div>
     -->
-
+<!--
+// can do something with each page
     <div column wrap v-if="recordings.length > 0">
       <h4 class="mt-3">Pages</h4>
       <div v-for="(recording,idx) in recordings" :key="recording.ts">
@@ -65,7 +66,7 @@
                   <audio :src="recording.blobUrl" controls="true"/>
                 </div>
                 <div>
-                  size: {{recording.size | fileSizeToHumanSize}}<!--, type: {{recording.mimeType}}-->
+                  size: {{recording.size | fileSizeToHumanSize}}&lt;!&ndash;, type: {{recording.mimeType}}&ndash;&gt;
                 </div>
                 <q-btn @click="pushToDropbox(recording, idx)">Save</q-btn>
               </div>
@@ -75,6 +76,7 @@
         <div v-if="idx !== (recordings.length-1)"/>
       </div>
     </div>
+-->
 
   </div>
 </template>
@@ -116,6 +118,8 @@ export default {
       this.pushToDropbox(evt.detail.recording)
     },
     async pushToDropbox (recording, ctr) {
+      this.$store.commit('setMicAvailable')
+
       let fname = `${this.activeFolder.path_lower}/p${this.pageCount(this.activeFolder) + 1}.mp3`
       let reader = new FileReader()
       let base64data

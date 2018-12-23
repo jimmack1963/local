@@ -114,7 +114,6 @@ export const mixinDropbox = {
               response.fname = response.parts.name
               response['.tag'] = 'file'
 
-              debugger
               v.$store.dispatch('registerFile', {
                 folder: response.dir,
                 entry: response,

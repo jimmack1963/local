@@ -9,7 +9,7 @@ export const mixinGeneral = {
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder', 'activeScene']),
+    ...mapGetters(['TOC', 'activeFolder', 'activeScene', 'access_token']),
     currentSlide: {
       get: function () {
         if (window.jim_DEBUG_FULL) console.log('currentSlide??')

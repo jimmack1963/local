@@ -109,7 +109,7 @@
       </q-card-actions>
     </q-card>
 
-    <a v-if="!uid" id="authlink" :href="authURL" class="button">Authenticate</a>
+    <a v-if="!access_token" id="authlink" :href="authURL" class="button">Authenticate</a>
 
 <!--    <q-input
       id="folder"
