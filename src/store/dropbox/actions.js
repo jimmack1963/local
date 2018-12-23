@@ -18,9 +18,8 @@ export const saveLevel = (context, payload) => {
       case 'jpg':
       case 'png': {
         if (3 > 8 && LocalStorage.has(entry.id)) {
-          if (window.jim_DEBUG_FULL) console.log('found thumbnail: ' + entry.id)
+          if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
-          debugger
           let thumb = LocalStorage.get.item(entry.id)
 
           context.commit('saveThumbnail', {
@@ -35,10 +34,10 @@ export const saveLevel = (context, payload) => {
             size: 'w480h320'
           })
             .then((response) => {
-              debugger
+
               let useful = window.URL.createObjectURL(response.fileBlob)
               LocalStorage.set(entry.id, response.fileBlob)
-              if (window.jim_DEBUG_FULL) console.log('saved thumbnail: ' + entry.id)
+              if (window.jim_DEBUG_VUEX) console.log('saved thumbnail: ' + entry.id)
               context.commit('saveThumbnail', {
                 entry,
                 thumbnail: useful,
@@ -46,7 +45,7 @@ export const saveLevel = (context, payload) => {
             })
             .catch((error) => {
 
-              if (window.jim_DEBUG_FULL) console.log('ERROR:')
+              if (window.jim_DEBUG_VUEX) console.log('ERROR:')
               console.log(error)
             })
         }
@@ -78,7 +77,7 @@ export const saveLevel = (context, payload) => {
 }
 
 export const recalc = (context) => {
-  if (window.jim_DEBUG_FULL) console.log('RECALC links')
+  if (window.jim_DEBUG_VUEX) console.log('RECALC links')
 
   for (let folder of Object.values(context.state._TOC)) {
     context.commit('calc', {

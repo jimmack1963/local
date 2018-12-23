@@ -2,20 +2,20 @@
   <q-page class="flex flex-center">
     <h1>&nbsp;</h1>
 
-    <q-card v-for="a in TOC" v-bind:key="a.id">
+    <q-card v-for="folder in TOC" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
-        v-if="a.thumbnail"
-        @click.native.stop="carousel(a)"
+        v-if="folder.thumbnail"
+        @click.native.stop="carousel(folder)"
       >
-        <img    :src="a.thumbnail" :alt="a.name">
+        <img    :src="folder.thumbnail" :alt="folder.name">
         <q-card-title slot="overlay" >
-          {{a.name}}&nbsp;
-          <!--<span slot="subtitle">{{a.size}}</span>-->
+          {{folder.name}}&nbsp;
+          <!--<span slot="subtitle">{{folder.size}}</span>-->
         </q-card-title>
       </q-card-media>
       <q-card-title v-else>
-        {{a.name}}
+        {{folder.name}}
         <span slot="subtitle">Take a selfie!</span>
       </q-card-title>
 
@@ -30,35 +30,35 @@
       </q-card-main>
 
       <!--if book (folder)-->
-      <q-card-actions v-if="a['.tag'] === 'folder'" >
+      <q-card-actions v-if="folder['.tag'] === 'folder'" >
         <q-btn
           flat
           color="primary"
           label="Take Selfie"
-          @click="selfie(a)"
-          v-if="!a.thumbnail"
+          @click="selfie(folder)"
+          v-if="!folder.thumbnail"
         ></q-btn>
 
         <q-btn
           flat
           color="primary"
           label="carousel"
-          @click="carousel(a)"
-          v-if="pageCount(a) > 0"
+          @click="carousel(folder)"
+          v-if="pageCount(folder) > 0"
         ></q-btn>
         <q-btn
           flat
           color="primary"
           label="play All"
-          @click="playBook(a)"
-          v-if="pageCount(a) > 0"
+          @click="playBook(folder)"
+          v-if="pageCount(folder) > 0"
         ></q-btn>
         <q-btn
           flat
           color="secondary"
           label="Silence"
-          @click="endHowlPlay(a)"
-          v-if="pageCount(a) > 0"
+          @click="endHowlPlay(folder)"
+          v-if="pageCount(folder) > 0"
         ></q-btn>
 
 
@@ -66,37 +66,45 @@
           flat
           color="primary"
           :label="p"
-          v-for="p in pageOrder(a)"
+          v-for="p in pageOrder(folder)"
           v-if="p"
           v-bind:key="p"
-          @click="playBookPage(a, p)"
+          @click="playBookPage(folder, p)"
         ></q-btn>
         <q-btn
           flat
           color="primary"
-          label="continue"
-          @click="continuePlaying(a)"
-          v-if="pageCount(a) > 0"
+          label="continue play"
+          @click="continuePlaying(folder)"
+          v-if="pageCount(folder) > 0"
+        ></q-btn>
+
+        <q-btn
+          flat
+          color="secondary"
+          label="Record"
+          @click="record(folder)"
+
         ></q-btn>
 
       </q-card-actions>
 
       <!--if sound-->
-      <q-card-actions v-if="a.ext === 'mp3'">
+      <q-card-actions v-if="folder.ext === 'mp3'">
         <q-btn
-          v-if="savedEntry(a).howl"
+          v-if="savedEntry(folder).howl"
           flat
           color="primary"
           label="play"
-          @click="play(a)"
+          @click="play(folder)"
         ></q-btn>
       </q-card-actions>
-      <q-card-actions v-if="a.ext === 'png' && !a.thumbnail">
+      <q-card-actions v-if="folder.ext === 'png' && !folder.thumbnail">
         <q-btn
           flat
           color="primary"
           label="view"
-          @click="view(a)"
+          @click="view(folder)"
         ></q-btn>
       </q-card-actions>
     </q-card>

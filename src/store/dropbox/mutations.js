@@ -9,8 +9,8 @@ export function saveTempLink (state, payload) {
   }
   else {
 
-    if (window.jim_DEBUG_FULL) console.log('Fail save templink: ')
-    if (window.jim_DEBUG_FULL) console.dir(payload)
+    if (window.jim_DEBUG_VUEX) console.log('Fail save templink: ')
+    if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
 }
 
@@ -36,8 +36,8 @@ export function createHowl (state, payload) {
   }
   else {
 
-    if (window.jim_DEBUG_FULL) console.log('Fail create howl: ')
-    if (window.jim_DEBUG_FULL) console.dir(payload)
+    if (window.jim_DEBUG_VUEX) console.log('Fail create howl: ')
+    if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
 }
 
@@ -47,7 +47,7 @@ export function saveThumbnail (state, payload) {
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
-    debugger
+
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
@@ -55,15 +55,15 @@ export function saveThumbnail (state, payload) {
       let target = state._TOC[key]
       if (target) {
         vue.set(target, 'thumbnail', payload.thumbnail)
-        if (window.jim_DEBUG_FULL) console.log('TOC thumbnail set: ' + which.name)
+        if (window.jim_DEBUG_VUEX) console.log('TOC thumbnail set: ' + which.name)
         return true
       }
     }
   }
   else {
 
-    if (window.jim_DEBUG_FULL) console.log('Fail save thumbnail: ', payload.entry.id)
-    if (window.jim_DEBUG_FULL) console.dir(payload)
+    if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', payload.entry.id)
+    if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
 }
 
@@ -162,7 +162,7 @@ export function setActivePage (state, payload) {
   if (state.activeFolder && state.activeFolder.pageOrder) {
     let index = state.activeFolder.pageOrder.indexOf(payload.activePage)
     state.activeScene = index
-    if (window.jim_DEBUG_FULL) console.log(`setActivePage>> ${payload.activePage} set scene ${index}`)
+    if (window.jim_DEBUG_VUEX) console.log(`setActivePage>> ${payload.activePage} set scene ${index}`)
   }
   else {
     state.activeScene = 0

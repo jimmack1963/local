@@ -22,7 +22,15 @@ export const mixinGeneral = {
           activeScene: value
         })
       }
+    },
+    page () {
+      if (!this.activeFolder) { return 0 }
+      let lastPage = this.activeFolder.pageOrder[this.activeFolder.pageOrder.length - 1]
+      let pnum = parseInt(lastPage)
+      if (isNaN(pnum)) return this.activeFolder.pageOrder.length
+      return pnum + 1
     }
+
   },
   methods: {
     logout () {

@@ -47,6 +47,7 @@ const parseQueryString = function (str) {
 export default ({app, router, Vue}) => {
   window.jim_DEBUG = true // devprod !!!!!
   window.jim_DEBUG_FULL = true // devprod !!!!!
+  window.jim_DEBUG_VUEX = false // devprod !!!!!
   window.jim_DEBUG_FULL_PLAYING = true // devprod !!!!!
 
   // let CLIENT_ID = '42zjexze6mfpf7x'

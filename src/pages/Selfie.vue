@@ -33,7 +33,7 @@
       window.selfie.main = this
 
       let video = this.$refs.video
-      let startbutton = this.$refs.startbutton
+      let startButton = this.$refs.startbutton
 
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
         .then(function (stream) {
@@ -57,22 +57,22 @@
         }
       }, false)
 
-      startbutton.addEventListener('click', function (ev) {
-        vue.takepicture()
+      startButton.addEventListener('click', function (ev) {
+        vue.takePicture()
         ev.preventDefault()
       }, false)
 
-      this.clearphoto()
+      this.clearPhoto()
     },
     methods: {
-      clearphoto () {
+      clearPhoto () {
         let canvas = this.$refs.canvas
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'
         context.fillRect(0, 0, canvas.width, canvas.height)
       },
 
-      takepicture () {
+      takePicture () {
         let canvas = this.$refs.canvas
         let context = canvas.getContext('2d')
         let video = this.$refs.video
@@ -89,14 +89,14 @@
           })
           if (dataURL && dataURL !== 'data:,') {
             let fileName = this.generateImageName()
-            this.uploadImage(dataURL, fileName, this.width * this.height)
+            this.uploadFile(dataURL, fileName, this.width * this.height)
           }
           else {
             alert('Image not available')
           }
         }
         else {
-          this.clearphoto()
+          this.clearPhoto()
         }
       },
 

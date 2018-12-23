@@ -6,7 +6,8 @@ module.exports = function (ctx) {
     plugins: [
       'i18n',
       'axios',
-      'dropbox'
+      'dropbox',
+      'device'
     ],
     css: [
       'app.styl'
@@ -20,6 +21,14 @@ module.exports = function (ctx) {
     ],
     supportIE: false,
     build: {
+      env: {
+        DEBUG: true,
+        DEBUG_WORKING: true,
+        DEBUG_FULL: true,
+        BASE_URL: ctx.dev
+          ? JSON.stringify('https://localhost:8080')
+          : JSON.stringify('https://readingTogether.works')
+      },
       scopeHoisting: true,
       vueRouterMode: 'history',
       // vueCompiler: true,
@@ -43,6 +52,9 @@ module.exports = function (ctx) {
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
+        'QCheckbox',
+        'QSlider',
+
         'QModal',
         'QCarousel',
         'QCarouselSlide',

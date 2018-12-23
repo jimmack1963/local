@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 export function playing (state) {
   return state.playing
 }

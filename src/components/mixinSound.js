@@ -8,9 +8,76 @@ export const mixinSound = {
     }
   },
   computed: {
-    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid', 'delayPlayNext', 'mostRecentPage'])
+    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid', 'delayPlayNext', 'mostRecentPage', 'micRecording', 'micUninitialized', 'micAvailable', 'micSaving']),
+    likelyIcon () {
+      if (this.micAvailable) {
+        return 'mic'
+      }
+      else if (this.micRecording) {
+        return 'stop'
+      }
+      else if (this.micSaving) {
+        return 'save alt'
+      }
+      else if (this.micUninitialized) {
+        return 'mic off'
+      }
+    },
+    likelyAction () {
+      if (this.micAvailable) {
+        return 'Record Page '
+      }
+      else if (this.micRecording) {
+        return 'Stop'
+      }
+      else if (this.micSaving) {
+        return 'Saving... page ' + this.page
+      }
+      else if (this.micUninitialized) {
+        return 'Not Ready to Record'
+      }
+      else {
+        return 'mic variable not set?'
+      }
+    },
   },
   methods: {
+    record (folder) {
+      this.$store.commit('setActiveFolder', {
+        activeFolder: folder
+      })
+      this.$router.push('/simpleRecord')
+    },
+    doAction (ps) {
+      if (this.micAvailable) {
+        this.startRecording()
+        this.$store.commit('setMicRecording')
+        // this record is just of 'next'
+        // this.$root.$emit('record', ps || new PageStructure((this.$route.params.groupkey || this.group.id), this.page, this.page ? this.page.toString() : 'cover'))
+        if (window.jim_DEBUG_FULL) console.log('start recording emitted')
+      }
+      else if (this.micRecording) {
+        this.stopRecording()
+        this.$store.commit('setMicSaving')
+
+        // this.$root.$emit('stopRecording')
+        if (window.jim_DEBUG_FULL) console.log('stop recording emitted.')
+      }
+      else if (this.micSaving) {
+        this.$store.commit('setMicAvailable')
+        if (window.jim_DEBUG_FULL) console.log('Mic has saved, set as available')
+      }
+      else if (this.micUninitialized) {
+        this.$store.commit('setMicAvailable')
+        if (window.jim_DEBUG_FULL) console.log('Mic set available')
+      }
+    },
+    rerecord () {
+      // TODO: replace a recording before saving it
+    },
+    playLast () {
+      // TODO: play recording in buffer before it is saved
+    },
     pageAfter (folder, page) {
 
       let pagesOrdered = this.pageOrder(folder)
