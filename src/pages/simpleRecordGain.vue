@@ -86,7 +86,7 @@ export default {
       this.recordingInProgress = false
     },
     onNewRecording (evt) {
-      debugger
+
       this.recordings.push(evt.detail.recording)
     },
     async pushToDropbox (recording, ctr) {
@@ -101,7 +101,7 @@ export default {
         base64data = reader.result
         console.log(base64data)
       }
-      debugger
+
       this.uploadFileBlob(recording.blob, fname, recording.size)
     }
   },

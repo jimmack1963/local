@@ -20,3 +20,7 @@ export function mostRecentPage (state) {
     return ''
   }
 }
+
+export function howlPreload (state) {
+  return state.howlPreload
+}

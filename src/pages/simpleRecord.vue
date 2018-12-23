@@ -1,13 +1,9 @@
 <template>
   <div class="">
     <div class="button-stack row justify-center">
-      <folderCardDisplay folder="activeFolder">
+      <folderCardDisplay :folder="activeFolder">
 
       </folderCardDisplay>
-
-      <img v-show="activeFolder.thumbnail" :src="activeFolder.thumbnail"
-           alt="Selfie with Kids and Book"
-           class="foundImage q-mx-sm">
       <div class="col-4 row">
         <!--<q-btn
           v-show="!this.micRecording"
@@ -115,7 +111,7 @@ export default {
       this.recordingInProgress = false
     },
     onNewRecording (evt) {
-      debugger
+
       this.recordings.push(evt.detail.recording)
       this.pushToDropbox(evt.detail.recording)
     },
@@ -131,7 +127,7 @@ export default {
         base64data = reader.result
         console.log(base64data)
       }
-      debugger
+
       this.uploadFileBlob(recording.blob, fname, recording.size)
     }
   },

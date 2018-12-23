@@ -40,3 +40,6 @@ export function delayPlayNext (state, ms) {
   vue.set(state, 'delayPlayNext', ms)
 }
 
+export function howlPreload (state, value) {
+  state.howlPreload = value
+}

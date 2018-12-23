@@ -22,7 +22,7 @@ export function createHowl (state, payload) {
     let newHowl = new Howl({
       src: [src],
       format: ['wav'],
-      preload: true,
+      preload: payload.howlPreload || false,
     })
     vue.set(which, 'howl', newHowl)
 
@@ -68,6 +68,7 @@ export function saveThumbnail (state, payload) {
 }
 
 export function saveEntry (state, payload) {
+  debugger
   let placed = false
 
   let entry = payload.entry
@@ -181,6 +182,7 @@ export function dropboxCredentials (state, payload) {
 }
 
 export function calc (state, payload) {
+  debugger
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/

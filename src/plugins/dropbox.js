@@ -107,7 +107,7 @@ export default ({app, router, Vue}) => {
   }
   else {
     // Set the login anchors href using dbx.getAuthenticationUrl()
-    debugger
+
     let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID})
     Vue.prototype.$dbx = dbx
     // TODO: url for each deployment

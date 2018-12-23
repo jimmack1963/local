@@ -25,7 +25,7 @@ export const mixinDropbox = {
       return bytes.buffer
     },
     uploadFile (dataURL, fileName, size) {
-      debugger
+
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
           this.$dbx.filesUpload({
@@ -99,7 +99,7 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlob (blob, fileName, size) {
-      debugger
+
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {
@@ -108,13 +108,32 @@ export const mixinDropbox = {
             contents: blob,
           })
             .then((response) => {
-              debugger
               response.parts = pathParse(response.path_lower)
               response.ext = response.parts.ext.toLowerCase().replace('.', '')
-              v.$store.context.commit('saveEntry', {
+              response.dir = response.parts.dir
+              response.fname = response.parts.name
+              response['.tag'] = 'file'
+
+              debugger
+              v.$store.dispatch('registerFile', {
                 folder: response.dir,
-                response,
+                entry: response,
+                dbx: v.$dbx
               })
+
+/*
+              v.$store.commit('saveEntry', {
+                folder: response.dir,
+                entry: response,
+              })
+*/
+
+              let folder = v.$store.state.dropbox._TOC[response.dir]
+              if (folder) {
+                v.$store.commit('calc', {
+                  TOC: folder
+                })
+              }
 
               // TODO: this has .id, .path_lower and should be used
               if (window.jim_DEBUG_FULL) {
@@ -123,7 +142,7 @@ export const mixinDropbox = {
               }
             })
             .catch((error) => {
-              debugger
+
               if (window.jim_DEBUG_FULL) {
                 console.log('@uploadFile error')
                 console.dir(error)
