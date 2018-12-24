@@ -55,6 +55,8 @@ module.exports = function (ctx) {
         'QCheckbox',
         'QSlider',
 
+        'QField',
+
         'QModal',
         'QCarousel',
         'QCarouselSlide',

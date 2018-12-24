@@ -44,6 +44,11 @@
         </q-item>-->
 
         <q-list-header>Essential Links</q-list-header>
+        <q-item to="/selfie" >
+          <q-item-side icon="add a photo" />
+          <q-item-main label="Selfie" sublabel="You, the book, your kid" />
+        </q-item>
+
         <q-item @click.native="setDelayPlayNext(1)">
           <q-item-side icon="playlist_play" />
           <q-item-main label="Play All" sublabel="Continue to end of book" />

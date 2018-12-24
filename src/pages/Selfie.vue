@@ -6,7 +6,8 @@
       <video ref="video" id="video">Video stream not available.</video>
     </div>
     <br/>
-      <button ref="startbutton" id="startbutton">Take photo</button>
+      <q-btn color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
+    <q-btn :disabled="!dataURL" color="secondary" @click="useImage">Use as selfie</q-btn>
     <br/>
 
     <canvas ref="canvas" id="canvas"></canvas>
@@ -22,6 +23,7 @@
     mixins: [ mixinGeneral, mixinDropbox ],
     data () {
       return {
+        dataURL: false,
         width: 302,
         height: 0,
         streaming: false,
@@ -33,7 +35,6 @@
       window.selfie.main = this
 
       let video = this.$refs.video
-      let startButton = this.$refs.startbutton
 
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
         .then(function (stream) {
@@ -57,14 +58,28 @@
         }
       }, false)
 
-      startButton.addEventListener('click', function (ev) {
-        vue.takePicture()
-        ev.preventDefault()
-      }, false)
-
       this.clearPhoto()
     },
     methods: {
+      async useImage () {
+        let v = this
+        this.$store.commit('saveThumbnail', {
+          entry: this.activeFolder,
+          thumbnail: this.dataURL,
+        })
+        if (this.dataURL && this.dataURL !== 'data:,') {
+          let fileName = this.generateImageName()
+          debugger
+          await this.uploadFile(this.dataURL, fileName, this.width * this.height)
+          debugger
+          v.$router.push('/simpleRecord')
+          debugger
+        }
+        else {
+          alert('Image not available')
+        }
+
+      },
       clearPhoto () {
         let canvas = this.$refs.canvas
         let context = canvas.getContext('2d')
@@ -81,19 +96,7 @@
           canvas.height = this.height
           context.drawImage(video, 0, 0, this.width, this.height)
 
-          let dataURL = canvas.toDataURL('image/jpeg', 0.95)
-
-          this.$store.commit('saveThumbnail', {
-            entry: this.activeFolder,
-            thumbnail: dataURL,
-          })
-          if (dataURL && dataURL !== 'data:,') {
-            let fileName = this.generateImageName()
-            this.uploadFile(dataURL, fileName, this.width * this.height)
-          }
-          else {
-            alert('Image not available')
-          }
+          this.dataURL = canvas.toDataURL('image/jpeg', 0.95)
         }
         else {
           this.clearPhoto()

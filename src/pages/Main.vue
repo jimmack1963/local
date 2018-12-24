@@ -1,6 +1,20 @@
 <template>
-  <q-page class="flex flex-center">
-    <h1>&nbsp;</h1>
+  <q-page padding class="flex flex-center">
+    <div v-if="!access_token">
+      <h1>{{title}}</h1>
+      We help you {{verb}} books for your loved ones, however they may be behaving currently.
+      This version used DropBox to store images and recordings.  Specifically, it uses <em>your</em> DropBox account,
+      making a folder called \Apps\PlayItAgainKid.    It's your own disk in the cloud, easy to copy anywhere.
+
+      This means you always will have your originals, and that we never even see anything you create.
+      <br><br>
+      <a id="authlink" :href="authURL" class="button">Authenticate with Dropbox</a>
+      <br><br>
+      If you are not a current user, you may want to sign up on <a href="https://www.dropbox.com/register" targt="_blank">their site first</a>.  Or, install their app.
+      <br>
+
+      {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
+    </div>
 
     <q-card v-for="folder in TOC" v-bind:key="folder.id">
       <q-card-media
@@ -109,7 +123,17 @@
       </q-card-actions>
     </q-card>
 
-    <a v-if="!access_token" id="authlink" :href="authURL" class="button">Authenticate</a>
+    <div v-if="access_token">
+
+      <q-field
+        class="col-xs-12 q-mx-sm"
+    label="Create a book titled:">
+    <q-input autofocus id="bookTitle" v-model="bookTitle"></q-input>
+    </q-field>
+      <!-- TODO: should this be a card for consistency? -->
+    <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the book and your kid
+    </q-btn>
+    </div>
 
 <!--    <q-input
       id="folder"

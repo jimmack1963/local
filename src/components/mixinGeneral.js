@@ -3,13 +3,24 @@ import { mapGetters } from 'vuex'
 export const mixinGeneral = {
   data () {
     return {
+      bookTitle: '',
       myPages: [],
       myImages: [], // TODO: should be in VUEX as TOC element
       sourcePages: {} // TODO: maybe should be a getter in VUEX
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder', 'activeScene', 'access_token']),
+    ...mapGetters(['TOC',
+      'camera',
+      'activeFolder',
+      'activeScene',
+      'access_token',
+      'title',
+      'verb',
+      'subtitle',
+      'dataPrefix',
+      'authURL',
+      'hostname']),
     currentSlide: {
       get: function () {
         if (window.jim_DEBUG_FULL) console.log('currentSlide??')
@@ -25,14 +36,42 @@ export const mixinGeneral = {
     },
     page () {
       if (!this.activeFolder) { return 0 }
-      let lastPage = this.activeFolder.pageOrder[this.activeFolder.pageOrder.length - 1]
-      let pnum = parseInt(lastPage)
-      if (isNaN(pnum)) return this.activeFolder.pageOrder.length
-      return pnum + 1
+      if (this.activeFolder.pageOrder && this.activeFolder.pageOrder.length > 0) {
+        let lastPage = this.activeFolder.pageOrder[this.activeFolder.pageOrder.length - 1]
+        let pnum = parseInt(lastPage)
+        if (isNaN(pnum)) return this.activeFolder.pageOrder.length
+        return pnum + 1
+      }
+      else {
+        return 0
+      }
     }
 
   },
   methods: {
+    startBook (bookTitle) {
+      // alert('Are you sure about ' + bookTitle + '?')
+      // createFolder
+      let v = this
+      this.$dbx.filesCreateFolderV2( {path: '/' + bookTitle})
+        .then((result) => {
+          let entry = result.metadata
+          debugger
+          v.$store.dispatch('registerFile', {
+            entry,
+            folder: '/',
+            dbx: v.$dbx,
+            calc: true
+          })
+          v.$store.commit('setActiveFolder', {
+            activeFolder: entry
+          })
+          v.$router.push('/selfie')
+
+        })
+
+      // redirect to selfie
+    },
     logout () {
       this.$q.localStorage.set('access_token', false)
       this.$store.commit('dropboxCredentials', {
@@ -88,6 +127,8 @@ export const mixinGeneral = {
       }
       return possible
     },
+
+
     readDropboxFolder () {
       let self = this
       let dbx = this.$dbx

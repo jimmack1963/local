@@ -1,6 +1,10 @@
 const pathParse = require('path-parse')
 import { LocalStorage } from 'quasar'
 
+export const clearAll = (context) => {
+
+}
+
 export const saveLevel = (context, payload) => {
   let folder = payload.folder
   let entries = payload.response.entries
@@ -11,6 +15,7 @@ export const saveLevel = (context, payload) => {
       entry,
       dbx,
       folder,
+      calc: false
     })
   })
 
@@ -109,6 +114,12 @@ export const registerFile = (context, payload) => {
         })
       break
     }
+  }
+  if (payload.calc) {
+    debugger
+    context.commit('calc', {
+      TOC: entry,
+    })
   }
 }
 

@@ -45,6 +45,7 @@ const parseQueryString = function (str) {
 
 // leave the export, even if you don't use it
 export default ({app, router, Vue}) => {
+  let store = false
   window.jim_DEBUG = true // devprod !!!!!
   window.jim_DEBUG_FULL = true // devprod !!!!!
   window.jim_DEBUG_VUEX = false // devprod !!!!!
@@ -90,7 +91,7 @@ export default ({app, router, Vue}) => {
     Vue.prototype.$dbx = dbx
 
     if (Store) {
-      let store = Store()
+      store = Store()
       if (window.jim_DEBUG_FULL) console.dir(store)
 
       store.commit('dropboxCredentials', {
@@ -107,12 +108,20 @@ export default ({app, router, Vue}) => {
   }
   else {
     // Set the login anchors href using dbx.getAuthenticationUrl()
+    if (Store) {
+      store = Store()
+    }
+    else {
+      if (window.jim_DEBUG_FULL) console.log('No store?')
+    }
 
     let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID})
     Vue.prototype.$dbx = dbx
     // TODO: url for each deployment
     // let authUrl = dbx.getAuthenticationUrl('https://playitagainkid.com')
-    let authUrl = dbx.getAuthenticationUrl('https://localhost:8080/auth')
+    // let authUrl = dbx.getAuthenticationUrl('https://localhost:8080')
+
+    let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
     console.log('authUrl')
     console.dir(authUrl)
     Vue.prototype.$authURL = authUrl

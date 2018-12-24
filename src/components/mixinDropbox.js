@@ -24,27 +24,27 @@ export const mixinDropbox = {
       }
       return bytes.buffer
     },
-    uploadFile (dataURL, fileName, size) {
-
+    uploadFile: async function (dataURL, fileName, size) {
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
-          this.$dbx.filesUpload({
-            path: fileName,
-            contents: this._base64ToArrayBuffer(dataURL),
-          })
-            .then((response) => {
-              if (window.jim_DEBUG_FULL) {
-                console.log('@response')
-                console.dir(response)
-              }
+          try {
+            debugger
+            let response = await this.$dbx.filesUpload({
+              path: fileName,
+              contents: this._base64ToArrayBuffer(dataURL),
             })
-            .catch((error) => {
-              if (window.jim_DEBUG_FULL) {
-                console.log('@uploadFile error')
-                console.dir(error)
-              }
 
-            })
+            if (window.jim_DEBUG_FULL) {
+              console.log('@response')
+              console.dir(response)
+            }
+          }
+ catch (error) {
+            if (window.jim_DEBUG_FULL) {
+              console.log('@uploadFile error')
+              console.dir(error)
+            }
+          }
         }
       }
       else {
@@ -99,7 +99,6 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlob (blob, fileName, size) {
-
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {
@@ -117,20 +116,21 @@ export const mixinDropbox = {
               v.$store.dispatch('registerFile', {
                 folder: response.dir,
                 entry: response,
-                dbx: v.$dbx
+                dbx: v.$dbx,
+                calc: true
               })
 
-/*
-              v.$store.commit('saveEntry', {
-                folder: response.dir,
-                entry: response,
-              })
-*/
+              /*
+                            v.$store.commit('saveEntry', {
+                              folder: response.dir,
+                              entry: response,
+                            })
+              */
 
               let folder = v.$store.state.dropbox._TOC[response.dir]
               if (folder) {
                 v.$store.commit('calc', {
-                  TOC: folder
+                  TOC: folder,
                 })
               }
 
@@ -150,7 +150,7 @@ export const mixinDropbox = {
             })
         }
       }
-      else {
+ else {
         // TODO: big file upload
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFile')

@@ -68,7 +68,7 @@ export function saveThumbnail (state, payload) {
 }
 
 export function saveEntry (state, payload) {
-
+  debugger
   let placed = false
 
   let entry = payload.entry
@@ -182,7 +182,7 @@ export function dropboxCredentials (state, payload) {
 }
 
 export function calc (state, payload) {
-
+  debugger
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/
