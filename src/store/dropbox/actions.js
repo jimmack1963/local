@@ -30,7 +30,7 @@ export const saveLevel = async (context, payload) => {
 }
 
 export const registerFile = async (context, payload) => {
-  debugger
+
   let folder = payload.folder
   let entry = payload.entry
   let dbx = payload.dbx
@@ -103,18 +103,47 @@ export const registerFile = async (context, payload) => {
       break
     }
     case 'mp3': {
-      let response = await dbx.filesGetTemporaryLink({path: entry.path_lower})
+      let response
+      try {
+        /*
+          For some reason, await is not returning the response, but returns undefined
+         */
+        response = await dbx.filesGetTemporaryLink({path: entry.path_lower})
+          .then((response) => {
 
-      context.commit('saveTempLink', {
-        entry,
-        response,
-      })
-      context.commit('createHowl', {
-        entry,
-        response,
-        context,
-        howlPreload: context.rootState.sounds.howlPreload,
-      })
+            context.commit('saveTempLink', {
+              entry,
+              response,
+            })
+            context.commit('createHowl', {
+              entry,
+              response,
+              context,
+              howlPreload: context.rootState.sounds.howlPreload,
+            })
+          })
+      }
+      catch (err) {
+        if (window.jim_DEBUG_FULL) {
+          console.log('err')
+          console.dir(err)
+        }
+      }
+      if (window.jim_DEBUG_FULL) console.log('response:', response)
+
+
+      if (response && response.link) {
+        context.commit('saveTempLink', {
+          entry,
+          response,
+        })
+        context.commit('createHowl', {
+          entry,
+          response,
+          context,
+          howlPreload: context.rootState.sounds.howlPreload,
+        })
+      }
 
       break
     }

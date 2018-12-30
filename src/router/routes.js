@@ -1,3 +1,14 @@
+import multiguard from 'vue-router-multiguard'
+import Store from '../store'
+let store = Store()
+
+const guardActiveFolder = (to, from, next) => {
+  // TODO: this invalidates bookmarks.  Allow bookmarks into specific pages of books
+  if (store.state.dropbox.activeFolder) {
+    next()
+  }
+  next('/')
+}
 
 const routes = [
   {
@@ -19,28 +30,32 @@ const routes = [
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Selfie.vue') }
-    ]
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/carousel',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Carousel.vue') }
-    ]
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/simpleRecord',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/simpleRecord.vue') }
-    ]
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/illustrate',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Illustrate.vue') }
-    ]
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
   }
 
 ]

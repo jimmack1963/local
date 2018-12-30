@@ -8,9 +8,18 @@ export function saveTempLink (state, payload) {
     vue.set(which, 'linkTime', new Date())
   }
   else {
-
     if (window.jim_DEBUG_VUEX) console.log('Fail save templink: ')
     if (window.jim_DEBUG_VUEX) console.dir(payload)
+  }
+
+  let entry = payload.entry
+  let TOC = state._TOC[entry.dir]
+  if (TOC.pageOrder) {
+    let myOffset = TOC.pageOrder.indexOf(entry.pageNumber)
+    if (myOffset >= 0 && !TOC.soundOrder[myOffset]) {
+
+      vue.set(TOC.soundOrder, myOffset, payload.response.link)
+    }
   }
 }
 
@@ -146,6 +155,14 @@ export function saveEntry (state, payload) {
 
   if (!placed) {
     let folder = payload.folder || '_TOC'
+/*
+    if (folder === '_TOC') {
+      // setup default housekeeping
+      entry.pageOrder = []
+      entry.soundOrder = []
+      entry.imageOrder = []
+    }
+*/
     let key = entry.path_lower
     if (!state[folder]) {
       vue.set(state, folder, {})
