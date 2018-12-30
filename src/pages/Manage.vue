@@ -5,7 +5,63 @@
         </folderCardDisplay>
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
-    <q-card class="q-ma-sm"  v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
+    <q-card class="q-ma-sm">
+      <q-card-main>
+        <h4>Quick Recording New Pages</h4>
+        <q-field
+          label="Next Illustration:"
+        >
+          <q-input
+            v-model="bulk.nextIllustration"
+          >
+
+          </q-input>
+        </q-field>
+        <q-field
+          label="Next Narration:"
+        >
+          <q-input
+            v-model="bulk.nextNarration"
+          >
+
+          </q-input>
+        </q-field>
+        <RecordAudio
+          v-if="recording['bulk']"
+          v-on:completed="completedBulkNarration"
+          :pageName="bulk.nextNarration"
+        >
+        </RecordAudio>
+        <RecordCamcord
+          v-if="illustrating['bulk']"
+          v-on:completed="completedBulkIllustration"
+          :pageName="bulk.nextIllustration"
+          :quality="0.5"
+        >
+          Page {{pageName}}
+        </RecordCamcord>
+
+      </q-card-main>
+      <q-card-actions vertical align="center">
+        <q-btn
+          flat
+          icon="mic"
+          color="primary"
+          label="narrate"
+          @click="narrate(activeFolder, 'bulk')"
+        ></q-btn>
+
+        <q-btn
+          flat
+          icon="add a photo"
+          color="primary"
+          label="Illustrate"
+          @click="illustrate(activeFolder, 'bulk')"
+        ></q-btn>
+      </q-card-actions>
+    </q-card>
+
+    <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
       <q-card-media
         overlay-position="bottom"
         v-show="activeFolder.imageOrder[offset]"
@@ -64,6 +120,8 @@
       </q-card-actions>
 
     </q-card>
+
+
   </q-page>
 </template>
 
@@ -84,23 +142,29 @@
       },
     },
     methods: {
-/*      play (folder, pageName) {
-        pageName = pageName.toString()
-        let targetPage
-        if (pageName in this.myFolder) {
-          targetPage = this.myFolder[pageName]
-        }
-        else {
-          targetPage = this.myFolder.pages[pageName]
-        }
+      /*      play (folder, pageName) {
+              pageName = pageName.toString()
+              let targetPage
+              if (pageName in this.myFolder) {
+                targetPage = this.myFolder[pageName]
+              }
+              else {
+                targetPage = this.myFolder.pages[pageName]
+              }
 
-        if (pageName) {
-          this.playBookPage(folder, pageName)
-        }
-        else {
-           if (window.jim_DEBUG_FULL) console.log('illustrate.page: PageName not found: ' + pageName)
-        }
-      }, */
+              if (pageName) {
+                this.playBookPage(folder, pageName)
+              }
+              else {
+                 if (window.jim_DEBUG_FULL) console.log('illustrate.page: PageName not found: ' + pageName)
+              }
+            }, */
+      completedBulkNarration () {
+        this.bulk.nextNarration += 1
+      },
+      completedBulkIllustration () {
+        this.bulk.nextIllustration += 1
+      },
       narrate (folder, pageName) {
         // only one at a time
         let toggled = {}
@@ -112,17 +176,24 @@
         let toggled = {}
         toggled[pageName] = true
         this.$set(this, 'illustrating', toggled)
-      }
+      },
     },
     data () {
       return {
         recording: {},
-        illustrating: {}
+        illustrating: {},
+        bulk: {
+          nextNarration: 0,
+          nextIllustration: 0,
+        },
       }
     },
     mounted () {
       window.jim = window.jim || {}
       window.jim.manage = this
+
+      this.bulk.nextNarration = parseInt(this.activeFolder.pageOrder[this.activeFolder.pageOrder.length - 1]) + 1 || 0
+      this.bulk.nextIllustration = this.bulk.nextNarration || 0
     },
     name: 'manage',
   }

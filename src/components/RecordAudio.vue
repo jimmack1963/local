@@ -56,6 +56,7 @@
         this.pushToDropbox(evt.detail.recording)
       },
       async pushToDropbox (recording, ctr) {
+        this.$emit('completed')
         this.$store.commit('setMicAvailable')
         let pageFileName
         if (/^[0-9]+$/.test(this.pageName)) {

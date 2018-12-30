@@ -63,6 +63,7 @@
     },
     methods: {
       async useImage () {
+        this.$emit('completed')
         let v = this
         this.$store.commit('saveThumbnail', {
           entry: this.activeFolder,
