@@ -180,7 +180,8 @@ export const mixinGeneral = {
         this.$router.push('/carousel')
       }
       else {
-        this.$router.push('/simpleRecord')
+        // I don't know why this is here, but it interferes with taking multiple images in a row
+        // this.$router.push('/simpleRecord')
       }
     },
     setDelayPlayNext (seconds) {

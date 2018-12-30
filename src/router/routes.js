@@ -7,7 +7,9 @@ const guardActiveFolder = (to, from, next) => {
   if (store.state.dropbox.activeFolder) {
     next()
   }
-  next('/')
+  else {
+    next('/')
+  }
 }
 
 const routes = [

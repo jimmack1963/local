@@ -64,7 +64,7 @@
     methods: {
       async useImage () {
         this.$emit('completed')
-        let v = this
+        // let v = this
         this.$store.commit('saveThumbnail', {
           entry: this.activeFolder,
           thumbnail: this.dataURL,
@@ -73,9 +73,6 @@
           let fileName = this.generateImageName()
 
           await this.uploadFile(this.dataURL, fileName, this.width * this.height)
-
-          v.$router.push('/simpleRecord')
-
         }
         else {
           alert('Image not available')

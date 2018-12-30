@@ -46,7 +46,8 @@ export const mixinSound = {
       this.$store.commit('setActiveFolder', {
         activeFolder: folder
       })
-      this.$router.push('/simpleRecord')
+      // I don't know why this is here, but it interferes with taking multiple images in a row
+      // this.$router.push('/simpleRecord')
     },
     doAction (ps) {
       if (this.micAvailable) {
