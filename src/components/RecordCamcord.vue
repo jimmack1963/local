@@ -19,7 +19,7 @@
   import { mixinDropbox } from '../components/mixinDropbox'
 
   export default {
-    name: 'selfie',
+    name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox ],
     data () {
       return {
@@ -31,8 +31,8 @@
     },
     mounted () {
       let vue = this
-      window.selfie = window.selfie || {}
-      window.selfie.main = this
+      window.jim = window.jim || {}
+      window.jim.recordcamcord = this
 
       let video = this.$refs.video
 

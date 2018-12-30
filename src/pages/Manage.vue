@@ -27,16 +27,28 @@
           :pageName="pageName"
         >
         </RecordAudio>
+        <RecordCamcord
+          v-if="illustrating[pageName]"
+          :pageName="pageName"
+        >Illustration in progress, please wait!</RecordCamcord>
       </q-card-main>
 
-      <q-card-actions>
+      <q-card-actions vertical align="center">
+        <q-btn
+          flat
+          icon="mic"
+          color="primary"
+          label="narrate"
+          @click="narrate(activeFolder, pageName)"
+        ></q-btn>
+
         <q-btn
           v-if="activeFolder.soundOrder[offset]"
           flat
           icon="play arrow"
           color="primary"
           label="play"
-          @click="playBookPage(activeFolder, pageName)"
+          @click="setDelayPlayNext(0); playBookPage(activeFolder, pageName)"
         ></q-btn>
 
         <q-btn
@@ -45,14 +57,6 @@
           color="primary"
           label="Illustrate"
           @click="illustrate(activeFolder, pageName)"
-        ></q-btn>
-
-        <q-btn
-          flat
-          icon="mic"
-          color="primary"
-          label="narrate"
-          @click="narrate(activeFolder, pageName)"
         ></q-btn>
       </q-card-actions>
 
@@ -65,10 +69,11 @@
   import { mixinGeneral } from '../components/mixinGeneral'
   import { mixinSound } from '../components/mixinSound'
   import RecordAudio from '../components/RecordAudio'
+  import RecordCamcord from '../components/RecordCamcord'
   import folderCardDisplay from '../components/folderCardDisplay'
 
   export default {
-    components: {RecordAudio, folderCardDisplay},
+    components: {RecordCamcord, RecordAudio, folderCardDisplay},
     mixins: [mixinSound, mixinGeneral, mixinDropbox],
     computed: {
       myFolder () {
@@ -98,18 +103,25 @@
         let toggled = {}
         toggled[pageName] = true
         this.$set(this, 'recording', toggled)
+      },
+      illustrate (folder, pageName) {
+        // only one at a time
+        let toggled = {}
+        toggled[pageName] = true
+        this.$set(this, 'illustrating', toggled)
       }
     },
     data () {
       return {
-        recording: {}
+        recording: {},
+        illustrating: {}
       }
     },
     mounted () {
       window.jim = window.jim || {}
-      window.jim.illustrate = this
+      window.jim.manage = this
     },
-    name: 'illustrate',
+    name: 'manage',
   }
 </script>
 

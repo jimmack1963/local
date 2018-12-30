@@ -57,8 +57,16 @@
       },
       async pushToDropbox (recording, ctr) {
         this.$store.commit('setMicAvailable')
+        let pageFileName
+        if (/^[0-9]+$/.test(this.pageName)) {
+          // numeric page numbers start with 'p'
+          pageFileName = 'p' + this.pageName
+        }
+        else {
+          pageFileName = this.pageName
+        }
 
-        let fname = `${this.activeFolder.path_lower}/p${this.pageName}.mp3`
+        let fname = `${this.activeFolder.path_lower}/${pageFileName}.mp3`
         let reader = new FileReader()
         let base64data
         // reader.readAsDataURL(recording.blobUrl) param 1 not type blob

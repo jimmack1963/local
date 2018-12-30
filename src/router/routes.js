@@ -50,10 +50,10 @@ const routes = [
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
-    path: '/illustrate',
+    path: '/manage',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Illustrate.vue') }
+      { path: '', component: () => import('pages/Manage.vue') }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   }

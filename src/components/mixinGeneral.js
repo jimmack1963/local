@@ -166,11 +166,11 @@ export const mixinGeneral = {
       })
       this.$router.push('/selfie')
     },
-    illustrate (entry) {
+    manage (entry) {
       this.$store.commit('setActiveFolder', {
         activeFolder: entry
       })
-      this.$router.push('/illustrate')
+      this.$router.push('/manage')
     },
     carousel (entry) {
       this.$store.commit('setActiveFolder', {

@@ -31,8 +31,8 @@
     },
     mounted () {
       let vue = this
-      window.selfie = window.selfie || {}
-      window.selfie.main = this
+      window.jim = window.jim || {}
+      window.jim.selfie = this
 
       let video = this.$refs.video
 

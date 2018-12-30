@@ -103,8 +103,8 @@
         <q-btn
           flat
           color="secondary"
-          label="illustrate"
-          @click="illustrate(folder)"
+          label="Manage"
+          @click="manage(folder)"
 
         ></q-btn>
 

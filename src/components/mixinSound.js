@@ -89,7 +89,6 @@ export const mixinSound = {
       return nextPageNumber
     },
     continuePlaying (folder) {
-
       this.setDelayPlayNext(1)
       let nextPage = this.pageAfter(folder, this.mostRecentPage)
       if (nextPage) {
