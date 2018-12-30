@@ -30,7 +30,10 @@
         <RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
-        >Illustration in progress, please wait!</RecordCamcord>
+          :quality="0.5"
+        >
+          Page {{pageName}}
+        </RecordCamcord>
       </q-card-main>
 
       <q-card-actions vertical align="center">

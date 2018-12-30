@@ -1,13 +1,13 @@
 <template>
   <q-page padding>
-    Selfie for "{{activeFolder.name}}"
+    <slot></slot>
     <br/>
     <div class="camera">
       <video ref="video" id="video">Video stream not available.</video>
     </div>
     <br/>
       <q-btn color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn :disabled="!dataURL" color="secondary" @click="useImage">Use as selfie</q-btn>
+    <q-btn :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
     <br/>
 
     <canvas ref="canvas" id="canvas"></canvas>
@@ -21,6 +21,7 @@
   export default {
     name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox ],
+    props: ['pageName', 'quality'],
     data () {
       return {
         dataURL: false,
@@ -96,7 +97,7 @@
           canvas.height = this.height
           context.drawImage(video, 0, 0, this.width, this.height)
 
-          this.dataURL = canvas.toDataURL('image/jpeg', 0.95)
+          this.dataURL = canvas.toDataURL('image/jpeg', this.quality ? parseFloat(this.quality) : 0.95)
         }
         else {
           this.clearPhoto()
@@ -104,7 +105,15 @@
       },
 
       generateImageName () {
-        return this.activeFolder.path_display + '/' + 'book.cover.png'
+        let pageFileName
+        if (/^[0-9]+$/.test(this.pageName)) {
+          // numeric page numbers start with 'p'
+          pageFileName = 'p' + this.pageName
+        }
+        else {
+          pageFileName = this.pageName
+        }
+        return `${this.activeFolder.path_display}/${pageFileName}.png`
       },
 
     },
