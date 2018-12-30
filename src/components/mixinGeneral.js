@@ -12,6 +12,7 @@ export const mixinGeneral = {
   computed: {
     ...mapGetters(['TOC',
       'camera',
+      'folders',
       'activeFolder',
       'activeScene',
       'access_token',
@@ -56,7 +57,7 @@ export const mixinGeneral = {
       this.$dbx.filesCreateFolderV2( {path: '/' + bookTitle})
         .then((result) => {
           let entry = result.metadata
-          debugger
+
           v.$store.dispatch('registerFile', {
             entry,
             folder: '/',
@@ -164,6 +165,12 @@ export const mixinGeneral = {
         activeFolder: entry
       })
       this.$router.push('/selfie')
+    },
+    illustrate (entry) {
+      this.$store.commit('setActiveFolder', {
+        activeFolder: entry
+      })
+      this.$router.push('/illustrate')
     },
     carousel (entry) {
       this.$store.commit('setActiveFolder', {

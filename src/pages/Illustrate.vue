@@ -1,0 +1,117 @@
+<template>
+  <q-page padding class="row">
+    <!--
+        <folderCardDisplay :folder="activeFolder">
+        </folderCardDisplay>
+    -->
+    <h3 class="col-12">{{activeFolder.name}}</h3>
+    <q-card class="q-ma-sm"  v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
+      <q-card-media
+        overlay-position="bottom"
+        v-show="activeFolder.imageOrder[offset]"
+      >
+        <img :src="activeFolder.imageOrder[offset]" :alt="'Image #' + offset">
+        <q-card-title slot="overlay">
+          {{pageName}}
+          <!--<span slot="subtitle"></span>-->
+        </q-card-title>
+      </q-card-media>
+      <q-card-title v-show="!activeFolder.imageOrder[offset]">
+        Page {{pageName}} (No Image)
+        <!--<span slot="subtitle"></span>-->
+      </q-card-title>
+
+      <q-card-main>
+        <RecordAudio
+          v-if="recording[pageName]"
+          :pageName="pageName"
+        >
+        </RecordAudio>
+      </q-card-main>
+
+      <q-card-actions>
+        <q-btn
+          v-if="activeFolder.soundOrder[offset]"
+          flat
+          icon="play arrow"
+          color="primary"
+          label="play"
+          @click="playBookPage(activeFolder, pageName)"
+        ></q-btn>
+
+        <q-btn
+          flat
+          icon="add a photo"
+          color="primary"
+          label="Illustrate"
+          @click="illustrate(activeFolder, pageName)"
+        ></q-btn>
+
+        <q-btn
+          flat
+          icon="mic"
+          color="primary"
+          label="narrate"
+          @click="narrate(activeFolder, pageName)"
+        ></q-btn>
+      </q-card-actions>
+
+    </q-card>
+  </q-page>
+</template>
+
+<script>
+  import { mixinDropbox } from '../components/mixinDropbox'
+  import { mixinGeneral } from '../components/mixinGeneral'
+  import { mixinSound } from '../components/mixinSound'
+  import RecordAudio from '../components/RecordAudio'
+  import folderCardDisplay from '../components/folderCardDisplay'
+
+  export default {
+    components: {RecordAudio, folderCardDisplay},
+    mixins: [mixinSound, mixinGeneral, mixinDropbox],
+    computed: {
+      myFolder () {
+        return this.folders[this.activeFolder.path_lower]
+      },
+    },
+    methods: {
+/*      play (folder, pageName) {
+        pageName = pageName.toString()
+        let targetPage
+        if (pageName in this.myFolder) {
+          targetPage = this.myFolder[pageName]
+        }
+        else {
+          targetPage = this.myFolder.pages[pageName]
+        }
+
+        if (pageName) {
+          this.playBookPage(folder, pageName)
+        }
+        else {
+           if (window.jim_DEBUG_FULL) console.log('illustrate.page: PageName not found: ' + pageName)
+        }
+      }, */
+      narrate (folder, pageName) {
+        // only one at a time
+        let toggled = {}
+        toggled[pageName] = true
+        this.$set(this, 'recording', toggled)
+      }
+    },
+    data () {
+      return {
+        recording: {}
+      }
+    },
+    mounted () {
+      window.jim = window.jim || {}
+      window.jim.illustrate = this
+    },
+    name: 'illustrate',
+  }
+</script>
+
+<style>
+</style>

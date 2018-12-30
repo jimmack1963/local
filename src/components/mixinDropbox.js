@@ -28,7 +28,7 @@ export const mixinDropbox = {
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
           try {
-            debugger
+
             let response = await this.$dbx.filesUpload({
               path: fileName,
               contents: this._base64ToArrayBuffer(dataURL),

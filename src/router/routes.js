@@ -34,6 +34,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/simpleRecord.vue') }
     ]
+  },
+  {
+    path: '/illustrate',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Illustrate.vue') }
+    ]
   }
 
 ]

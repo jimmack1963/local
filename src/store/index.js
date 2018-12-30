@@ -27,6 +27,9 @@ export default function (/* { ssrContext } */) {
   if (Vue.prototype.$device) {
     if (window.jim_DEBUG_FULL) { console.log('Device exists, add to Store') }
     Store.commit('device', Vue.prototype.$device)
+    if (Vue.prototype.$device.hasMicrophone) {
+      Store.commit('setMicAvailable')
+    }
   }
   else {
     if (window.jim_DEBUG_FULL) { console.log('Device in waiting, Store exists') }

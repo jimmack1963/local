@@ -5,19 +5,22 @@ export const clearAll = (context) => {
 
 }
 
-export const saveLevel = (context, payload) => {
+export const saveLevel = async (context, payload) => {
   let folder = payload.folder
   let entries = payload.response.entries
   let dbx = payload.dbx
+  let promises = []
 
   entries.forEach((entry) => {
-    context.dispatch('registerFile', {
+    promises.push(context.dispatch('registerFile', {
       entry,
       dbx,
       folder,
       calc: false
-    })
+    }))
   })
+
+  await Promise.all(promises)
 
   for (let folder of Object.values(context.state._TOC)) {
     context.commit('calc', {
@@ -26,7 +29,8 @@ export const saveLevel = (context, payload) => {
   }
 }
 
-export const registerFile = (context, payload) => {
+export const registerFile = async (context, payload) => {
+  debugger
   let folder = payload.folder
   let entry = payload.entry
   let dbx = payload.dbx
@@ -54,69 +58,69 @@ export const registerFile = (context, payload) => {
       else {
         if (window.jim_DEBUG_FULL) console.log('Get Thumbnail for ', entry.id)
 
-        dbx.filesGetThumbnail({
+        let response = await dbx.filesGetThumbnail({
           path: entry.path_lower,
           format: 'jpeg',
           size: 'w480h320',
         })
-          .then((response) => {
-            let useful = window.URL.createObjectURL(response.fileBlob)
 
-            context.commit('saveThumbnail', {
-              entry,
-              thumbnail: useful,
-            })
+        try {
+          let useful = window.URL.createObjectURL(response.fileBlob)
 
-            let blob = response.fileBlob
-            let size = blob.size
-            let type = blob.type
-            if (window.jim_DEBUG_FULL) console.log('Got: ', entry.id)
-
-            let reader = new FileReader()
-            reader.addEventListener('loadend', function () {
-              if (window.jim_DEBUG_FULL) console.log('Reader: ', entry.id)
-              let base64FileData = reader.result.toString()
-
-              let mediaFile = {
-                id: entry.id,
-                size: size,
-                type: type,
-                src: base64FileData,
-              }
-
-              LocalStorage.set(entry.id, JSON.stringify(mediaFile))
-
-            })
-
-            reader.readAsDataURL(blob)
+          context.commit('saveThumbnail', {
+            entry,
+            thumbnail: useful,
           })
-          .catch((error) => {
 
-            if (window.jim_DEBUG_VUEX) console.log('ERROR:')
-            console.log(error)
+          let blob = response.fileBlob
+          let size = blob.size
+          let type = blob.type
+          if (window.jim_DEBUG_FULL) console.log('Got: ', entry.id)
+
+          let reader = new FileReader()
+          reader.addEventListener('loadend', function () {
+            if (window.jim_DEBUG_FULL) console.log('Reader: ', entry.id)
+            let base64FileData = reader.result.toString()
+
+            let mediaFile = {
+              id: entry.id,
+              size: size,
+              type: type,
+              src: base64FileData,
+            }
+
+            LocalStorage.set(entry.id, JSON.stringify(mediaFile))
+
           })
+
+          reader.readAsDataURL(blob)
+        }
+       catch (error) {
+          if (window.jim_DEBUG_VUEX) console.log('ERROR:')
+          console.log(error)
+        }
       }
       break
     }
     case 'mp3': {
-      dbx.filesGetTemporaryLink({path: entry.path_lower})
-        .then((response) => {
-          context.commit('saveTempLink', {
-            entry,
-            response,
-          })
-          context.commit('createHowl', {
-            entry,
-            response,
-            context,
-            howlPreload: context.rootState.sounds.howlPreload,
-          })
-        })
+      let response = await dbx.filesGetTemporaryLink({path: entry.path_lower})
+
+      context.commit('saveTempLink', {
+        entry,
+        response,
+      })
+      context.commit('createHowl', {
+        entry,
+        response,
+        context,
+        howlPreload: context.rootState.sounds.howlPreload,
+      })
+
       break
     }
   }
   if (payload.calc) {
-    debugger
+
     context.commit('calc', {
       TOC: entry,
     })

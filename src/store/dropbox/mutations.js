@@ -68,7 +68,7 @@ export function saveThumbnail (state, payload) {
 }
 
 export function saveEntry (state, payload) {
-  debugger
+
   let placed = false
 
   let entry = payload.entry
@@ -160,6 +160,7 @@ export function setActiveFolder (state, payload) {
   state.activeScene = payload.activeScene || 0
 }
 export function setActivePage (state, payload) {
+
   if (state.activeFolder && state.activeFolder.pageOrder) {
     let index = state.activeFolder.pageOrder.indexOf(payload.activePage)
     state.activeScene = index
@@ -171,6 +172,7 @@ export function setActivePage (state, payload) {
 }
 
 export function activeScene (state, payload) {
+
   state.activeScene = payload.activeScene
 }
 
@@ -182,7 +184,7 @@ export function dropboxCredentials (state, payload) {
 }
 
 export function calc (state, payload) {
-  debugger
+
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/

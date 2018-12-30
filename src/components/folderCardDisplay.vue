@@ -4,7 +4,7 @@
       overlay-position="bottom"
       v-if="folder.thumbnail"
     >
-      <img    :src="folder.thumbnail" :alt="folder.name">
+      <img    :src="folder.imageOrder[activeScene] || folder.thumbnail" :alt="folder.name">
       <q-card-title slot="overlay" >
         {{folder.name}}&nbsp;
         <!--<span slot="subtitle">{{folder.size}}</span>-->
@@ -20,7 +20,10 @@
 </template>
 
 <script>
+  import { mixinGeneral } from '../components/mixinGeneral'
+
 export default {
+  mixins: [ mixinGeneral ],
   name: 'folderCardDisplay',
   props: ['folder'],
   data () {

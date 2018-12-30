@@ -16,13 +16,13 @@
       {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card v-for="folder in TOC" v-bind:key="folder.id">
+    <q-card class="q-ma-sm" v-for="folder in TOC" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"
         @click.native.stop="carousel(folder)"
       >
-        <img    :src="folder.thumbnail" :alt="folder.name">
+        <img    :src="folder.imageOrder[activeScene] || folder.thumbnail" :alt="folder.name">
         <q-card-title slot="overlay" >
           {{folder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
@@ -98,6 +98,13 @@
           color="secondary"
           label="Record"
           @click="record(folder)"
+
+        ></q-btn>
+        <q-btn
+          flat
+          color="secondary"
+          label="illustrate"
+          @click="illustrate(folder)"
 
         ></q-btn>
 

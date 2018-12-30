@@ -48,6 +48,10 @@
           <q-item-side icon="add a photo" />
           <q-item-main label="Selfie" sublabel="You, the book, your kid" />
         </q-item>
+        <q-item @click.native="illustrate(activeFolder)" >
+          <q-item-side icon="add a photo" />
+          <q-item-main label="Illustrate" sublabel="Take or upload images" />
+        </q-item>
 
         <q-item @click.native="setDelayPlayNext(1)">
           <q-item-side icon="playlist_play" />

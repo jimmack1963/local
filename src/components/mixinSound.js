@@ -99,10 +99,14 @@ export const mixinSound = {
         this.playBook(folder)
       }
     },
-    playBookPage (folder, page) {
+    playBookPage (folder, pageNumber) {
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
+      this.$store.commit('setActiveFolder', {
+        activeFolder: folder
+      })
+
       this.$store.commit('setActivePage', {
-        activePage: page
+        activePage: pageNumber
       })
 
       let vue = this
@@ -128,18 +132,18 @@ export const mixinSound = {
       let pagesOrdered = this.pageOrder(folder)
 
       if (myFolder && pagesOrdered.length > 0) {
-        if (page === -1) {
-          page = pagesOrdered[0]
+        if (pageNumber === -1) {
+          pageNumber = pagesOrdered[0]
         }
         let currentPageProperties
-        if (page in myFolder) {
-          currentPageProperties = myFolder[page]
+        if (pageNumber in myFolder) {
+          currentPageProperties = myFolder[pageNumber]
         }
         else {
-          currentPageProperties = myFolder.pages[page.toString()]
+          currentPageProperties = myFolder.pages[pageNumber.toString()]
         }
 
-        let offset = pagesOrdered.indexOf(page)
+        let offset = pagesOrdered.indexOf(pageNumber)
         let nextPageNumber = false
         if (offset < pagesOrdered.length) {
           nextPageNumber = pagesOrdered[offset + 1]
@@ -159,6 +163,10 @@ export const mixinSound = {
 
               // find the next page to play
               if (nextPageNumber) {
+                vue.$store.commit('setActivePage', {
+                  activePage: nextPageNumber
+                })
+
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
                 if (vue.delayPlayNext && nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
                   // cue up next page
@@ -189,7 +197,7 @@ export const mixinSound = {
         }
       }
       if (!played && myFolder && myFolder.length > 0) {
-        alert('FAIL: play book ' + folder.name + ' page ' + page)
+        alert('FAIL: play book ' + folder.name + ' page ' + pageNumber)
       }
       else if (!played) {
         if (window.jim_DEBUG_FULL) console.log('Not played: empty book')
@@ -202,8 +210,13 @@ export const mixinSound = {
       this.$store.commit('silence')
     },
     playBook (folder) {
+      this.$store.commit('setActiveFolder', {
+        activeFolder: folder
+      })
       this.setDelayPlayNext(1)
-      return this.playBookPage(folder, -1)
+      if (folder.pageOrder.length > 0) {
+        return this.playBookPage(folder, folder.pageOrder[0])
+      }
     },
     pageCount (folder) {
       let destFolders = this.folders[folder.path_lower]

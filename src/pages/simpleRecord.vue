@@ -2,7 +2,6 @@
   <div class="">
     <div class="button-stack row justify-center">
       <folderCardDisplay :folder="activeFolder">
-
       </folderCardDisplay>
       <div class="col-4 row">
         <!--<q-btn
