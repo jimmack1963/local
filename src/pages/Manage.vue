@@ -38,7 +38,7 @@
           :pageName="bulk.nextIllustration"
           :quality="0.5"
         >
-          Page {{pageName}}
+          Page {{bulk.nextIllustration}}
         </RecordCamcord>
 
       </q-card-main>
