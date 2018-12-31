@@ -131,7 +131,7 @@ export default {
         console.log(base64data)
       }
 
-      this.uploadFileBlob(recording.blob, fname, recording.size)
+      this.uploadFileBlobAudio(recording.blob, fname, recording.size)
     }
   },
   data () {

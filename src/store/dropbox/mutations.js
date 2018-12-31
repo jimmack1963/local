@@ -51,12 +51,12 @@ export function createHowl (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
+
   // TODO cache the thumbnails locally
   vue.set(state.thumbnails, payload.entry.id, payload.thumbnail)
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
-
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
@@ -70,9 +70,18 @@ export function saveThumbnail (state, payload) {
     }
   }
   else {
-
     if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', payload.entry.id)
     if (window.jim_DEBUG_VUEX) console.dir(payload)
+  }
+
+  let entry = payload.entry
+  let TOC = state._TOC[(entry.dir || entry.path_lower)]
+  if (TOC && TOC.imageOrder) {
+    vue.set(TOC.imageOrder, entry.pageNumber, payload.thumbnail)
+  }
+  else {
+    if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
+    if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
   }
 }
 
@@ -144,25 +153,25 @@ export function saveEntry (state, payload) {
             placed = true
           }
         }
+        vue.set(state.folders, entry.dir, base)
       }
       else {
         vue.set(base, entry.fname, entry)
         placed = true
       }
-
     }
   }
 
   if (!placed) {
     let folder = payload.folder || '_TOC'
-/*
+
     if (folder === '_TOC') {
       // setup default housekeeping
-      entry.pageOrder = []
-      entry.soundOrder = []
-      entry.imageOrder = []
+      vue.set(entry, 'pageOrder', [])
+      vue.set(entry, 'soundOrder', [])
+      vue.set(entry, 'imageOrder', [])
     }
-*/
+
     let key = entry.path_lower
     if (!state[folder]) {
       vue.set(state, folder, {})
@@ -242,8 +251,11 @@ export function calc (state, payload) {
   let folderName = payload.TOC.path_lower
   let contents = state.folders[folderName]
   if (contents) {
+
     let pageOrder = pageOrderProc(payload.TOC, contents)
     vue.set(state._TOC[payload.TOC.path_lower], 'pageOrder', pageOrder)
+    if (window.jim_DEBUG_FULL) console.log('Reactive: updated pageOrder for TOC', payload.TOC.path_lower)
+
     let soundOrder = []
     let imageOrder = []
 

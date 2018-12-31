@@ -63,16 +63,18 @@
     },
     methods: {
       async useImage () {
+
         this.$emit('completed')
         // let v = this
-        this.$store.commit('saveThumbnail', {
-          entry: this.activeFolder,
-          thumbnail: this.dataURL,
-        })
+        // this.$store.commit('saveThumbnail', {
+        //   entry: this.activeFolder,
+        //   thumbnail: this.dataURL,
+        // })
         if (this.dataURL && this.dataURL !== 'data:,') {
           let fileName = this.generateImageName()
 
-          await this.uploadFile(this.dataURL, fileName, this.width * this.height)
+          await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
+          this.clearPhoto()
         }
         else {
           alert('Image not available')
@@ -80,6 +82,7 @@
 
       },
       clearPhoto () {
+
         let canvas = this.$refs.canvas
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'

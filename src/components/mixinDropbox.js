@@ -24,16 +24,44 @@ export const mixinDropbox = {
       }
       return bytes.buffer
     },
-    uploadFile: async function (dataURL, fileName, size) {
+    uploadFileBlobImage: async function (dataURL, fileName, size) {
+      let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
+          let thumbnail = this._base64ToArrayBuffer(dataURL)
           try {
-
             let response = await this.$dbx.filesUpload({
               path: fileName,
-              contents: this._base64ToArrayBuffer(dataURL),
+              contents: thumbnail,
             })
 
+            response.parts = pathParse(response.path_lower)
+            response.ext = response.parts.ext.toLowerCase().replace('.', '')
+            response.dir = response.parts.dir
+            response.fname = response.parts.name
+            response['.tag'] = 'file'
+
+            v.$store.dispatch('registerFile', {
+              folder: response.dir,
+              entry: response,
+              dbx: v.$dbx,
+              calc: true,
+            })
+
+
+            let folder = v.$store.state.dropbox._TOC[response.dir]
+            if (folder) {
+              v.$store.commit('calc', {
+                TOC: folder,
+              })
+            }
+
+            v.$store.commit('saveThumbnail', {
+              entry: response,
+              thumbnail: thumbnail,
+            })
+
+            // TODO: this has .id, .path_lower and should be used
             if (window.jim_DEBUG_FULL) {
               console.log('@response')
               console.dir(response)
@@ -41,16 +69,16 @@ export const mixinDropbox = {
           }
  catch (error) {
             if (window.jim_DEBUG_FULL) {
-              console.log('@uploadFile error')
+              console.log('@uploadFileBlobImage error')
               console.dir(error)
             }
           }
         }
       }
-      else {
+ else {
         // TODO: big file upload
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
-          ' mixinDropBox.uploadFile')
+          ' mixinDropBox.uploadFileBlobImage')
         /**
          const maxBlob = 8 * 1000 * 1000; // 8Mb - Dropbox JavaScript API suggested max file / chunk size
 
@@ -98,7 +126,7 @@ export const mixinDropbox = {
          */
       }
     },
-    uploadFileBlob (blob, fileName, size) {
+    uploadFileBlobAudio (blob, fileName, size) {
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {
@@ -117,15 +145,8 @@ export const mixinDropbox = {
                 folder: response.dir,
                 entry: response,
                 dbx: v.$dbx,
-                calc: true
+                calc: true,
               })
-
-              /*
-                            v.$store.commit('saveEntry', {
-                              folder: response.dir,
-                              entry: response,
-                            })
-              */
 
               let folder = v.$store.state.dropbox._TOC[response.dir]
               if (folder) {
@@ -143,7 +164,7 @@ export const mixinDropbox = {
             .catch((error) => {
 
               if (window.jim_DEBUG_FULL) {
-                console.log('@uploadFile error')
+                console.log('@uploadFileBlobImage error')
                 console.dir(error)
               }
 
@@ -153,7 +174,7 @@ export const mixinDropbox = {
  else {
         // TODO: big file upload
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
-          ' mixinDropBox.uploadFile')
+          ' mixinDropBox.uploadFileBlobImage')
         /**
          const maxBlob = 8 * 1000 * 1000; // 8Mb - Dropbox JavaScript API suggested max file / chunk size
 

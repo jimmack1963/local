@@ -70,7 +70,7 @@
         if (this.dataURL && this.dataURL !== 'data:,') {
           let fileName = this.generateImageName()
 
-          await this.uploadFile(this.dataURL, fileName, this.width * this.height)
+          await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
 
           v.$router.push('/simpleRecord')
 
