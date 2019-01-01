@@ -18,7 +18,7 @@
 
         <q-toolbar-title>
           Play It Again, Kid
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+          <div slot="subtitle">Prepared on {{version}}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
@@ -90,13 +90,15 @@
 <script>
   import { mixinGeneral } from '../components/mixinGeneral'
 import { openURL } from 'quasar'
+  import v from '../statics/version.json'
 
 export default {
   name: 'MyLayout',
   mixins: [ mixinGeneral ],
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      version: v.version
     }
   },
   methods: {

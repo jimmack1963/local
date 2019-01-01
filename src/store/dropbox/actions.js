@@ -48,12 +48,33 @@ export const registerFile = async (context, payload) => {
       if (LocalStorage.has(entry.id)) {
         if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
-        let thumb = JSON.parse(LocalStorage.get.item(entry.id))
-
-        context.commit('saveThumbnail', {
-          entry,
-          thumbnail: thumb.src,
-        })
+        debugger
+        let thumb = false
+        let raw = LocalStorage.get.item(entry.id)
+        let rawType = typeof raw
+        switch (rawType) {
+          case 'string': {
+            try {
+              thumb = JSON.parse(raw)
+              context.commit('saveThumbnail', {
+                entry,
+                thumbnail: thumb.src,
+              })
+            }
+            catch (e) {
+              thumb = false
+            }
+            break
+          }
+          case 'object' : {
+            debugger
+            context.commit('saveThumbnail', {
+              entry,
+              thumbnail: raw,
+            })
+            break
+          }
+        }
       }
       else {
         if (window.jim_DEBUG_FULL) console.log('Get Thumbnail for ', entry.id)
