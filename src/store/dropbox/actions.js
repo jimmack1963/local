@@ -48,7 +48,6 @@ export const registerFile = async (context, payload) => {
       if (LocalStorage.has(entry.id)) {
         if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
-        debugger
         let thumb = false
         let raw = LocalStorage.get.item(entry.id)
         let rawType = typeof raw
@@ -67,7 +66,7 @@ export const registerFile = async (context, payload) => {
             break
           }
           case 'object' : {
-            debugger
+
             context.commit('saveThumbnail', {
               entry,
               thumbnail: raw,

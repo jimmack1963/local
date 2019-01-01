@@ -22,7 +22,7 @@
         v-if="folder.thumbnail"
         @click.native.stop="carousel(folder)"
       >
-        <img    :src="folder.imageOrder ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail" :alt="folder.name">
+        <img    :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail" :alt="folder.name">
         <q-card-title slot="overlay" >
           {{folder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->

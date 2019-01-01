@@ -1,15 +1,15 @@
 import vue from 'vue'
 
 export function playHowl (state, payload) {
-  let killing = state.playing.pop()
-  while (killing) {
-    killing.howl.stop()
-    killing = state.playing.pop()
-  }
+  let killLength = state.playing.length
 
   state.playing.push(payload.page)
   payload.page.howl.play()
   state.mostRecentPage = payload.page.pageNumber
+
+  for (let killing = 0; killing < killLength; killing++) {
+    state.playing.shift()
+  }
 }
 
 export function playHowlAlso (state, payload) {
@@ -26,14 +26,9 @@ export function silence (state) {
 }
 
 export function endHowlPlay (state, payload) {
-  // let page = payload.page
-  // get it off of playing - if only one playing, let's guess it's me...
-  if (state.playing.length === 1) {
-    state.playing.pop()
-  }
-  else {
-    // iterate to remove, or just leave it there for now.
-  }
+  state.playing.forEach((howl) => {
+    howl.howl.stop()
+  })
 }
 
 export function delayPlayNext (state, ms) {

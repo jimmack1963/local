@@ -28,6 +28,9 @@
         width: 302,
         height: 0,
         streaming: false,
+        audioInputSelect: [],
+        audioOutputSelect: [],
+        videoSelect: []
       }
     },
     mounted () {
@@ -37,7 +40,51 @@
 
       let video = this.$refs.video
 
+      function gotDevices (deviceInfos) {
+        for (let i = 0; i !== deviceInfos.length; ++i) {
+          let deviceInfo = deviceInfos[i]
+          let option = {}
+          option.value = deviceInfo.deviceId
+          if (deviceInfo.kind === 'audioinput') {
+            option.text = deviceInfo.label ||
+              'Microphone ' + (vue.audioInputSelect.length + 1)
+            vue.audioInputSelect.push(option)
+          }
+ else if (deviceInfo.kind === 'audiooutput') {
+            option.text = deviceInfo.label || 'Speaker ' +
+              (vue.audioOutputSelect.length + 1)
+            vue.audioOutputSelect.push(option)
+          }
+ else if (deviceInfo.kind === 'videoinput') {
+            option.text = deviceInfo.label || 'Camera ' +
+              (vue.videoSelect.length + 1)
+            vue.videoSelect.push(option)
+          }
+        }
+        if (window.jim_DEBUG_FULL) {
+          console.log('gotDevices')
+          console.dir([vue.audioInputSelect, vue.audioOutputSelect, vue.videoSelect])
+          }
+      }
+
+      function errorCallback (e) {
+        if (window.jim_DEBUG_FULL) {
+          console.log('e')
+          console.dir(e)
+          }
+
+      }
+
+
+      navigator.mediaDevices.enumerateDevices()
+        .then(gotDevices)
+        .catch(errorCallback)
+
+      /*
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
+      https://github.com/JodusNodus/react-qr-reader/issues/37
+      */
+      navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}, audio: false})
         .then(function (stream) {
           video.srcObject = stream
           video.play()

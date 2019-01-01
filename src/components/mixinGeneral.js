@@ -30,9 +30,11 @@ export const mixinGeneral = {
       },
       set: function (value) {
         if (window.jim_DEBUG_FULL) console.log('currentSlide!!')
-        this.$store.commit('activeScene', {
-          activeScene: value,
-        })
+        if (this.activeScene !== value) {
+          this.$store.commit('activeScene', {
+            activeScene: value,
+          })
+        }
       },
     },
     page () {

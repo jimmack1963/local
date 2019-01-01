@@ -177,6 +177,7 @@ export const mixinSound = {
                   }, vue.delayPlayNext)
                 }
                 else {
+                  vue.$store.commit('silence')
                   if (window.jim_DEBUG_FULL) {
                     console.log(vue.delayPlayNext
                       ? 'No mp3 in ' + nextPageNumber
