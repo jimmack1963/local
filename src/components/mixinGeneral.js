@@ -6,7 +6,7 @@ export const mixinGeneral = {
       bookTitle: '',
       myPages: [],
       myImages: [], // TODO: should be in VUEX as TOC element
-      sourcePages: {} // TODO: maybe should be a getter in VUEX
+      sourcePages: {}, // TODO: maybe should be a getter in VUEX
     }
   },
   computed: {
@@ -31,9 +31,9 @@ export const mixinGeneral = {
       set: function (value) {
         if (window.jim_DEBUG_FULL) console.log('currentSlide!!')
         this.$store.commit('activeScene', {
-          activeScene: value
+          activeScene: value,
         })
-      }
+      },
     },
     page () {
       if (!this.activeFolder) { return 0 }
@@ -43,10 +43,10 @@ export const mixinGeneral = {
         if (isNaN(pnum)) return this.activeFolder.pageOrder.length
         return pnum + 1
       }
-      else {
+ else {
         return 0
       }
-    }
+    },
 
   },
   methods: {
@@ -54,7 +54,7 @@ export const mixinGeneral = {
       // alert('Are you sure about ' + bookTitle + '?')
       // createFolder
       let v = this
-      this.$dbx.filesCreateFolderV2( {path: '/' + bookTitle})
+      this.$dbx.filesCreateFolderV2({path: '/' + bookTitle})
         .then((result) => {
           let entry = result.metadata
 
@@ -62,10 +62,10 @@ export const mixinGeneral = {
             entry,
             folder: '/',
             dbx: v.$dbx,
-            calc: true
+            calc: true,
           })
           v.$store.commit('setActiveFolder', {
-            activeFolder: entry
+            activeFolder: entry,
           })
           v.$router.push('/selfie')
 
@@ -75,6 +75,7 @@ export const mixinGeneral = {
     },
     logout () {
       this.$q.localStorage.set('access_token', false)
+      this.purgeLocalStorageFromDropbox()
       this.$store.commit('dropboxCredentials', {
         access_token: false,
         token_type: false,
@@ -86,7 +87,7 @@ export const mixinGeneral = {
       if (aFolder.pageOrder) {
         return aFolder.pageOrder
       }
-      else {
+ else {
         return []
       }
     },
@@ -94,7 +95,7 @@ export const mixinGeneral = {
       if (aFolder.imageOrder) {
         return aFolder.imageOrder
       }
-      else {
+ else {
         return []
       }
     },
@@ -102,7 +103,7 @@ export const mixinGeneral = {
       if (aFolder.soundOrder) {
         return aFolder.soundOrder
       }
-      else {
+ else {
         return []
       }
     },
@@ -119,7 +120,7 @@ export const mixinGeneral = {
         if (collection.jpg.length > 0) {
           possible = collection.jpg[0].thumbnail
         }
-        else if (collection.png.length > 0) {
+ else if (collection.png.length > 0) {
           possible = collection.png[0].thumbnail
         }
       }
@@ -129,6 +130,20 @@ export const mixinGeneral = {
       return possible
     },
 
+    purgeLocalStorageFromDropbox () {
+      let all = this.$q.localStorage.get.all()
+      Object.keys(all).forEach(key => {
+        if (key.startsWith('id:')) {
+          this.$q.localStorage.remove(key)
+        }
+      })
+
+      all = this.$q.localStorage.get.all()
+      if (window.jim_DEBUG_FULL) {
+        console.log('all')
+        console.dir(all)
+        }
+    },
 
     readDropboxFolder () {
       let self = this
@@ -138,13 +153,13 @@ export const mixinGeneral = {
       dbx.filesListFolder({
         path: this.folder,
         include_media_info: true,
-        recursive: true
+        recursive: true,
       })
         .then(function (response) {
           self.$store.dispatch('saveLevel', {
             folder: self.folder,
             response,
-            dbx: self.$dbx
+            dbx: self.$dbx,
           })
 
           self.isLoading = false
@@ -162,24 +177,24 @@ export const mixinGeneral = {
     },
     selfie (entry) {
       this.$store.commit('setActiveFolder', {
-        activeFolder: entry
+        activeFolder: entry,
       })
       this.$router.push('/selfie')
     },
     manage (entry) {
       this.$store.commit('setActiveFolder', {
-        activeFolder: entry
+        activeFolder: entry,
       })
       this.$router.push('/manage')
     },
     carousel (entry) {
       this.$store.commit('setActiveFolder', {
-        activeFolder: entry
+        activeFolder: entry,
       })
       if (this.pageCount(entry) > 0) {
         this.$router.push('/carousel')
       }
-      else {
+ else {
         // I don't know why this is here, but it interferes with taking multiple images in a row
         // this.$router.push('/simpleRecord')
       }
@@ -188,5 +203,5 @@ export const mixinGeneral = {
       this.$store.commit('delayPlayNext', seconds * 1000)
       this.$store.dispatch('recalc')
     },
-  }
+  },
 }
