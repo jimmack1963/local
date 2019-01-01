@@ -135,7 +135,7 @@
       <q-field
         class="col-xs-12 q-mx-sm"
     label="Create a book titled:">
-    <q-input autofocus id="bookTitle" v-model="bookTitle"></q-input>
+    <q-input id="bookTitle" v-model="bookTitle"></q-input>
     </q-field>
       <!-- TODO: should this be a card for consistency? -->
     <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the book and your kid

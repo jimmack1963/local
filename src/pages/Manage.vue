@@ -26,20 +26,7 @@
 
           </q-input>
         </q-field>
-        <RecordAudio
-          v-if="recording['bulk']"
-          v-on:completed="completedBulkNarration"
-          :pageName="bulk.nextNarration"
-        >
-        </RecordAudio>
-        <RecordCamcord
-          v-if="illustrating['bulk']"
-          v-on:completed="completedBulkIllustration"
-          :pageName="bulk.nextIllustration"
-          :quality="0.5"
-        >
-          Page {{bulk.nextIllustration}}
-        </RecordCamcord>
+
 
       </q-card-main>
       <q-card-actions vertical align="center">
@@ -59,6 +46,24 @@
           @click="illustrate(activeFolder, 'bulk')"
         ></q-btn>
       </q-card-actions>
+      <q-card-main>
+
+        <RecordAudio
+          v-if="recording['bulk']"
+          v-on:completed="completedBulkNarration"
+          :pageName="bulk.nextNarration"
+        >
+        </RecordAudio>
+        <RecordCamcord
+          v-if="illustrating['bulk']"
+          v-on:completed="completedBulkIllustration"
+          :pageName="bulk.nextIllustration"
+          :quality="0.5"
+        >
+          Page {{bulk.nextIllustration}}
+        </RecordCamcord>
+
+      </q-card-main>
     </q-card>
 
     <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
@@ -76,21 +81,6 @@
         Page {{pageName}} (No Image)
         <!--<span slot="subtitle"></span>-->
       </q-card-title>
-
-      <q-card-main>
-        <RecordAudio
-          v-if="recording[pageName]"
-          :pageName="pageName"
-        >
-        </RecordAudio>
-        <RecordCamcord
-          v-if="illustrating[pageName]"
-          :pageName="pageName"
-          :quality="0.5"
-        >
-          Page {{pageName}}
-        </RecordCamcord>
-      </q-card-main>
 
       <q-card-actions vertical align="center">
         <q-btn
@@ -119,6 +109,23 @@
         ></q-btn>
       </q-card-actions>
 
+      <q-card-main>
+        <RecordAudio
+          v-if="recording[pageName]"
+          :pageName="pageName"
+          :start="true"
+          :autoclose="true"
+          v-on:autoclose="narrate(activeFolder, pageName)"
+        >
+        </RecordAudio>
+        <RecordCamcord
+          v-if="illustrating[pageName]"
+          :pageName="pageName"
+          :quality="0.5"
+        >
+          Page {{pageName}}
+        </RecordCamcord>
+      </q-card-main>
     </q-card>
 
 
@@ -166,15 +173,22 @@
         this.bulk.nextIllustration += 1
       },
       narrate (folder, pageName) {
+        debugger
         // only one at a time
         let toggled = {}
-        toggled[pageName] = true
+        if (!this.recording[pageName]) {
+          toggled[pageName] = !(toggled[pageName])
+        }
         this.$set(this, 'recording', toggled)
       },
       illustrate (folder, pageName) {
         // only one at a time
         let toggled = {}
-        toggled[pageName] = true
+        if (!this.illustrating[pageName]) {
+          toggled[pageName] = !(toggled[pageName])
+          debugger
+          this.$q.fullscreen.request()
+        }
         this.$set(this, 'illustrating', toggled)
       },
     },

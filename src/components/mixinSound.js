@@ -50,6 +50,7 @@ export const mixinSound = {
       // this.$router.push('/simpleRecord')
     },
     doAction (ps) {
+      debugger
       if (this.micAvailable) {
         this.startRecording()
         this.$store.commit('setMicRecording')
@@ -58,8 +59,15 @@ export const mixinSound = {
         if (window.jim_DEBUG_FULL) console.log('start recording emitted')
       }
       else if (this.micRecording) {
+        debugger
         this.stopRecording()
         this.$store.commit('setMicSaving')
+
+        debugger
+        if (this.autoclose) {
+          this.$emit('autoclose')
+        }
+        debugger
 
         // this.$root.$emit('stopRecording')
         if (window.jim_DEBUG_FULL) console.log('stop recording emitted.')

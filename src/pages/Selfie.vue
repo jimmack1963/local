@@ -3,60 +3,49 @@
     Selfie for "{{activeFolder.name}}"
     <br/>
     <div class="camera">
-      <video ref="video" id="video">Video stream not available.</video>
+      <video v-show="!preview" ref="video" id="video">Video stream not available.</video>
     </div>
+    <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
     <br/>
-      <q-btn color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn :disabled="!dataURL" color="secondary" @click="useImage">Use as selfie</q-btn>
+    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
+    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
+    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
     <br/>
-
-    <canvas ref="canvas" id="canvas"></canvas>
   </q-page>
 </template>
 
 <script>
   import { mixinGeneral } from '../components/mixinGeneral'
   import { mixinDropbox } from '../components/mixinDropbox'
+  import { mixinIllustrate } from '../components/mixinIllustrate'
 
   export default {
     name: 'selfie',
-    mixins: [ mixinGeneral, mixinDropbox ],
+    mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
       return {
-        dataURL: false,
-        width: 302,
-        height: 0,
-        streaming: false,
+
       }
     },
     mounted () {
-      let vue = this
+      debugger
       window.jim = window.jim || {}
       window.jim.selfie = this
+      let v = this
 
-      let video = this.$refs.video
+      this.videoRef = this.$refs.video
 
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
         .then(function (stream) {
-          video.srcObject = stream
-          video.play()
+          debugger
+          v.videoRef.srcObject = stream
+          v.videoRef.play()
         })
         .catch(function (err) {
           console.log('An error occured! ' + err)
         })
 
-      video.addEventListener('canplay', function (ev) {
-        let canvas = vue.$refs.canvas
-        if (!vue.streaming) {
-          vue.height = video.videoHeight / (video.videoWidth / vue.width)
-          video.setAttribute('width', vue.width)
-          video.setAttribute('height', vue.height)
-          canvas.setAttribute('width', vue.width)
-          canvas.setAttribute('vue.height', vue.height)
-
-          vue.streaming = true
-        }
-      }, false)
+      this.videoRef.addEventListener('canplay', this.captureCanvas, false)
 
       this.clearPhoto()
     },
@@ -71,7 +60,7 @@
           let fileName = this.generateImageName()
 
           await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
-
+          this.clearPhoto()
           v.$router.push('/simpleRecord')
 
         }
@@ -80,30 +69,9 @@
         }
 
       },
-      clearPhoto () {
-        let canvas = this.$refs.canvas
-        let context = canvas.getContext('2d')
-        context.fillStyle = '#AAA'
-        context.fillRect(0, 0, canvas.width, canvas.height)
-      },
-
-      takePicture () {
-        let canvas = this.$refs.canvas
-        let context = canvas.getContext('2d')
-        let video = this.$refs.video
-        if (this.width && this.height) {
-          canvas.width = this.width
-          canvas.height = this.height
-          context.drawImage(video, 0, 0, this.width, this.height)
-
-          this.dataURL = canvas.toDataURL('image/jpeg', 0.95)
-        }
-        else {
-          this.clearPhoto()
-        }
-      },
 
       generateImageName () {
+        debugger
         return this.activeFolder.path_display + '/' + 'book.cover.png'
       },
 

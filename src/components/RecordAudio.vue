@@ -32,7 +32,7 @@
     name: 'recordaudio',
     components: {folderCardDisplay},
     mixins: [mixinGeneral, mixinDropbox, mixinSound],
-    props: ['pageName'],
+    props: ['pageName', 'start', 'autoclose'],
     methods: {
       startRecording () {
         this.recorderSrvc.config.stopTracksAndCloseCtxWhenFinished = this.cleanupWhenFinished
@@ -103,8 +103,12 @@
       },
     },
     mounted () {
+      debugger
       window.jim = window.jim || {}
       window.jim.recordaudio = this
+      if (this.start) {
+        this.doAction(false)
+      }
     },
     filters: {
       fileSizeToHumanSize (val) {
