@@ -174,6 +174,7 @@ export const mixinGeneral = {
         })
     },
     home () {
+      this.$q.fullscreen.request()
       this.$store.commit('silence')
       this.$router.push('/')
     },
@@ -185,12 +186,14 @@ export const mixinGeneral = {
       this.$router.push('/selfie')
     },
     manage (entry) {
+      this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })
       this.$router.push('/manage')
     },
     carousel (entry) {
+      this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })

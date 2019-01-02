@@ -43,6 +43,7 @@ export const mixinSound = {
   },
   methods: {
     record (folder) {
+      this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: folder
       })
@@ -118,23 +119,32 @@ export const mixinSound = {
       })
 
       let vue = this
-      animate.start({
-        name: 'page-for-attention',
-        from: 30,
-        to: 100,
-        duration: 1000,
-        apply (pos) {
-          if (vue.$refs.playingPage) {
-            vue.$refs.playingPage.forEach( r => {
-              r.style.left = `${100 - pos}%`
+      debugger
+      if (!folder.imageOrder[this.activeScene]) {
+        animate.start({
+          name: 'page-for-attention',
+          from: 30,
+          to: 100,
+          duration: 1000,
+          apply (pos) {
+            if (vue.$refs.playingPage) {
+              vue.$refs.playingPage.forEach(r => {
+                r.style.left = `${100 - pos}%`
+                // r.style.fontsize = `${pos}px`
+                // r.style.top = `${pos}px`
+              })
+            }
+          },
+          done () {
+            vue.$refs.playingPage.forEach(r => {
+              r.style.left = '-2000px'
               // r.style.fontsize = `${pos}px`
               // r.style.top = `${pos}px`
             })
+
           }
-        },
-        done () {
-        }
-      })
+        })
+      }
       let played = false
       let myFolder = this.folders[folder.path_lower]
       let pagesOrdered = this.pageOrder(folder)
