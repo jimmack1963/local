@@ -25,7 +25,6 @@ export const mixinIllustrate = {
   },
   methods: {
     captureCanvas (ev) {
-      debugger
       let canvas = this.$refs.canvas
       if (!this.streaming) {
         this.height = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.width)
@@ -66,6 +65,7 @@ export const mixinIllustrate = {
     },
 
     takePicture () {
+      debugger
       this.preview = true
       let canvas = this.$refs.canvas
       let context = canvas.getContext('2d')
@@ -83,7 +83,6 @@ export const mixinIllustrate = {
     },
 
     generateImageName () {
-      debugger
       let pageFileName
       if (/^[0-9]+$/.test(this.pageName)) {
         // numeric page numbers start with 'p'

@@ -185,7 +185,7 @@
         this.bulk.nextIllustration += 1
       },
       narrate (folder, pageName) {
-        debugger
+
         // only one at a time
         let toggled = {}
         if (!this.recording[pageName]) {

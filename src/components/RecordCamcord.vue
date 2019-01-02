@@ -1,16 +1,16 @@
 <template>
   <q-page padding>
     <slot></slot>
-    <br/>
+    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
+    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
+    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
+
     <div class="camera">
       <video v-show="!preview" ref="video" id="video">Video stream not available.</video>
     </div>
       <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
-    <br/>
-    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
-    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
-    <br/>
+
+
 
   </q-page>
 </template>
@@ -29,7 +29,7 @@
       }
     },
     mounted () {
-      debugger
+
       let vue = this
       window.jim = window.jim || {}
       window.jim.recordcamcord = this

@@ -103,7 +103,7 @@
       },
     },
     mounted () {
-      debugger
+
       window.jim = window.jim || {}
       window.jim.recordaudio = this
       if (this.start) {

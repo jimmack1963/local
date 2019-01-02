@@ -26,7 +26,7 @@
       }
     },
     mounted () {
-      debugger
+
       window.jim = window.jim || {}
       window.jim.selfie = this
       let v = this
@@ -35,7 +35,7 @@
 
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
         .then(function (stream) {
-          debugger
+
           v.videoRef.srcObject = stream
           v.videoRef.play()
         })
@@ -69,7 +69,7 @@
       },
 
       generateImageName () {
-        debugger
+
         return this.activeFolder.path_display + '/' + 'book.cover.png'
       },
 
