@@ -178,6 +178,7 @@ export const mixinGeneral = {
       this.$router.push('/')
     },
     selfie (entry) {
+      this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })

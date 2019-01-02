@@ -11,6 +11,31 @@ export const mixinDropbox = {
     ...mapGetters(['TOC', 'activeFolder']),
   },
   methods: {
+    renameFolder (folder) {
+      // TODO make renameFolder happen in VUEX
+      this.$dbx.filesMoveV2({
+        from_path: folder.path_lower,
+        to_path: '/jim'
+      })
+    },
+    deleteFolder (folder) {
+      // TODO make deleteFolder happen in VUEX
+      let self = this
+      this.$q.dialog({
+        title: 'Delete ' + folder.path_lower,
+        message: `Will delete ${folder.path_lower} from your dropbox folder`,
+        ok: 'Delete',
+        cancel: 'Keep'
+        })
+        .then( function () {
+          self.$dbx.filesDeleteV2({
+            path: folder.path_lower
+          })
+            .then( function () {
+              self.$router.push('/')
+            })
+        })
+    },
     _base64ToArrayBuffer (base64) {
       // base64 = base64.split('data:image/png;base64,').join('')
 

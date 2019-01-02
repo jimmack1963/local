@@ -7,7 +7,6 @@
     <h3 class="col-12">{{activeFolder.name}}</h3>
     <q-card class="q-ma-sm">
       <q-card-main>
-        <h4>Quick Recording New Pages</h4>
         <q-field
           label="Next Illustration:"
         >
@@ -23,7 +22,6 @@
           <q-input
             v-model="bulk.nextNarration"
           >
-
           </q-input>
         </q-field>
 
@@ -34,7 +32,7 @@
           flat
           icon="mic"
           color="primary"
-          label="narrate"
+          label="narrate multiple new pages"
           @click="narrate(activeFolder, 'bulk')"
         ></q-btn>
 
@@ -42,8 +40,22 @@
           flat
           icon="add a photo"
           color="primary"
-          label="Illustrate"
+          label="Illustrate multiple new pages"
           @click="illustrate(activeFolder, 'bulk')"
+        ></q-btn>
+
+        <q-btn
+          flat
+          icon="label"
+          label="Rename"
+          @click="renameFolder(activeFolder)"
+        ></q-btn>
+
+        <q-btn
+          flat
+          icon="delete"
+          label="Delete"
+          @click="deleteFolder(activeFolder)"
         ></q-btn>
       </q-card-actions>
       <q-card-main>
@@ -186,7 +198,6 @@
         let toggled = {}
         if (!this.illustrating[pageName]) {
           toggled[pageName] = !(toggled[pageName])
-          debugger
           this.$q.fullscreen.request()
         }
         this.$set(this, 'illustrating', toggled)
