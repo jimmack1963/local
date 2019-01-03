@@ -76,6 +76,7 @@ export const mixinGeneral = {
       // redirect to selfie
     },
     logout () {
+      this.leftDrawerOpen = false
       this.$q.localStorage.set('access_token', false)
       this.purgeLocalStorageFromDropbox()
       this.$store.commit('dropboxCredentials', {
@@ -147,6 +148,7 @@ export const mixinGeneral = {
         }
     },
     readDropboxFolder () {
+      this.leftDrawerOpen = false
       this.$store.commit('clearData')
       let self = this
       let dbx = this.$dbx
@@ -206,6 +208,7 @@ export const mixinGeneral = {
       }
     },
     setDelayPlayNext (seconds) {
+      this.leftDrawerOpen = false
       this.$store.commit('delayPlayNext', seconds * 1000)
       this.$store.dispatch('recalc')
     },
