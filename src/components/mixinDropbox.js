@@ -12,11 +12,15 @@ export const mixinDropbox = {
   },
   methods: {
     renameFolder (folder) {
+      let v = this
       // TODO make renameFolder happen in VUEX
       this.$dbx.filesMoveV2({
         from_path: folder.path_lower,
         to_path: '/jim'
+      }).then(() => {
+        v.$root.$emit('reload')
       })
+
     },
     deleteFolder (folder) {
       // TODO make deleteFolder happen in VUEX
@@ -32,6 +36,7 @@ export const mixinDropbox = {
             path: folder.path_lower
           })
             .then( function () {
+              self.$root.$emit('reload')
               self.$router.push('/')
             })
         })

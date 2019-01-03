@@ -103,6 +103,10 @@ export default {
   },
   methods: {
     openURL,
+  },
+  mounted: function () {
+    this.$root.$on('reload', this.readDropboxFolder)
+    // $root.$emit('reload')
   }
 }
 </script>

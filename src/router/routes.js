@@ -1,5 +1,15 @@
 import multiguard from 'vue-router-multiguard'
 import Store from '../store'
+
+import MyLayout from '../layouts/MyLayout.vue'
+import Main from '../pages/Main.vue'
+import Selfie from '../pages/Selfie.vue'
+import Carousel from '../pages/Carousel.vue'
+import simpleRecord from '../pages/simpleRecord.vue'
+import Manage from '../pages/Manage.vue'
+import Error404 from '../pages/Error404.vue'
+
+
 let store = Store()
 
 const guardActiveFolder = (to, from, next) => {
@@ -15,47 +25,47 @@ const guardActiveFolder = (to, from, next) => {
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Main.vue') }
+      { path: '', component: Main }
     ]
   },
   {
     path: '/auth',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Main.vue') }
+      { path: '', component: Main }
     ]
   },
   {
     path: '/selfie',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Selfie.vue') }
+      { path: '', component: Selfie }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/carousel',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Carousel.vue') }
+      { path: '', component: Carousel }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/simpleRecord',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/simpleRecord.vue') }
+      { path: '', component: simpleRecord }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
     path: '/manage',
-    component: () => import('layouts/MyLayout.vue'),
+    component: MyLayout,
     children: [
-      { path: '', component: () => import('pages/Manage.vue') }
+      { path: '', component: Manage }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   }
@@ -66,7 +76,7 @@ const routes = [
 if (process.env.MODE !== 'ssr') {
   routes.push({
     path: '*',
-    component: () => import('pages/Error404.vue')
+    component: Error404
   })
 }
 

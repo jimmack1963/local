@@ -65,7 +65,11 @@ export const mixinGeneral = {
             folder: '/',
             dbx: v.$dbx,
             calc: true,
-          })
+          }).then(() => {
+              v.$root.$emit('reload')
+            }
+
+          )
           v.$store.commit('setActiveFolder', {
             activeFolder: entry,
           })
