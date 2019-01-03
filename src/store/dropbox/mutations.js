@@ -281,3 +281,12 @@ export function calc (state, payload) {
 
   }
 }
+
+export function clearData (state) {
+  state._TOC = {}
+  state.activeFolder = false
+  state.folders = {}
+  state.thumbnails = {}
+  state.activeScene = false
+  state.ids = {}
+}

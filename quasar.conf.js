@@ -84,7 +84,10 @@ module.exports = function (ctx) {
         'QItemSide'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'TouchSwipe',
+        'TouchPan',
+        'TouchHold'
       ],
       // Quasar plugins
       plugins: [

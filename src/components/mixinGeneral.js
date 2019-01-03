@@ -146,14 +146,14 @@ export const mixinGeneral = {
         console.dir(all)
         }
     },
-
     readDropboxFolder () {
+      this.$store.commit('clearData')
       let self = this
       let dbx = this.$dbx
       // /PlayItAgainKid/book1
       // TODO: if .has_more call /continue
       dbx.filesListFolder({
-        path: this.folder,
+        path: this.folder || '',
         include_media_info: true,
         recursive: true,
       })

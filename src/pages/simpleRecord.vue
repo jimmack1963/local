@@ -1,14 +1,18 @@
 <template>
-  <q-page padding>
-    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
+  <q-page
+    v-touch-swipe="swipeHandler"
+
+    >
+    <div  >
+<!--    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
     <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
-    <div class="camera">
-      <video v-show="!preview" ref="video" id="video">Video stream not available.</video>
+    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>-->
+    <div class="camera"   >
+      <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
     </div>
     <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
 
-
+    </div>
   </q-page>
 </template>
 
@@ -17,6 +21,11 @@
   import { mixinDropbox } from '../components/mixinDropbox'
   import { mixinIllustrate } from '../components/mixinIllustrate'
 
+  /*
+    v-touch-swipe="swipeHandler"
+    v-touch-hold.prevent="touchHandler"
+    @click.native="touchHandler"
+   */
   export default {
     name: 'simpleRecord',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
