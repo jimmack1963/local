@@ -108,6 +108,52 @@ export const mixinSound = {
         this.playBook(folder)
       }
     },
+    deleteBookSound (TOC, pageNumber) {
+      debugger
+      this.$store.dispatch('removeEntry', {
+        TOC,
+        pageNumber,
+        family: 'mp3',
+        dbx: this.$dbx
+      })
+      /*
+      let self = this
+      let itemGroup
+      let contents = TOC.contents
+      if (pageNumber in contents) {
+        itemGroup = contents[pageNumber]
+      }
+      else {
+        itemGroup = contents.pages[pageNumber]
+      }
+      if (itemGroup) {
+        let entry = itemGroup.mp3.find((recording) => {
+          // TODO: selecting the sound must be more precise
+          return recording.pageNumber === pageNumber
+        })
+        self.$dbx.filesDeleteV2({
+          path: entry.path_lower
+        })
+          .then( function () {
+            // self.$root.$emit('reload')
+
+            // don't change location
+            // self.$router.push('/')
+          })
+      }
+      else {
+       if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
+      }
+*/ },
+    deleteBookImage (TOC, pageNumber) {
+      debugger
+      this.$store.dispatch('removeEntry', {
+        TOC,
+        pageNumber,
+        family: 'png',
+        dbx: this.$dbx
+      })
+    },
     playBookPage (folder, pageNumber) {
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
       this.$store.commit('setActiveFolder', {
@@ -119,7 +165,7 @@ export const mixinSound = {
       })
 
       let vue = this
-      debugger
+
       if (!folder.imageOrder[this.activeScene]) {
         animate.start({
           name: 'page-for-attention',

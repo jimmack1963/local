@@ -29,33 +29,33 @@
       </q-card-main>
       <q-card-actions vertical align="center">
         <q-btn
+          label="narrate multiple new pages"
+          @click="narrate(activeFolder, 'bulk')"
           flat
           icon="mic"
           color="primary"
-          label="narrate multiple new pages"
-          @click="narrate(activeFolder, 'bulk')"
         ></q-btn>
 
         <q-btn
+          label="Illustrate multiple new pages"
+          @click="illustrate(activeFolder, 'bulk')"
           flat
           icon="add a photo"
           color="primary"
-          label="Illustrate multiple new pages"
-          @click="illustrate(activeFolder, 'bulk')"
         ></q-btn>
 
         <q-btn
-          flat
-          icon="label"
           label="Rename"
           @click="renameFolder(activeFolder)"
+          flat
+          icon="label"
         ></q-btn>
 
         <q-btn
-          flat
-          icon="delete"
           label="Delete"
           @click="deleteFolder(activeFolder)"
+          flat
+          icon="delete"
         ></q-btn>
       </q-card-actions>
       <q-card-main>
@@ -96,28 +96,47 @@
 
       <q-card-actions vertical align="center">
         <q-btn
+          label="narrate"
+          @click="narrate(activeFolder, pageName)"
+          v-if="!activeFolder.soundOrder[offset]"
           flat
           icon="mic"
           color="primary"
-          label="narrate"
-          @click="narrate(activeFolder, pageName)"
         ></q-btn>
 
         <q-btn
+          label="play"
+          @click="setDelayPlayNext(0); playBookPage(activeFolder, pageName)"
           v-if="activeFolder.soundOrder[offset]"
           flat
           icon="play arrow"
           color="primary"
-          label="play"
-          @click="setDelayPlayNext(0); playBookPage(activeFolder, pageName)"
         ></q-btn>
 
         <q-btn
+          label="erase recording"
+          @click="deleteBookSound(activeFolder, pageName)"
+          v-if="activeFolder.soundOrder[offset]"
+          flat
+          icon="delete"
+          color="primary"
+        ></q-btn>
+
+        <q-btn
+          label="Illustrate"
+          @click="illustrate(activeFolder, pageName)"
+          v-if="!activeFolder.imageOrder[offset]"
           flat
           icon="add a photo"
           color="primary"
-          label="Illustrate"
-          @click="illustrate(activeFolder, pageName)"
+        ></q-btn>
+        <q-btn
+          label="erase image"
+          @click="deleteBookImage(activeFolder, pageName)"
+          v-if="activeFolder.imageOrder[offset]"
+          flat
+          icon="delete"
+          color="primary"
         ></q-btn>
       </q-card-actions>
 

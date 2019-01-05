@@ -97,7 +97,7 @@ export const mixinIllustrate = {
     },
 
     takePicture () {
-      debugger
+
       this.preview = true
       let canvas = this.$refs.canvas
       let context = canvas.getContext('2d')

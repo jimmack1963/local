@@ -1,3 +1,5 @@
+import assert from 'assert'
+
 const pathParse = require('path-parse')
 import { LocalStorage } from 'quasar'
 
@@ -184,4 +186,77 @@ export const recalc = (context) => {
       TOC: folder,
     })
   }
+}
+
+export const removeEntry = async (context, payload) => {
+  /*
+  TODO: make this work for a scene not a page
+   */
+  debugger
+  // let self = this
+  let TOC = payload.TOC
+  let family = payload.family
+  let pageNumber = payload.pageNumber
+  let dbx = payload.dbx
+  let scene = TOC.pageOrder.indexOf(pageNumber)
+  if (!scene) { TOC.pageOrder.indexOf(pageNumber.toString()) }
+  assert(scene >= 0, 'Unable to find scene for page ' + pageNumber)
+  let base
+  // let familyEmpty = false
+  let contents = TOC.contents
+  if (pageNumber in contents) {
+    base = contents[pageNumber]
+  }
+  else {
+    base = contents.pages[pageNumber]
+  }
+  if (base) {
+    let offset = false
+    let entry = false
+    let familyLength = base[family].length
+    if (familyLength === 1) {
+      offset = 0
+      entry = base[family][0]
+      // familyEmpty = true
+    }
+    else {
+      // familyEmpty = false
+      for (let ctr = 0; ctr < familyLength; ctr++) {
+        if (base[family][ctr].pageNumber === pageNumber) {
+          entry = base[family][ctr]
+          offset = ctr
+        }
+      }
+    }
+    base[family].splice(offset, 1) // deleted family
+
+    dbx.filesDeleteV2({
+      path: entry.path_lower,
+    })
+      .then(function () {
+        context.commit('calc', {
+          TOC,
+        })
+      })
+
+    /*
+        if (entry) {
+          // if (familyEmpty) {
+           // does this make the whole page go away?
+            if (base.jpg.length === 0 && base.mp3.length === 0 && base.png.length === 0) {
+              // TODO: the page is empty!
+            }
+          }
+          else {
+            // remove references
+
+            }      // remember TOC.sound index
+          // remember TOC.ids
+        // remove all links to this entry
+    */
+  }
+  else {
+    if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
+  }
+
 }

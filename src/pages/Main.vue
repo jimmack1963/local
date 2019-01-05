@@ -130,44 +130,24 @@
       </q-card-actions>
     </q-card>
 
-    <div v-if="access_token">
+    <!--<div v-if="access_token">
 
       <q-field
         class="col-xs-12 q-mx-sm"
     label="Create a book titled:">
     <q-input id="bookTitle" v-model="bookTitle"></q-input>
     </q-field>
-      <!-- TODO: should this be a card for consistency? -->
+      &lt;!&ndash; TODO: should this be a card for consistency? &ndash;&gt;
     <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the book and your kid
     </q-btn>
-    </div>
+    </div>-->
 
-<!--    <q-input
-      id="folder"
-      v-model="folder"
-      autofocus
-      placeholder="folder"
-    ></q-input>
 
-    <q-btn @click="readDropboxFolder">Get</q-btn>
-    -->
 
   </q-page>
 </template>
 
 <style>
-  /*
-  .pageIndicatorLeave {
-    font-size: 1em;
-    font-weight: bolder;
-    position: absolute;
-    top: 40%;
-    height: 100%;
-    width: 100%;
-    z-index: 100;
-  }
-  */
-
   .pageIndicatorStart {
     font-size: 4em;
     /*font-weight: bolder;*/

@@ -7,7 +7,7 @@ export function saveTempLink (state, payload) {
     vue.set(which, 'link', payload.response.link)
     vue.set(which, 'linkTime', new Date())
   }
-  else {
+ else {
     if (window.jim_DEBUG_VUEX) console.log('Fail save templink: ')
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
@@ -43,7 +43,7 @@ export function createHowl (state, payload) {
     })
     // vue.set(which, 'metadata', payload.response.metadata)
   }
-  else {
+ else {
 
     if (window.jim_DEBUG_VUEX) console.log('Fail create howl: ')
     if (window.jim_DEBUG_VUEX) console.dir(payload)
@@ -69,7 +69,7 @@ export function saveThumbnail (state, payload) {
       }
     }
   }
-  else {
+ else {
     if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', payload.entry.id)
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
@@ -79,7 +79,7 @@ export function saveThumbnail (state, payload) {
   if (TOC && TOC.imageOrder) {
     vue.set(TOC.imageOrder, entry.pageNumber, payload.thumbnail)
   }
-  else {
+ else {
     if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
     if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
   }
@@ -115,13 +115,13 @@ export function saveEntry (state, payload) {
             png: [],
             jpg: [],
             json: [],
-            NoExt: []
+            NoExt: [],
             // txt: {},
           }
           base[entry.fname][(entry.ext || 'NoExt')].push(entry)
           placed = true
         }
-        else {
+ else {
           let pageNumber
           switch (pageParts.length) {
             case 3: {
@@ -155,7 +155,7 @@ export function saveEntry (state, payload) {
         }
         vue.set(state.folders, entry.dir, base)
       }
-      else {
+ else {
         vue.set(base, entry.fname, entry)
         placed = true
       }
@@ -185,6 +185,7 @@ export function setActiveFolder (state, payload) {
   state.activeFolder = payload.activeFolder
   state.activeScene = payload.activeScene || 0
 }
+
 export function setActivePage (state, payload) {
 
   if (state.activeFolder && state.activeFolder.pageOrder) {
@@ -192,7 +193,7 @@ export function setActivePage (state, payload) {
     state.activeScene = index
     if (window.jim_DEBUG_VUEX) console.log(`setActivePage>> ${payload.activePage} set scene ${index}`)
   }
-  else {
+ else {
     state.activeScene = 0
   }
 }
@@ -224,11 +225,11 @@ export function calc (state, payload) {
           let index = parseInt(key)
           assemble[index] = key
         }
-        else {
+ else {
           if (key === 'cover') {
             assemble[0] = key
           }
-          else {
+ else {
             // TODO: handle multiple string keys better
             let index = assemble.length + 10000
             assemble[index] = key
@@ -241,7 +242,7 @@ export function calc (state, payload) {
       }
     }
 
-    let myArray = assemble.filter( function (x) {
+    let myArray = assemble.filter(function (x) {
       return (x !== (undefined || null || ''))
     })
 
@@ -271,6 +272,7 @@ export function calc (state, payload) {
 
     vue.set(state._TOC[payload.TOC.path_lower], 'soundOrder', soundOrder)
     vue.set(state._TOC[payload.TOC.path_lower], 'imageOrder', imageOrder)
+    vue.set(state._TOC[payload.TOC.path_lower], 'contents', contents)
 
     /*
     Temporarily, only one sound + image per page
