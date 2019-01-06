@@ -25,35 +25,39 @@ export const mixinIllustrate = {
   },
   methods: {
     swipeHandler (obj) {
-      let message = 'Image Saved'
-      if (window.jim_DEBUG_FULL) console.log('swipe: ' + obj.direction)
-      switch (obj.direction) {
-        case 'left': {
-          message = false
-          this.$router.push('/')
-          break
-        }
-        case 'right': {
-          if (this.preview) {
-            this.useImage()
+      if (this.activeFolder) {
+        let message = 'Image Saved'
+        if (window.jim_DEBUG_FULL) console.log('swipe: ' + obj.direction)
+        switch (obj.direction) {
+          case 'left': {
+            message = false
+            this.$router.push('/')
+            break
           }
-          break
+          case 'right': {
+            if (this.preview) {
+              this.useImage()
+            }
+            break
+          }
+          case 'up': {
+            if (this.preview) { this.useImage() }
+            break
+          }
+          case 'down': {
+            if (this.preview) { this.clearPhoto() }
+            break
+          }
         }
-        case 'up': {
-          if (this.preview) { this.useImage() }
-          break
+        if (message) {
+          this.$q.notify(message)
         }
-        case 'down': {
-          if (this.preview) { this.clearPhoto() }
-          break
-        }
-      }
-      if (message) {
-        this.$q.notify(message)
       }
     },
     touchHandler8 (obj, count) {
-      this.takePicture()
+      if (this.activeFolder) {
+        this.takePicture()
+      }
     },
 
     captureCanvas (ev) {

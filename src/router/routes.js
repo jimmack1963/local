@@ -22,13 +22,23 @@ const guardActiveFolder = (to, from, next) => {
   }
 }
 
+const noActiveFolder = (to, from, next) => {
+  if (store.state.dropbox.activeFolder) {
+    store.commit('setActiveFolder', {
+      activeFolder: false
+    })
+  }
+  next()
+}
+
 const routes = [
   {
     path: '/',
     component: MyLayout,
     children: [
       { path: '', component: Main }
-    ]
+    ],
+    beforeEnter: multiguard([noActiveFolder])
   },
   {
     path: '/auth',
@@ -43,7 +53,7 @@ const routes = [
     children: [
       { path: '', component: Selfie }
     ],
-    beforeEnter: multiguard([guardActiveFolder])
+    beforeEnter: multiguard([])
   },
   {
     path: '/carousel',

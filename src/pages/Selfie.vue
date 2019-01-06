@@ -1,12 +1,30 @@
 <template>
-  <q-page padding>
-    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
-    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
-    <div class="camera">
-      <video v-show="!preview" ref="video" id="video">Video stream not available.</video>
+  <q-page
+    v-touch-swipe="swipeHandler"
+  >
+    <div v-if="!activeFolder">
+      <slot></slot>
+      <q-field
+        class="col-xs-12 q-mx-sm"
+        >
+        <q-input float-label="Create a book titled:" @blur="completedTitle" ref="bookTitle" id="bookTitle" v-model="bookTitle"></q-input>
+      </q-field>
+      <!-- TODO: should this be a card for consistency? -->
+      <!--
+            <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the
+              book and your kid
+            </q-btn>
+      -->
     </div>
-    <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
+
+    <div class="camera scale-to-display"   >
+      <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
+    </div>
+    <canvas
+      class="scale-to-display"
+      v-show="preview"
+      ref="canvas"
+      id="canvasSelfie"></canvas>
 
 
   </q-page>
@@ -19,14 +37,11 @@
 
   export default {
     name: 'selfie',
-    mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
+    mixins: [mixinGeneral, mixinDropbox, mixinIllustrate],
     data () {
-      return {
-
-      }
+      return {}
     },
     mounted () {
-
       window.jim = window.jim || {}
       window.jim.selfie = this
       let v = this
@@ -48,7 +63,22 @@
       this.clearPhoto()
     },
     methods: {
+      async completedTitle () {
+        if (this.bookTitle) {
+          // this.$q.dialog
+          // for now, make this the book
+          await this.startBook(this.bookTitle)
+        }
+        else {
+          alert('no title, huh?')
+        }
+      },
       async useImage () {
+        if (!this.activeFolder && !this.bookTitle) {
+          this.$q.notify({type: 'warning', message: 'Please enter the book title'})
+          this.$refs.bookTitle.focus()
+          return false
+        }
         let v = this
         this.$store.commit('saveThumbnail', {
           entry: this.activeFolder,
@@ -69,7 +99,6 @@
       },
 
       generateImageName () {
-
         return this.activeFolder.path_display + '/' + 'book.cover.png'
       },
 
@@ -78,4 +107,8 @@
 </script>
 
 <style>
+  .scale-to-display {
+    width: 98vw;
+    height: auto;
+  }
 </style>

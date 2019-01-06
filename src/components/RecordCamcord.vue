@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page>
     <slot></slot>
     <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
     <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>

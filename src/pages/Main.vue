@@ -16,7 +16,7 @@
       {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card class="q-ma-sm" v-for="folder in TOC" v-bind:key="folder.id">
+    <q-card class="q-ma-sm" v-for="folder in TOCSorted" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"
@@ -129,21 +129,6 @@
         ></q-btn>
       </q-card-actions>
     </q-card>
-
-    <!--<div v-if="access_token">
-
-      <q-field
-        class="col-xs-12 q-mx-sm"
-    label="Create a book titled:">
-    <q-input id="bookTitle" v-model="bookTitle"></q-input>
-    </q-field>
-      &lt;!&ndash; TODO: should this be a card for consistency? &ndash;&gt;
-    <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the book and your kid
-    </q-btn>
-    </div>-->
-
-
-
   </q-page>
 </template>
 
@@ -201,9 +186,6 @@ export default {
           if (window.jim_DEBUG_FULL) console.log('ERROR:')
           console.log(error)
         })
-    },
-    listItems (items) {
-      console.dir(items)
     },
   },
   computed: {

@@ -11,6 +11,7 @@ export const mixinGeneral = {
   },
   computed: {
     ...mapGetters(['TOC',
+      'TOCSorted',
       'camera',
       'folders',
       'activeFolder',
@@ -37,6 +38,14 @@ export const mixinGeneral = {
         }
       },
     },
+    appTitle () {
+      if (this.activeFolder) {
+        return this.activeFolder.name
+      }
+      else {
+        return this.title
+      }
+    },
     page () {
       if (!this.activeFolder) { return 0 }
       if (this.activeFolder.pageOrder && this.activeFolder.pageOrder.length > 0) {
@@ -52,32 +61,31 @@ export const mixinGeneral = {
 
   },
   methods: {
-    startBook (bookTitle) {
+    async startBook (bookTitle) {
       // alert('Are you sure about ' + bookTitle + '?')
       // createFolder
       let v = this
-      this.$dbx.filesCreateFolderV2({path: '/' + bookTitle})
-        .then((result) => {
-          let entry = result.metadata
+      let result = await this.$dbx.filesCreateFolderV2({path: '/' + bookTitle})
 
-          v.$store.dispatch('registerFile', {
-            entry,
-            folder: '/',
-            dbx: v.$dbx,
-            calc: true,
-          }).then(() => {
-              v.$root.$emit('reload')
-            }
+      let entry = result.metadata
 
-          )
-          v.$store.commit('setActiveFolder', {
-            activeFolder: entry,
-          })
-          v.$router.push('/selfie')
+      await v.$store.dispatch('registerFile', {
+        entry,
+        folder: '/',
+        dbx: v.$dbx,
+        calc: true,
+      }).then(() => {
+          v.$root.$emit('reload')
+        }
 
-        })
+      )
+
+      v.$store.commit('setActiveFolder', {
+        activeFolder: entry,
+      })
 
       // redirect to selfie
+      // v.$router.push('/selfie')
     },
     logout () {
       this.leftDrawerOpen = false
@@ -173,7 +181,6 @@ export const mixinGeneral = {
           self.isLoading = false
           self.$set(self, 'contents', response.entries)
           console.dir(response)
-          self.listItems(response.entries)
         })
         .catch(function (error) {
           console.error(error)

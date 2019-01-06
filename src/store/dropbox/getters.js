@@ -8,6 +8,11 @@ export function TOC (state) {
   return state._TOC
 }
 
+export function TOCSorted (state) {
+  let maybe = Object.values(state._TOC).reverse()
+  return maybe
+}
+
 export function folders (state) {
   return state.folders
 }

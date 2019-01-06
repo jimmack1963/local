@@ -17,8 +17,8 @@
         </q-btn>
 
         <q-toolbar-title>
-          Play It Again, Kid
-          <div slot="subtitle">Prepared on {{version}}</div>
+          {{appTitle}}
+          <div slot="subtitle">Version {{version}}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
@@ -46,11 +46,11 @@
         <q-list-header>Essential Links</q-list-header>
         <q-item to="/selfie" >
           <q-item-side icon="add a photo" />
-          <q-item-main label="Selfie" sublabel="You, the book, your kid" />
+          <q-item-main label="Make a new book" sublabel="Take a selfie of you, the book, your kid" />
         </q-item>
-        <q-item @click.native="manage(activeFolder)" >
+        <q-item v-if="activeFolder" @click.native="manage(activeFolder)" >
           <q-item-side icon="add a photo" />
-          <q-item-main label="manage" sublabel="manage sound and images for every page" />
+          <q-item-main label="Manage" sublabel="manage sound and images for every page" />
         </q-item>
 
         <q-item @click.native="setDelayPlayNext(1)">
