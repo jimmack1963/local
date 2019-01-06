@@ -25,6 +25,9 @@ export const mixinIllustrate = {
   },
   methods: {
     swipeHandler (obj) {
+      if (window.jim_DEBUG_FULL) console.log('swipeHandler disabled - all is by touch/click')
+      
+/*
       if (this.activeFolder) {
         let message = 'Image Saved'
         if (window.jim_DEBUG_FULL) console.log('swipe: ' + obj.direction)
@@ -53,6 +56,7 @@ export const mixinIllustrate = {
           this.$q.notify(message)
         }
       }
+*/
     },
     touchHandler8 (obj, count) {
       if (this.activeFolder) {

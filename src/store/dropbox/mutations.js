@@ -91,6 +91,9 @@ export function saveEntry (state, payload) {
 
   let entry = payload.entry
   vue.set(state.ids, entry.id, entry)
+  if (!entry['.tag']) {
+    entry['.tag'] = 'folder'
+  }
 
   if (entry.path_lower) {
     // let org = entry.parts.dir.split('/')

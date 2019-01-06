@@ -62,7 +62,25 @@ export const mixinGeneral = {
   },
   methods: {
     async startBook (bookTitle) {
-      // alert('Are you sure about ' + bookTitle + '?')
+
+      if (!bookTitle) {
+
+
+        let data = await this.$q.dialog({
+          title: 'Title Round!',
+          message: 'What is the book title?',
+          prompt: {
+            model: '',
+            type: 'text'
+          },
+          cancel: true
+        })
+        bookTitle = data
+        if (!data) {
+          return false
+        }
+      }
+
       // createFolder
       let v = this
       let result = await this.$dbx.filesCreateFolderV2({path: '/' + bookTitle})
@@ -71,7 +89,8 @@ export const mixinGeneral = {
 
       await v.$store.dispatch('registerFile', {
         entry,
-        folder: '/',
+        folder: '_TOC',
+        '.tag': 'folder',
         dbx: v.$dbx,
         calc: true,
       })
@@ -81,7 +100,7 @@ export const mixinGeneral = {
       })
 
       // redirect to selfie
-      // v.$router.push('/selfie')
+      v.$router.push('/selfie')
     },
     logout () {
       this.leftDrawerOpen = false

@@ -44,7 +44,7 @@
         </q-item>-->
 
         <q-list-header>Essential Links</q-list-header>
-        <q-item to="/selfie" >
+        <q-item @click.native="startBook(false)" >
           <q-item-side icon="add a photo" />
           <q-item-main label="Make a new book" sublabel="Take a selfie of you, the book, your kid" />
         </q-item>

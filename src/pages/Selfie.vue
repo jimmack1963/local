@@ -1,25 +1,28 @@
 <template>
   <q-page
-    v-touch-swipe="swipeHandler"
+
   >
     <div v-if="!activeFolder">
+      <!--
+      v-touch-swipe="swipeHandler"
       <slot></slot>
-      <q-field
+      -->
+      <!--<q-field
         v-if="!nameset"
         class="col-xs-12 q-mx-sm"
       >
         <q-input float-label="Create a book titled:" @blur="completedTitle" ref="bookTitle" id="bookTitle"
                  v-model="bookTitle"></q-input>
-      </q-field>
+      </q-field>-->
 
       <!-- TODO: should this be a card for consistency? -->
       <!--
             <q-btn color="primary" v-if="camera" :disable="!bookTitle" @click="startBook(bookTitle)"> Take a selfie with the
               book and your kid
             </q-btn>
-      -->
       <q-btn @click="nameset = true">Set Name</q-btn>
       <p>You can take a picture by touching the screen after you have entered the book title.</p>
+      -->
     </div>
     <div >
       <div class="camera scale-to-display">

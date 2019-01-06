@@ -155,8 +155,12 @@
 
   @media (orientation: portrait) {
     .book-on-card {
-      height: 40vh;
-      width: 60vw;
+      width: auto;
+      height: auto;
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      max-height: 100%;
     }
     .card-itself {
       width: 100%;
@@ -165,8 +169,12 @@
   }
   @media (orientation: landscape) {
     .book-on-card {
-      height: 40vh;
-      width: 60vw;
+      width: auto;
+      height: auto;
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      max-height: 100%;
     }
     .card-itself {
       width: 49%;
