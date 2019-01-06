@@ -213,6 +213,9 @@
         this.$set(this, 'recording', toggled)
       },
       illustrate (folder, pageName) {
+        this.$router.push('/simpleRecord')
+      },
+      illustrateLocal (folder, pageName) {
         // only one at a time
         let toggled = {}
         if (!this.illustrating[pageName]) {
@@ -220,7 +223,7 @@
           this.$q.fullscreen.request()
         }
         this.$set(this, 'illustrating', toggled)
-      },
+      }
     },
     data () {
       return {

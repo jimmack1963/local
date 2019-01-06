@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="flex flex-center">
+  <q-page padding class="row items-start flex flex-start">
     <div v-if="!access_token">
       <h1>{{title}}</h1>
       We help you {{verb}} books for your loved ones, however they may be behaving currently.
@@ -16,7 +16,7 @@
       {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card class="q-ma-sm" v-for="folder in TOCSorted" v-bind:key="folder.id">
+    <q-card class="col-lg-4 col-xs-12" v-for="folder in TOCSorted" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"

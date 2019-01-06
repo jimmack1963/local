@@ -1,16 +1,11 @@
 <template>
-  <q-page>
+  <q-page  v-touch-swipe="swipeHandler">
     <slot></slot>
-    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
-    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
-    <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>
 
-    <div class="camera">
-      <video v-show="!preview" ref="video" id="video">Video stream not available.</video>
+    <div class="camera"   >
+      <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
     </div>
-      <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
-
-
+    <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
 
   </q-page>
 </template>
@@ -34,7 +29,7 @@
       window.jim = window.jim || {}
       window.jim.recordcamcord = this
 
-      this.videoRef = this.$refs.video
+      vue.videoRef = vue.$refs.video
 
       function gotDevices (deviceInfos) {
         for (let i = 0; i !== deviceInfos.length; ++i) {
@@ -80,16 +75,16 @@
       */
       navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}, audio: false})
         .then(function (stream) {
-          this.videoRef.srcObject = stream
-          this.videoRef.play()
+          vue.videoRef.srcObject = stream
+          vue.videoRef.play()
         })
         .catch(function (err) {
           console.log('An error occured! ' + err)
         })
 
-      this.videoRef.addEventListener('canplay', this.captureCanvas, false)
+      vue.videoRef.addEventListener('canplay', vue.captureCanvas, false)
 
-      this.clearPhoto()
+      vue.clearPhoto()
     },
     methods: {},
   }

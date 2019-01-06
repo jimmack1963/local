@@ -56,7 +56,10 @@ export const mixinIllustrate = {
     },
     touchHandler8 (obj, count) {
       if (this.activeFolder) {
-        this.takePicture()
+        this.lockCameraImage()
+
+        // TODO: make this settable preference
+        this.useImage()
       }
     },
 
@@ -90,6 +93,7 @@ export const mixinIllustrate = {
       }
 
     },
+
     clearPhoto () {
       this.preview = false
       let canvas = this.$refs.canvas
@@ -100,8 +104,7 @@ export const mixinIllustrate = {
       }
     },
 
-    takePicture () {
-
+    lockCameraImage () {
       this.preview = true
       let canvas = this.$refs.canvas
       let context = canvas.getContext('2d')

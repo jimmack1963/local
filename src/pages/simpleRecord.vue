@@ -5,7 +5,7 @@
     >
     <div  >
 <!--    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
-    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="takePicture">Freeze Image</q-btn>
+    <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="lockCameraImage">Freeze Image</q-btn>
     <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>-->
     <div class="camera"   >
       <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>

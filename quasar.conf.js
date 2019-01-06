@@ -51,6 +51,7 @@ module.exports = function (ctx) {
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
+      cssAddon: true,
       components: [
         'QCheckbox',
         'QSlider',
