@@ -16,7 +16,7 @@
       {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card class="col-lg-4 col-xs-12" v-if="TOCSorted.length === 0" >
+    <q-card class="card-itself col-lg-4 col-xs-12" v-if="TOCSorted.length === 0" >
       <q-card-title>Make your first Book</q-card-title>
       <q-card-main>
         <p>The menu at the left has an entry, "Make a new book." </p>
@@ -30,13 +30,17 @@
 
     </q-card>
 
-    <q-card class="col-lg-4 col-xs-12" v-for="folder in TOCSorted" v-bind:key="folder.id">
+    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"
         @click.native.stop="carousel(folder)"
       >
-        <img    :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail" :alt="folder.name">
+        <!--<q-parallax :height="100"   :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail" :alt="folder.name"></q-parallax>-->
+        <img
+          class="book-on-card"
+          :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail"
+          :alt="folder.name">
         <q-card-title slot="overlay" >
           {{folder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
@@ -110,7 +114,7 @@
         <q-btn
           flat
           color="secondary"
-          label="Photos of Pages"
+          label="Create"
           @click="record(folder)"
 
         ></q-btn>
@@ -147,6 +151,30 @@
 </template>
 
 <style>
+
+
+  @media (orientation: portrait) {
+    .book-on-card {
+      height: 40vh;
+      width: 60vw;
+    }
+    .card-itself {
+      width: 100%;
+      margin-bottom: 0.3em;
+    }
+  }
+  @media (orientation: landscape) {
+    .book-on-card {
+      height: 40vh;
+      width: 60vw;
+    }
+    .card-itself {
+      width: 49%;
+      margin-right: 0.3em;
+      margin-bottom: 0.3em;
+    }
+  }
+
   .pageIndicatorStart {
     font-size: 4em;
     /*font-weight: bolder;*/
