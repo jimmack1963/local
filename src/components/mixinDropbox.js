@@ -11,6 +11,16 @@ export const mixinDropbox = {
     ...mapGetters(['TOC', 'activeFolder']),
   },
   methods: {
+    async replaceSelfie () {
+      await this.$store.dispatch('removeEntry', {
+        TOC: this.activeFolder,
+        pageNumber: 'book.cover',
+        family: 'png',
+        dbx: this.$dbx
+      })
+
+      this.$router.push('/selfie')
+    },
     renameFolder (folder) {
       let v = this
       // TODO make renameFolder happen in VUEX

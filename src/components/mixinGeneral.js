@@ -74,11 +74,7 @@ export const mixinGeneral = {
         folder: '/',
         dbx: v.$dbx,
         calc: true,
-      }).then(() => {
-          v.$root.$emit('reload')
-        }
-
-      )
+      })
 
       v.$store.commit('setActiveFolder', {
         activeFolder: entry,
@@ -179,7 +175,7 @@ export const mixinGeneral = {
           })
 
           self.isLoading = false
-          self.$set(self, 'contents', response.entries)
+          // self.$set(self, 'contents', response.entries)
           console.dir(response)
         })
         .catch(function (error) {

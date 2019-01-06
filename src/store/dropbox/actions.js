@@ -1,5 +1,3 @@
-import assert from 'assert'
-
 const pathParse = require('path-parse')
 import { LocalStorage } from 'quasar'
 
@@ -192,15 +190,16 @@ export const removeEntry = async (context, payload) => {
   /*
   TODO: make this work for a scene not a page
    */
-  debugger
   // let self = this
   let TOC = payload.TOC
   let family = payload.family
   let pageNumber = payload.pageNumber
   let dbx = payload.dbx
+  /*
   let scene = TOC.pageOrder.indexOf(pageNumber)
   if (!scene) { TOC.pageOrder.indexOf(pageNumber.toString()) }
   assert(scene >= 0, 'Unable to find scene for page ' + pageNumber)
+  */
   let base
   // let familyEmpty = false
   let contents = TOC.contents
@@ -210,6 +209,11 @@ export const removeEntry = async (context, payload) => {
   else {
     base = contents.pages[pageNumber]
   }
+
+  if (pageNumber === 'book.cover') {
+
+  }
+
   if (base) {
     let offset = false
     let entry = false

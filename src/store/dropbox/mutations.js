@@ -292,3 +292,8 @@ export function clearData (state) {
   state.activeScene = false
   state.ids = {}
 }
+
+export function deleteEntryReferences (state, payload) {
+  // let TOC, entry = payload
+  // state._
+}

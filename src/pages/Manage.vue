@@ -6,7 +6,18 @@
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
     <q-card class="q-ma-sm">
-      <q-card-main>
+      <q-card-media
+        overlay-position="bottom"
+        v-if="activeFolder.thumbnail"
+      >
+        <img    :src="activeFolder.thumbnail" :alt="activeFolder.name">
+        <q-card-title slot="overlay" >
+          {{activeFolder.name}}&nbsp;
+          <!--<span slot="subtitle">{{folder.size}}</span>-->
+        </q-card-title>
+      </q-card-media>
+
+      <q-card-main><!--
         <q-field
           label="Next Illustration:"
         >
@@ -26,7 +37,7 @@
         </q-field>
 
 
-      </q-card-main>
+      --></q-card-main>
       <q-card-actions vertical align="center">
         <q-btn
           label="narrate multiple new pages"
@@ -45,6 +56,13 @@
         ></q-btn>
 
         <q-btn
+          label="Replace Selfie"
+          @click="replaceSelfie(activeFolder)"
+          flat
+          icon="label"
+        ></q-btn>
+
+        <q-btn
           label="Rename"
           @click="renameFolder(activeFolder)"
           flat
@@ -52,7 +70,7 @@
         ></q-btn>
 
         <q-btn
-          label="Delete"
+          label="Delete  Book"
           @click="deleteFolder(activeFolder)"
           flat
           icon="delete"

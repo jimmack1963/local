@@ -16,6 +16,20 @@
       {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
+    <q-card class="col-lg-4 col-xs-12" v-if="TOCSorted.length === 0" >
+      <q-card-title>Make your first Book</q-card-title>
+      <q-card-main>
+        <p>The menu at the left has an entry, "Make a new book." </p>
+
+        <p>You can open the menu, if it is closed, by hitting the icon
+          <q-icon name="menu"></q-icon>
+        </p>
+
+          <p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting anywhere on the screen.  You can always replace it if you want a second chance.</p>
+      </q-card-main>
+
+    </q-card>
+
     <q-card class="col-lg-4 col-xs-12" v-for="folder in TOCSorted" v-bind:key="folder.id">
       <q-card-media
         overlay-position="bottom"
@@ -96,7 +110,7 @@
         <q-btn
           flat
           color="secondary"
-          label="Record"
+          label="Photos of Pages"
           @click="record(folder)"
 
         ></q-btn>

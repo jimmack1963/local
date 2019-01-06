@@ -109,7 +109,6 @@ export const mixinSound = {
       }
     },
     deleteBookSound (TOC, pageNumber) {
-      debugger
       this.$store.dispatch('removeEntry', {
         TOC,
         pageNumber,
@@ -146,7 +145,6 @@ export const mixinSound = {
       }
 */ },
     deleteBookImage (TOC, pageNumber) {
-      debugger
       this.$store.dispatch('removeEntry', {
         TOC,
         pageNumber,
