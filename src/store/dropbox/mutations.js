@@ -44,7 +44,7 @@ export function createHowl (state, payload) {
     newHowl.on('end', () => {
       which.next()
     })
-    // vue.set(which, 'metadata', payload.response.metadata)
+    // vue.set(which, 'metadata', payload.response.metadata) 1mpr0v3m3b  !mpr0v3m3
   }
  else {
 
@@ -63,7 +63,7 @@ export function saveThumbnail (state, payload) {
 
     // Now link the cover images with the _TOC
     if (which.name.toLowerCase() === 'book.cover.png') {
-      let key = which.dir
+      let key = which.dirƒ
       let target = state._TOC[key]
       if (target) {
         vue.set(target, 'thumbnail', payload.thumbnail)
