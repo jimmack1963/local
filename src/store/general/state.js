@@ -9,9 +9,15 @@ let dataPrefix = 'dev'
 // const commonSubtitle = 'Hear a familiar voice<br>as often as you need<br>even when separated<br>by miles or years'
 const commonSubtitle = 'Get on your kid\'s infinite playlist'
 
-
 switch (hostname) {
-  default:
+  default: { // devprod !!
+    authURL = window.location.origin
+    title = 'Play It Again, Kid'
+    verb = 'record'
+    subtitle = commonSubtitle
+    dataPrefix = 'prod'
+    break
+  }
   case 'playitagainkid.com': { // devprod !!
     authURL = 'https://playitagainkid.com'
     title = 'Play It Again Kid'
@@ -54,8 +60,8 @@ switch (hostname) {
   }
   case 'localhost':
   case 'dev' : { // devprod !!
-    authURL = 'https://localhost:8080'
-    title = 'Reading Together Works'
+    authURL = window.location.origin
+    title = 'Play It Again, Kid'
     verb = 'record'
     subtitle = commonSubtitle
     break
