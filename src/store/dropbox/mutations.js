@@ -35,9 +35,12 @@ export function createHowl (state, payload) {
     })
     vue.set(which, 'howl', newHowl)
 
-    newHowl.state = state
+    // newHowl.state = state
     newHowl.page = which
 
+    newHowl.on('load', () => {
+      console.log('HOWL loaded page ' + which.pageNumber || which.page || '')
+    })
     newHowl.on('end', () => {
       which.next()
     })
