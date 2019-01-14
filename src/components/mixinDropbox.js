@@ -14,7 +14,7 @@ export const mixinDropbox = {
     async replaceSelfie () {
       await this.$store.dispatch('removeEntry', {
         TOC: this.activeFolder,
-        pageNumber: 'book.cover',
+        pageNumber: 'book_cover',
         family: 'png',
         dbx: this.$dbx
       })

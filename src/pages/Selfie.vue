@@ -55,21 +55,10 @@
     mounted () {
       window.jim = window.jim || {}
       window.jim.selfie = this
-      let v = this
 
       this.videoRef = this.$refs.video
 
-      navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}, audio: false})
-        .then(function (stream) {
-
-          v.videoRef.srcObject = stream
-          v.videoRef.play()
-        })
-        .catch(function (err) {
-          console.log('An error occured! ' + err)
-        })
-
-      this.videoRef.addEventListener('canplay', this.captureCanvas, false)
+      this.getUserMedia(this.videoRef)
 
       this.clearPhoto()
     },
@@ -110,7 +99,7 @@
       },
 
       generateImageName () {
-        return this.activeFolder.path_display + '/' + 'book.cover.png'
+        return this.activeFolder.path_display + '/' + 'book_cover.png'
       },
 
     },

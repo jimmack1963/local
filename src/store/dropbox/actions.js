@@ -210,7 +210,7 @@ export const removeEntry = async (context, payload) => {
     base = contents.pages[pageNumber]
   }
 
-  if (pageNumber === 'book.cover') {
+  if (pageNumber === 'book_cover') {
 
   }
 

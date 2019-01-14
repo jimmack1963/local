@@ -11,6 +11,8 @@ export const mixinGeneral = {
   },
   computed: {
     ...mapGetters(['TOC',
+      'facingMode',
+      'cameraPreference',
       'TOCSorted',
       'camera',
       'folders',
@@ -202,26 +204,26 @@ export const mixinGeneral = {
         })
     },
     home () {
-      this.$q.fullscreen.request()
+      // this.$q.fullscreen.request()
       this.$store.commit('silence')
       this.$router.push('/')
     },
     selfie (entry) {
-      this.$q.fullscreen.request()
+      // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })
       this.$router.push('/selfie')
     },
     manage (entry) {
-      this.$q.fullscreen.request()
+      // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })
       this.$router.push('/manage')
     },
     carousel (entry) {
-      this.$q.fullscreen.request()
+      // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: entry,
       })

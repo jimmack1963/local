@@ -2,6 +2,7 @@
 import Dropbox from 'dropbox'
 import Store from '../store'
 import { LocalStorage } from 'quasar'
+import fetch from 'isomorphic-unfetch'
 
 const parseQueryString = function (str) {
   let ret = Object.create(null)
@@ -48,7 +49,7 @@ export default ({app, router, Vue}) => {
   let store = false
   window.jim_DEBUG = true // devprod !!!!!
   window.jim_DEBUG_FULL = true // devprod !!!!!
-  window.jim_DEBUG_VUEX = false // devprod !!!!!
+  window.jim_DEBUG_VUEX = true // devprod !!!!!
   window.jim_DEBUG_FULL_PLAYING = true // devprod !!!!!
 
   // let CLIENT_ID = '42zjexze6mfpf7x'
@@ -87,7 +88,7 @@ export default ({app, router, Vue}) => {
     // Create an instance of Dropbox with the access token and use it to
     // fetch and render the files in the users root directory.
 
-    let dbx = new Dropbox.Dropbox({accessToken: access_token})
+    let dbx = new Dropbox.Dropbox({accessToken: access_token, fetch: fetch})
     Vue.prototype.$dbx = dbx
 
     if (Store) {
@@ -115,7 +116,7 @@ export default ({app, router, Vue}) => {
       if (window.jim_DEBUG_FULL) console.log('No store?')
     }
 
-    let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID})
+    let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID, fetch: fetch})
     Vue.prototype.$dbx = dbx
     // TODO: url for each deployment
     // let authUrl = dbx.getAuthenticationUrl('https://playitagainkid.com')
@@ -134,7 +135,7 @@ export default ({app, router, Vue}) => {
   myToken = 'K637rkl3w9UAAAAAAAAO6EwDPADy3tiG-UF5Ap3KZ8hx6EHCNL0CQMEIPegvE5ZE' // playItAgainKid
   // myToken = 'K637rkl3w9UAAAAAAAAO6SRSimVr5yYJ82-eNMl_D3Igt5FHqb94vAoGW4I4emXC' // memoRead
   // let fetch = false
-  let dbx = new Dropbox({access_token: myToken})
+  let dbx = new Dropbox({access_token: myToken, fetch: fetch})
 
   Vue.prototype.$Dropbox = Dropbox
   Vue.prototype.$dbx = dbx

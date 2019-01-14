@@ -14,6 +14,8 @@ switch (hostname) {
     authURL = window.location.origin
     title = 'Play It Again, Kid'
     verb = 'record'
+
+
     subtitle = commonSubtitle
     dataPrefix = 'prod'
     break
@@ -68,10 +70,11 @@ switch (hostname) {
   }
 }
 
-
-
 export default {
   micStatus: micStatus.uninitialized,
+  // facingMode: 'environment', // 'user'
+  facingMode: 'user',
+  cameraPreference: 'touch', // pick
   device: false,
   mic: false,
   camera: false,

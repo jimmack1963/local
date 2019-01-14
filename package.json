@@ -33,6 +33,7 @@
     "dropbox": "^4.0.14",
     "global": "^4.3.2",
     "howler": "^2.1.0",
+    "isomorphic-unfetch": "^3.0.0",
     "opn": "^5.4.0",
     "path-parse": "^1.0.6",
     "quasar": "^1.0.0-alpha.6",
