@@ -238,7 +238,7 @@
         let toggled = {}
         if (!this.illustrating[pageName]) {
           toggled[pageName] = !(toggled[pageName])
-          this.$q.fullscreen.request()
+          // this.$q.fullscreen.request()
         }
         this.$set(this, 'illustrating', toggled)
       }

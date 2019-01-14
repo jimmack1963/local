@@ -1,5 +1,5 @@
 import vue from 'vue'
-import { Howl } from 'howler'
+import {Howl} from 'howler'
 
 export function saveTempLink (state, payload) {
   let which = state.ids[payload.entry.id]
@@ -35,13 +35,16 @@ export function createHowl (state, payload) {
     })
     vue.set(which, 'howl', newHowl)
 
-    newHowl.state = state
+    // newHowl.state = state
     newHowl.page = which
 
+    newHowl.on('load', () => {
+      console.log('HOWL loaded page ' + which.pageNumber || which.page || '')
+    })
     newHowl.on('end', () => {
       which.next()
     })
-    // vue.set(which, 'metadata', payload.response.metadata)
+    // vue.set(which, 'metadata', payload.response.metadata) 1mpr0v3m3b  !mpr0v3m3
   }
  else {
 
@@ -51,7 +54,6 @@ export function createHowl (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-
   // TODO cache the thumbnails locally
   vue.set(state.thumbnails, payload.entry.id, payload.thumbnail)
   let which = state.ids[payload.entry.id]
@@ -59,7 +61,8 @@ export function saveThumbnail (state, payload) {
     vue.set(which, 'thumbnail', payload.thumbnail)
 
     // Now link the cover images with the _TOC
-    if (which.name.toLowerCase() === 'book.cover.png') {
+    // there may be a few old images out there
+    if (which.name.toLowerCase() === 'book_cover.png' || which.name.toLowerCase() === 'book.cover.png') {
       let key = which.dir
       let target = state._TOC[key]
       if (target) {
@@ -136,10 +139,10 @@ export function saveEntry (state, payload) {
               break
             }
             default: {
-              let err = {
+              let newVar = {
                 message: 'saveEntry fail: NO PAGE NUMBER for ' + entry.path_lower,
               }
-              throw err
+              throw newVar
             }
           }
           if (pageNumber) {
@@ -245,11 +248,9 @@ export function calc (state, payload) {
       }
     }
 
-    let myArray = assemble.filter(function (x) {
+    return assemble.filter(function (x) {
       return (x !== (undefined || null || ''))
     })
-
-    return myArray
   }
 
   let folderName = payload.TOC.path_lower

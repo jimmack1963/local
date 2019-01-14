@@ -43,7 +43,7 @@ export const mixinSound = {
   },
   methods: {
     record (folder) {
-      this.$q.fullscreen.request()
+      // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
         activeFolder: folder
       })

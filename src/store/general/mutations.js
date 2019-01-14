@@ -32,3 +32,11 @@ export function setMicRecording (state) {
 export function setMicSaving (state) {
   state.micStatus = micStatus.saving
 }
+
+export function nextCamera (state) {
+  state.facingMode === 'user'
+    ? state.facingMode = 'environment'
+    : state.facingMode = 'user'
+
+  console.log('facingMode changed to ' + state.facingMode)
+}

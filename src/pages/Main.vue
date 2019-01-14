@@ -13,10 +13,10 @@
       If you are not a current user, you may want to sign up on <a href="https://www.dropbox.com/register" targt="_blank">their site first</a>.  Or, install their app.
       <br>
 
-      {{hostname}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
+      {{title}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card class="card-itself col-lg-4 col-xs-12" v-if="TOCSorted.length === 0" >
+    <q-card class="card-itself col-lg-4 col-xs-12" v-if="access_token && TOCSorted.length === 0" >
       <q-card-title>Make your first Book</q-card-title>
       <q-card-main>
         <p>The menu at the left has an entry, "Make a new book." </p>

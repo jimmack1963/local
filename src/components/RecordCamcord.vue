@@ -73,16 +73,8 @@
       navigator.mediaDevices.getUserMedia({video: true, audio: false})
       https://github.com/JodusNodus/react-qr-reader/issues/37
       */
-      navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}, audio: false})
-        .then(function (stream) {
-          vue.videoRef.srcObject = stream
-          vue.videoRef.play()
-        })
-        .catch(function (err) {
-          console.log('An error occured! ' + err)
-        })
 
-      vue.videoRef.addEventListener('canplay', vue.captureCanvas, false)
+      this.getUserMedia(this.videoRef)
 
       vue.clearPhoto()
     },
@@ -91,4 +83,19 @@
 </script>
 
 <style>
+  .camera-portrait {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(98vw) !important;
+    width: calc(96vw);
+  }
+  .camera-landscape {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: calc(98vh - 16px) !important;
+    height: calc(96vh - 48px);
+    width: auto;
+  }
 </style>

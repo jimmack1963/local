@@ -40,3 +40,11 @@ export function hostname (state) {
 export function camera (state) {
   return state.camera
 }
+
+export function facingMode (state) {
+  return state.facingMode
+}
+
+export function cameraPreference (state) {
+  return state.cameraPreference
+}

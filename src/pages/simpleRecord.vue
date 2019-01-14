@@ -1,19 +1,26 @@
 <template>
-  <q-page
+  <div
     v-touch-swipe="swipeHandler"
-
+    class="row fit"
+    ref="background"
     >
-    <div  >
+    <q-window-resize-observable @resize="onResize" />
+
+    <div class="camFeedback" >
 <!--    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
     <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="lockCameraImage">Freeze Image</q-btn>
     <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>-->
-    <div class="camera"   >
-      <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
+    <div class="camera camFeedback"   >
+      <video :class="sizeClasses"
+             @click.stop="touchHandler8"
+             v-show="!preview"
+             ref="video"
+             id="video">Video stream not available.</video>
     </div>
-    <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
+    <canvas  v-show="preview" ref="canvas" id="canvas"></canvas>
 
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>
@@ -48,21 +55,10 @@
     mounted () {
       window.jim = window.jim || {}
       window.jim.simpleRecord = this
-      let v = this
 
       this.videoRef = this.$refs.video
 
-      navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}, audio: false})
-        .then(function (stream) {
-
-          v.videoRef.srcObject = stream
-          v.videoRef.play()
-        })
-        .catch(function (err) {
-          console.log('An error occured! ' + err)
-        })
-
-      this.videoRef.addEventListener('canplay', this.captureCanvas, false)
+      this.getUserMedia(this.videoRef)
 
       this.clearPhoto()
     },
@@ -73,4 +69,6 @@
 </script>
 
 <style>
+  .camFeedback {
+  }
 </style>
