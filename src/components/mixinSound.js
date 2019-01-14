@@ -225,9 +225,10 @@ export const mixinSound = {
 
               // find the next page to play
               if (nextPageNumber) {
-                vue.$store.commit('setActivePage', {
-                  activePage: nextPageNumber
-                })
+                // page will be set as side effect from playBookPage
+                // vue.$store.commit('setActivePage', {
+                //   activePage: nextPageNumber
+                // })
 
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
                 if (vue.delayPlayNext && nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
@@ -251,6 +252,9 @@ export const mixinSound = {
                 // alert('NO NEXT PAGE after ' + page)
               }
             }
+
+            if (window.jim_DEBUG_FULL) console.log('HOWL PLAYED: ' + target)
+
             vue.$store.commit('playHowl', {
               page: target
             })
