@@ -1,8 +1,12 @@
 import { mapGetters } from 'vuex'
+import { dom } from 'quasar'
+const { height, width } = dom
 
 export const mixinIllustrate = {
   data () {
     return {
+      sizeClasses: 'camera-landscape',
+      orientation: '',
       videoRef: false,
       preview: false,
       dataURL: false,
@@ -23,32 +27,46 @@ export const mixinIllustrate = {
       this.videoRef.removeEventListener('canplay', this.captureCanvas, false)
     }
   },
+  watch: {
+    'facingMode': function (newVal, oldVal) {
+      this.getUserMedia(this.videoRef)
+    },
+  },
   methods: {
+    getUserMedia (videoRef) {
+      // note:  VUE instance must have videoRef defined
+      navigator.mediaDevices.getUserMedia({video: {facingMode: this.facingMode}, audio: false})
+        .then(function (stream) {
+          videoRef.srcObject = stream
+          videoRef.play()
+        })
+        .catch(function (err) {
+          console.log('An error occured! ' + err)
+        })
+
+      videoRef.addEventListener('canplay', this.captureCanvas, false)
+
+    },
     swipeHandler (obj) {
       if (window.jim_DEBUG_FULL) console.log('swipeHandler disabled - all is by touch/click')
-
-/*
       if (this.activeFolder) {
-        let message = 'Image Saved'
+        let message = false
         if (window.jim_DEBUG_FULL) console.log('swipe: ' + obj.direction)
         switch (obj.direction) {
           case 'left': {
-            message = false
-            this.$router.push('/')
+            this.$store.commit('nextCamera')
             break
           }
           case 'right': {
-            if (this.preview) {
-              this.useImage()
-            }
+            this.$store.commit('nextCamera')
             break
           }
           case 'up': {
-            if (this.preview) { this.useImage() }
+            this.$router.push('/')
             break
           }
           case 'down': {
-            if (this.preview) { this.clearPhoto() }
+            this.$router.push('/')
             break
           }
         }
@@ -56,7 +74,6 @@ export const mixinIllustrate = {
           this.$q.notify(message)
         }
       }
-*/
     },
     touchHandler8 (obj, count) {
       if (this.activeFolder) {
@@ -66,16 +83,59 @@ export const mixinIllustrate = {
         this.useImage()
       }
     },
-
-    captureCanvas (ev) {
+    onResize (size) {
       let canvas = this.$refs.canvas
-      if (!this.streaming) {
-        this.height = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.width)
-        this.videoRef.setAttribute('width', this.width)
-        this.videoRef.setAttribute('height', this.height)
-        canvas.setAttribute('width', this.width)
-        canvas.setAttribute('this.height', this.height)
+      if (canvas) {
+        let h = height(canvas.parentElement.parentElement)
+        let w = width(canvas.parentElement.parentElement)
+        if (h > w) {
+          // portrait
+          this.sizeClasses = 'camera-portrait'
+          this.orientation = 'portrait'
+          canvas.setAttribute('width', this.height)
+          canvas.setAttribute('height', this.width)
+/*
+          this.width = w
+          this.height = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.width)
+          this.width = w
+          this.height = h
+*/
+        }
+        else {
+          // landscape
+          this.sizeClasses = 'camera-landscape'
+          this.orientation = 'landscape'
+          canvas.setAttribute('width', this.width)
+          canvas.setAttribute('height', this.height)
 
+/*
+          this.height = h
+          this.width = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.height)
+          this.width = h
+          this.height = w
+*/
+        }
+
+/*        if (window.jim_DEBUG_FULL_junk) {
+          console.log(JSON.stringify({
+            h,
+            w,
+            thisH: this.height,
+            thisW: this.width,
+            vH: this.videoRef.videoHeight,
+            vW: this.videoRef.videoWidth,
+          }))
+        } */
+
+        // this.videoRef.setAttribute('width', this.width)
+        // this.videoRef.setAttribute('height', this.height)
+        // canvas.setAttribute('width', this.width)
+        // canvas.setAttribute('this.height', this.height)
+      }
+    },
+    captureCanvas (ev) {
+      if (!this.streaming) {
+        this.onResize()
         this.streaming = true
       }
     },
