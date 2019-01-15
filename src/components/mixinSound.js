@@ -25,7 +25,7 @@ export const mixinSound = {
     },
     likelyAction () {
       if (this.micAvailable) {
-        return 'Record Page '
+        return 'Narrate'
       }
       else if (this.micRecording) {
         return 'Stop'
@@ -51,8 +51,7 @@ export const mixinSound = {
       // jim: this should be triggered ONLY when you want to record, so the above line is weird
       this.$router.push('/simpleRecord')
     },
-    doAction (ps) {
-
+    doAction () {
       if (this.micAvailable) {
         this.startRecording()
         this.$store.commit('setMicRecording')
@@ -68,7 +67,6 @@ export const mixinSound = {
         if (this.autoclose) {
           this.$emit('autoclose')
         }
-
 
         // this.$root.$emit('stopRecording')
         if (window.jim_DEBUG_FULL) console.log('stop recording emitted.')

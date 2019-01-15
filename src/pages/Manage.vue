@@ -41,7 +41,7 @@
       <q-card-actions vertical align="center">
         <q-btn
           label="narrate multiple new pages"
-          @click="narrate(activeFolder, 'bulk')"
+          @click="narrate(activeFolder, 'bulk', -1)"
           flat
           icon="mic"
           color="primary"
@@ -114,11 +114,12 @@
 
       <q-card-actions vertical align="center">
         <q-btn
-          label="narrate"
-          @click="narrate(activeFolder, pageName)"
+          :id="`narrate_${offset}`"
+          :label="activeRecorder != offset.toString() ?  'Narrate' : likelyAction"
+          @click="narrate(activeFolder, pageName, offset)"
           v-if="!activeFolder.soundOrder[offset]"
           flat
-          icon="mic"
+          :icon="activeRecorder != offset.toString() ?  'mic' : likelyIcon"
           color="primary"
         ></q-btn>
 
@@ -160,13 +161,15 @@
 
       <q-card-main>
         <RecordAudio
+          :ref="`record_audio_${offset}`"
           v-if="recording[pageName]"
           :pageName="pageName"
           :start="true"
           :autoclose="true"
-          v-on:autoclose="narrate(activeFolder, pageName)"
+          :showButtons="false"
         >
         </RecordAudio>
+        <!--v-on:autoclose="narrate(activeFolder, pageName, offset)"-->
         <RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
@@ -221,14 +224,31 @@
       completedBulkIllustration () {
         this.bulk.nextIllustration += 1
       },
-      narrate (folder, pageName) {
-
-        // only one at a time
-        let toggled = {}
-        if (!this.recording[pageName]) {
-          toggled[pageName] = !(toggled[pageName])
+      narrate (folder, pageName, offset) {
+        if (!this.activeRecorder) {
+          // start the recorder
+          this.activeRecorder = offset.toString()
+          // only one at a time
+          let toggled = {}
+          if (!this.recording[pageName]) {
+            toggled[pageName] = !(toggled[pageName])
+          }
+          this.$set(this, 'recording', toggled)
         }
-        this.$set(this, 'recording', toggled)
+        else {
+          // close Recorder
+          if (this.$refs['record_audio_' + offset.toString()]) {
+            let child = this.$refs['record_audio_' + offset.toString()]
+            if (child.length > 0) {
+              child[0].doAction()
+            }
+          }
+          else {
+            if (window.jim_DEBUG_FULL) console.log('can not find record_audio_' + offset)
+          }
+          this.activeRecorder = false
+          this.$set(this, 'recording', {})
+        }
       },
       illustrate (folder, pageName) {
         this.$router.push('/simpleRecord')
@@ -245,6 +265,7 @@
     },
     data () {
       return {
+        activeRecorder: false,
         recording: {},
         illustrating: {},
         bulk: {

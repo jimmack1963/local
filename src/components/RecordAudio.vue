@@ -6,6 +6,7 @@
       <q-btn
         class="q-my-md col-10"
         style="height:4em;"
+        v-if="showButtons"
         :icon="likelyIcon"
         color="primary"
         :label="likelyAction"
@@ -32,7 +33,7 @@
     name: 'recordaudio',
     components: {folderCardDisplay},
     mixins: [mixinGeneral, mixinDropbox, mixinSound],
-    props: ['pageName', 'start', 'autoclose'],
+    props: ['pageName', 'start', 'autoclose', 'showButtons'],
     methods: {
       startRecording () {
         this.recorderSrvc.config.stopTracksAndCloseCtxWhenFinished = this.cleanupWhenFinished
@@ -51,7 +52,6 @@
         this.recordingInProgress = false
       },
       onNewRecording (evt) {
-
         this.recordings.push(evt.detail.recording)
         this.pushToDropbox(evt.detail.recording)
       },
@@ -103,7 +103,6 @@
       },
     },
     mounted () {
-
       window.jim = window.jim || {}
       window.jim.recordaudio = this
       if (this.start) {
