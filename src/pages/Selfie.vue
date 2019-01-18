@@ -32,6 +32,7 @@
 
         </q-tab>
       </q-tabs>
+
     <input @change="inputElChanged($event)"
            type="file"
            id="hiddenInput"
@@ -71,7 +72,8 @@
       <p>You can take a picture by touching the screen after you have entered the book title.</p>
       -->
     </div>
-    <div >
+    <div v-if="facingMode !== 'file'">
+      <h3>Touch anywhere to take selfie</h3>
       <div class="camera scale-to-display">
         <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
       </div>

@@ -203,64 +203,65 @@ export const removeEntry = async (context, payload) => {
   let base
   // let familyEmpty = false
   let contents = TOC.contents
-  if (pageNumber in contents) {
-    base = contents[pageNumber]
-  }
-  else {
-    base = contents.pages[pageNumber]
-  }
-
-  if (pageNumber === 'book_cover') {
-
-  }
-
-  if (base) {
-    let offset = false
-    let entry = false
-    let familyLength = base[family].length
-    if (familyLength === 1) {
-      offset = 0
-      entry = base[family][0]
-      // familyEmpty = true
+  if (contents) {
+    if (pageNumber in contents) {
+      base = contents[pageNumber]
     }
     else {
-      // familyEmpty = false
-      for (let ctr = 0; ctr < familyLength; ctr++) {
-        if (base[family][ctr].pageNumber === pageNumber) {
-          entry = base[family][ctr]
-          offset = ctr
+      base = contents.pages[pageNumber]
+    }
+
+    if (pageNumber === 'book_cover') {
+
+    }
+
+    if (base) {
+      let offset = false
+      let entry = false
+      let familyLength = base[family].length
+      if (familyLength === 1) {
+        offset = 0
+        entry = base[family][0]
+        // familyEmpty = true
+      }
+      else {
+        // familyEmpty = false
+        for (let ctr = 0; ctr < familyLength; ctr++) {
+          if (base[family][ctr].pageNumber === pageNumber) {
+            entry = base[family][ctr]
+            offset = ctr
+          }
         }
       }
-    }
-    base[family].splice(offset, 1) // deleted family
+      base[family].splice(offset, 1) // deleted family
 
-    dbx.filesDeleteV2({
-      path: entry.path_lower,
-    })
-      .then(function () {
-        context.commit('calc', {
-          TOC,
-        })
+      dbx.filesDeleteV2({
+        path: entry.path_lower,
       })
+        .then(function () {
+          context.commit('calc', {
+            TOC,
+          })
+        })
 
-    /*
-        if (entry) {
-          // if (familyEmpty) {
-           // does this make the whole page go away?
-            if (base.jpg.length === 0 && base.mp3.length === 0 && base.png.length === 0) {
-              // TODO: the page is empty!
+      /*
+          if (entry) {
+            // if (familyEmpty) {
+             // does this make the whole page go away?
+              if (base.jpg.length === 0 && base.mp3.length === 0 && base.png.length === 0) {
+                // TODO: the page is empty!
+              }
             }
-          }
-          else {
-            // remove references
+            else {
+              // remove references
 
-            }      // remember TOC.sound index
-          // remember TOC.ids
-        // remove all links to this entry
-    */
+              }      // remember TOC.sound index
+            // remember TOC.ids
+          // remove all links to this entry
+      */
+    }
+    else {
+      if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
+    }
   }
-  else {
-    if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
-  }
-
 }

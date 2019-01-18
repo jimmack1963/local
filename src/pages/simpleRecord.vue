@@ -11,11 +11,7 @@
     <q-btn v-if="!preview" color="primary" ref="startbutton" id="startbutton" @click.stop="lockCameraImage">Freeze Image</q-btn>
     <q-btn v-if="preview" :disabled="!dataURL" color="secondary" @click="useImage">Use</q-btn>-->
     <div class="camera camFeedback"   >
-      <video :class="sizeClasses"
-             @click.stop="touchHandler8"
-             v-show="!preview"
-             ref="video"
-             id="video">Video stream not available.</video>
+      <video :class="sizeClasses" @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
     </div>
     <canvas  v-show="preview" ref="canvas" id="canvas"></canvas>
 

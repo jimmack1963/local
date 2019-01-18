@@ -48,6 +48,7 @@ export const mixinIllustrate = {
         let files = e.target.files
         // this.$emit('usePickedImage', e, files)
         this.useFile(files[0])
+        this.$router.push('/')
       }
     },
     stopMediaTracks (stream) {
