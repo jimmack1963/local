@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex'
 import { dom } from 'quasar'
-const { height, width } = dom
+
+const {height, width} = dom
 
 export const mixinIllustrate = {
   data () {
@@ -39,6 +40,16 @@ export const mixinIllustrate = {
     },
   },
   methods: {
+    inputElChanged (e) {
+      if (e.cypress) {
+        // this.$store.commit('image', 'data:image/png;base64,' + e.cypress)
+      }
+      else {
+        let files = e.target.files
+        // this.$emit('usePickedImage', e, files)
+        this.useFile(files[0])
+      }
+    },
     stopMediaTracks (stream) {
       stream.getTracks().forEach(track => {
         track.stop()
@@ -112,12 +123,12 @@ export const mixinIllustrate = {
           this.orientation = 'portrait'
           canvas.setAttribute('width', this.height)
           canvas.setAttribute('height', this.width)
-/*
-          this.width = w
-          this.height = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.width)
-          this.width = w
-          this.height = h
-*/
+          /*
+                    this.width = w
+                    this.height = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.width)
+                    this.width = w
+                    this.height = h
+          */
         }
         else {
           // landscape
@@ -126,24 +137,24 @@ export const mixinIllustrate = {
           canvas.setAttribute('width', this.width)
           canvas.setAttribute('height', this.height)
 
-/*
-          this.height = h
-          this.width = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.height)
-          this.width = h
-          this.height = w
-*/
+          /*
+                    this.height = h
+                    this.width = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.height)
+                    this.width = h
+                    this.height = w
+          */
         }
 
-/*        if (window.jim_DEBUG_FULL_junk) {
-          console.log(JSON.stringify({
-            h,
-            w,
-            thisH: this.height,
-            thisW: this.width,
-            vH: this.videoRef.videoHeight,
-            vW: this.videoRef.videoWidth,
-          }))
-        } */
+        /*        if (window.jim_DEBUG_FULL_junk) {
+                  console.log(JSON.stringify({
+                    h,
+                    w,
+                    thisH: this.height,
+                    thisW: this.width,
+                    vH: this.videoRef.videoHeight,
+                    vW: this.videoRef.videoWidth,
+                  }))
+                } */
 
         // this.videoRef.setAttribute('width', this.width)
         // this.videoRef.setAttribute('height', this.height)
@@ -170,12 +181,23 @@ export const mixinIllustrate = {
         await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
         this.clearPhoto()
       }
- else {
+      else {
         alert('Image not available')
       }
-
     },
+    async useFile (file) {
+      debugger
+      this.$emit('completed')
 
+      if (file) {
+        let fileName = this.generateImageName()
+
+        await this.uploadFile(file, fileName)
+      }
+      else {
+        alert('File not available')
+      }
+    },
     clearPhoto () {
       this.preview = false
       let canvas = this.$refs.canvas
@@ -198,7 +220,7 @@ export const mixinIllustrate = {
 
         this.dataURL = canvas.toDataURL('image/jpeg', this.quality ? parseFloat(this.quality) : 0.95)
       }
- else {
+      else {
         this.clearPhoto()
       }
     },
@@ -209,7 +231,7 @@ export const mixinIllustrate = {
         // numeric page numbers start with 'p'
         pageFileName = 'p' + this.pageName
       }
- else {
+      else {
         pageFileName = this.pageName
       }
       return `${this.activeFolder.path_display}/${pageFileName}.png`

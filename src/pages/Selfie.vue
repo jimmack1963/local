@@ -35,7 +35,7 @@
     <input @change="inputElChanged($event)"
            type="file"
            id="hiddenInput"
-           ref="input"
+           ref="hiddenInput"
            class="hidden"
            accept="image/*">
 
@@ -121,6 +121,7 @@
       },
       clickFile () {
         this.$store.commit('facingMode', {facingMode: 'file'})
+        this.$refs.hiddenInput.click()
         console.log('clickFile')
       },
       async completedTitle () {
