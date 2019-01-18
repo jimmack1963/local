@@ -53,6 +53,10 @@ module.exports = function (ctx) {
     framework: {
       cssAddon: true,
       components: [
+        'QTabs',
+        'QTab',
+        'QTabPane',
+
         'QWindowResizeObservable',
 
         'QCheckbox',

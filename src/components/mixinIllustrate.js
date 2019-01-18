@@ -17,6 +17,7 @@ export const mixinIllustrate = {
       audioInputSelect: [],
       audioOutputSelect: [],
       videoSelect: [],
+      theStream: false,
     }
   },
   computed: {
@@ -29,14 +30,31 @@ export const mixinIllustrate = {
   },
   watch: {
     'facingMode': function (newVal, oldVal) {
-      this.getUserMedia(this.videoRef)
+      if (newVal === 'user' || newVal === 'environment') {
+        this.getUserMedia(this.videoRef)
+      }
+      else {
+
+      }
     },
   },
   methods: {
+    stopMediaTracks (stream) {
+      stream.getTracks().forEach(track => {
+        track.stop()
+      })
+    },
     getUserMedia (videoRef) {
+      let self = this
+      if (this.theStream) {
+        console.log('Stopped theStream')
+        this.stopMediaTracks(this.theStream)
+      }
       // note:  VUE instance must have videoRef defined
       navigator.mediaDevices.getUserMedia({video: {facingMode: this.facingMode}, audio: false})
         .then(function (stream) {
+          console.log('assigned th')
+          self.theStream = stream
           videoRef.srcObject = stream
           videoRef.play()
         })

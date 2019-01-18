@@ -40,3 +40,7 @@ export function nextCamera (state) {
 
   console.log('facingMode changed to ' + state.facingMode)
 }
+
+export function facingMode (state, payload) {
+  state.facingMode = payload.facingMode
+}

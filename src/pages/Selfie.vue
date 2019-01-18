@@ -2,6 +2,53 @@
   <q-page
 
   >
+
+      <q-tabs class="row" v-model="cameraMode">
+        <q-tab
+          name="front"
+          label="front"
+          @click="clickFront"
+          icon="camera_front"
+          slot="title"
+        >
+
+        </q-tab>
+        <q-tab
+          name="rear"
+          label="rear"
+          @click="clickRear"
+          icon="camera_rear"
+          slot="title"
+        >
+
+        </q-tab>
+        <q-tab
+          name="file"
+          label="file"
+          @click="clickFile"
+          icon="attachment"
+          slot="title"
+        >
+
+        </q-tab>
+      </q-tabs>
+    <input @change="inputElChanged($event)"
+           type="file"
+           id="hiddenInput"
+           ref="input"
+           class="hidden"
+           accept="image/*">
+
+    <!--      <q-btn class="col-4">
+            Front
+          </q-btn>
+          <q-btn class="col-4">
+            Back
+          </q-btn>
+          <q-btn class="col-4">
+            Saved
+          </q-btn>-->
+
     <div v-if="!activeFolder">
       <!--
       v-touch-swipe="swipeHandler"
@@ -49,6 +96,7 @@
     mixins: [mixinGeneral, mixinDropbox, mixinIllustrate],
     data () {
       return {
+        cameraMode: 'front',
         nameset: this.activeFolder,
       }
     },
@@ -63,6 +111,18 @@
       this.clearPhoto()
     },
     methods: {
+      clickFront () {
+        this.$store.commit('facingMode', {facingMode: 'user'})
+        console.log('clickFront')
+      },
+      clickRear () {
+        this.$store.commit('facingMode', {facingMode: 'environment'})
+        console.log('clickRear')
+      },
+      clickFile () {
+        this.$store.commit('facingMode', {facingMode: 'file'})
+        console.log('clickFile')
+      },
       async completedTitle () {
         if (this.bookTitle) {
           // this.$q.dialog

@@ -2,7 +2,7 @@
   "name": "local",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "You are the star your kids wait for",
+  "productName": "Kids Deserve 2B Read 2",
   "cordovaId": "me.memoread.app",
   "author": "jim@less2do.com",
   "private": true,
@@ -23,7 +23,7 @@
     "sp": "quasar serve dist/pwa-mat",
     "touch": "node touch.js",
     "ws": "webstorm64 .",
-    "debug_chrome_android": "adb start-server"
+    "dbg": "adb start-server"
   },
   "dependencies": {
     "assert": "^1.4.1",
@@ -38,7 +38,8 @@
     "path-parse": "^1.0.6",
     "quasar": "^1.0.0-alpha.6",
     "vue-i18n": "^8.6.0",
-    "vue-router-multiguard": "^1.0.3"
+    "vue-router-multiguard": "^1.0.3",
+    "vue-tour": "^1.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
