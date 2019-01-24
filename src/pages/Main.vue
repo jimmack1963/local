@@ -114,7 +114,7 @@
         <q-btn
           flat
           color="secondary"
-          label="Create"
+          label="Illustrate"
           @click="record(folder)"
 
         ></q-btn>

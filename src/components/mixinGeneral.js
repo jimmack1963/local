@@ -232,7 +232,7 @@ export const mixinGeneral = {
       }
  else {
         // I don't know why this is here, but it interferes with taking multiple images in a row
-        // this.$router.push('/simpleRecord')
+        // this.$router.push('/Illustrate')
       }
     },
     setDelayPlayNext (seconds) {

@@ -251,7 +251,7 @@
         }
       },
       illustrate (folder, pageName) {
-        this.$router.push('/simpleRecord')
+        this.$router.push('/Illustrate')
       },
       illustrateLocal (folder, pageName) {
         // only one at a time

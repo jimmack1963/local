@@ -1,5 +1,34 @@
 <template>
   <q-page  v-touch-swipe="swipeHandler">
+    <q-tabs class="row" v-model="cameraMode">
+      <q-tab
+        name="take"
+        label="Take Selfie"
+        @click="touchHandler8"
+        icon="camera"
+        slot="title"
+      >
+      </q-tab>
+
+      <q-tab
+        name="front"
+        :label="modeCaption"
+        @click="modeClick"
+        :icon="modeIcon"
+        slot="title"
+      >
+      </q-tab>
+
+      <q-tab
+        name="file"
+        label="file"
+        @click="clickFile"
+        icon="attachment"
+        slot="title"
+      >
+
+      </q-tab>
+    </q-tabs>
     <slot></slot>
 
     <div class="camera"   >

@@ -65,7 +65,7 @@ export const mixinDropbox = {
       return bytes.buffer
     },
     uploadFile: async function (sourceFile, fileName) {
-      debugger
+
       let v = this
       if (sourceFile.size < this.UPLOAD_FILE_SIZE_LIMIT) {
         try {
@@ -73,7 +73,7 @@ export const mixinDropbox = {
             path: fileName,
             contents: sourceFile,
           })
-          debugger
+
 
           response.parts = pathParse(response.path_lower)
           response.ext = response.parts.ext.toLowerCase().replace('.', '')
@@ -166,7 +166,7 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlobImage: async function (dataURL, fileName, size) {
-      debugger
+
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
@@ -268,7 +268,7 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlobAudio (blob, fileName, size) {
-      debugger
+
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {

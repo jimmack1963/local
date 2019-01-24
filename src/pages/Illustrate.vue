@@ -5,6 +5,35 @@
     ref="background"
     >
     <q-window-resize-observable @resize="onResize" />
+    <q-tabs class="row" v-model="cameraMode">
+      <q-tab
+        name="take"
+        label="Take Selfie"
+        @click="touchHandler8"
+        icon="camera"
+        slot="title"
+      >
+      </q-tab>
+
+      <q-tab
+        name="front"
+        :label="modeCaption"
+        @click="modeClick"
+        :icon="modeIcon"
+        slot="title"
+      >
+      </q-tab>
+
+      <q-tab
+        name="file"
+        label="file"
+        @click="clickFile"
+        icon="attachment"
+        slot="title"
+      >
+
+      </q-tab>
+    </q-tabs>
 
     <div class="camFeedback" >
 <!--    <q-btn v-if="preview" color="secondary" ref="retakeButton" id="retakeButton" @click.stop="clearPhoto">Retake</q-btn>
@@ -30,7 +59,7 @@
     @click.native="touchHandler"
    */
   export default {
-    name: 'simpleRecord',
+    name: 'Illustrate',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
       return {
@@ -50,7 +79,7 @@
     },
     mounted () {
       window.jim = window.jim || {}
-      window.jim.simpleRecord = this
+      window.jim.Illustrate = this
 
       this.videoRef = this.$refs.video
 

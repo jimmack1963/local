@@ -66,7 +66,7 @@
   import { mixinDropbox } from '../components/mixinDropbox'
 
 export default {
-  name: 'simplerecord',
+  name: 'Illustrate',
   mixins: [ mixinDropbox ],
   methods: {
     startRecording () {
@@ -127,7 +127,7 @@ export default {
   },
   mounted () {
     window.jim = window.jim || {}
-    window.jim.simplerecord = this
+    window.jim.Illustrate = this
   },
   filters: {
     fileSizeToHumanSize (val) {

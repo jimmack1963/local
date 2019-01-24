@@ -5,7 +5,7 @@ import MyLayout from '../layouts/MyLayout.vue'
 import Main from '../pages/Main.vue'
 import Selfie from '../pages/Selfie.vue'
 import Carousel from '../pages/Carousel.vue'
-import simpleRecord from '../pages/simpleRecord.vue'
+import Illustrate from '../pages/Illustrate.vue'
 import Manage from '../pages/Manage.vue'
 import Error404 from '../pages/Error404.vue'
 
@@ -64,10 +64,10 @@ const routes = [
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
-    path: '/simpleRecord',
+    path: '/Illustrate',
     component: MyLayout,
     children: [
-      { path: '', component: simpleRecord }
+      { path: '', component: Illustrate }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },

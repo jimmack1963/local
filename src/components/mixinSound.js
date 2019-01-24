@@ -49,7 +49,7 @@ export const mixinSound = {
       })
       // I don't know why this is here, but it interferes with taking multiple images in a row
       // jim: this should be triggered ONLY when you want to record, so the above line is weird
-      this.$router.push('/simpleRecord')
+      this.$router.push('/Illustrate')
     },
     doAction () {
       if (this.micAvailable) {
