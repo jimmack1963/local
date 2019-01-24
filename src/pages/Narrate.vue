@@ -5,97 +5,6 @@
         </folderCardDisplay>
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
-    <q-card class="q-ma-sm">
-      <q-card-media
-        overlay-position="bottom"
-        v-if="activeFolder.thumbnail"
-      >
-        <img    :src="activeFolder.thumbnail" :alt="activeFolder.name">
-        <q-card-title slot="overlay" >
-          {{activeFolder.name}}&nbsp;
-          <!--<span slot="subtitle">{{folder.size}}</span>-->
-        </q-card-title>
-      </q-card-media>
-
-      <q-card-main><!--
-        <q-field
-          label="Next Illustration:"
-        >
-          <q-input
-            v-model="bulk.nextIllustration"
-          >
-
-          </q-input>
-        </q-field>
-        <q-field
-          label="Next Narration:"
-        >
-          <q-input
-            v-model="bulk.nextNarration"
-          >
-          </q-input>
-        </q-field>
-
-
-      --></q-card-main>
-      <q-card-actions vertical align="center">
-        <q-btn
-          label="narrate multiple new pages"
-          @click="narratePage(activeFolder, 'bulk', -1)"
-          flat
-          icon="mic"
-          color="primary"
-        ></q-btn>
-
-        <q-btn
-          label="Illustrate multiple new pages"
-          @click="illustrate(activeFolder, 'bulk')"
-          flat
-          icon="add a photo"
-          color="primary"
-        ></q-btn>
-
-        <q-btn
-          label="Replace Selfie"
-          @click="replaceSelfie(activeFolder)"
-          flat
-          icon="label"
-        ></q-btn>
-
-        <q-btn
-          label="Rename"
-          @click="renameFolder(activeFolder)"
-          flat
-          icon="label"
-        ></q-btn>
-
-        <q-btn
-          label="Delete  Book"
-          @click="deleteFolder(activeFolder)"
-          flat
-          icon="delete"
-        ></q-btn>
-      </q-card-actions>
-      <q-card-main>
-
-        <RecordAudio
-          v-if="recording['bulk']"
-          v-on:completed="completedBulkNarration"
-          :pageName="bulk.nextNarration"
-        >
-        </RecordAudio>
-        <RecordCamcord
-          v-if="illustrating['bulk']"
-          v-on:completed="completedBulkIllustration"
-          :pageName="bulk.nextIllustration"
-          :quality="0.5"
-        >
-          Page {{bulk.nextIllustration}}
-        </RecordCamcord>
-
-      </q-card-main>
-    </q-card>
-
     <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
       <q-card-media
         overlay-position="bottom"
@@ -141,22 +50,6 @@
           color="primary"
         ></q-btn>
 
-        <q-btn
-          label="Illustrate"
-          @click="illustrate(activeFolder, pageName)"
-          v-if="!activeFolder.imageOrder[offset]"
-          flat
-          icon="add a photo"
-          color="primary"
-        ></q-btn>
-        <q-btn
-          label="erase image"
-          @click="deleteBookImage(activeFolder, pageName)"
-          v-if="activeFolder.imageOrder[offset]"
-          flat
-          icon="delete"
-          color="primary"
-        ></q-btn>
       </q-card-actions>
 
       <q-card-main>
@@ -180,6 +73,51 @@
       </q-card-main>
     </q-card>
 
+    <q-card class="q-ma-sm">
+      <q-card-media
+        overlay-position="bottom"
+        v-if="activeFolder.thumbnail"
+      >
+        <img    :src="activeFolder.thumbnail" :alt="activeFolder.name">
+        <q-card-title slot="overlay" >
+          {{activeFolder.name}}&nbsp;
+          <!--<span slot="subtitle">{{folder.size}}</span>-->
+        </q-card-title>
+      </q-card-media>
+
+      <q-card-main>
+
+        <q-field
+          label="Next Narration Page"
+        >
+          <q-input
+            v-model="nextNarration"
+          >
+          </q-input>
+        </q-field>
+
+        <RecordAudio
+          ref="record_audio_bulk"
+          v-if="recording['bulk']"
+          v-on:completed="completedBulkNarration"
+          :pageName="nextNarration"
+        >
+        </RecordAudio>
+      </q-card-main>
+      <q-card-actions vertical align="center">
+        <q-btn
+          :label="activeRecorderOffset != 'bulk' ? 'narrate multiple new pages' : likelyAction"
+          @click="narratePage(activeFolder, 'bulk', -1)"
+          flat
+          :icon="activeRecorderOffset != 'bulk' ? 'mic' : likelyIcon"
+          color="primary"
+        ></q-btn>
+      </q-card-actions>
+      <q-card-main>
+
+
+      </q-card-main>
+    </q-card>
 
   </q-page>
 </template>
@@ -219,13 +157,33 @@
               }
             }, */
       completedBulkNarration () {
-        this.bulk.nextNarration += 1
+        this.nextNarration += 1
       },
-      completedBulkIllustration () {
-        this.bulk.nextIllustration += 1
-      },
-      narratePage (folder, pageName, offset) {
-        if (!this.activeRecorderOffset) {
+
+      narratePage (folder, pageName, offset, recursive) {
+
+        if (offset === -1) {
+          this.activeRecorderOffset = 'bulk'
+          if (!recursive) {
+            let toggled = {}
+            toggled[pageName] = true
+            this.$set(this, 'recording', toggled)
+          }
+          let child = this.$refs.record_audio_bulk
+          if (child) {
+            child.doAction()
+          }
+          else {
+            alert('Second chance')
+            this.$nextTick(() => {
+              this.narratePage(folder, pageName, offset, true)
+            })
+          }
+          // record a bunch of new ones, starting at ...
+
+          // this.narratePage(folder, this.nextNarration, this.nextNarration)
+        }
+        else if (!this.activeRecorderOffset) {
           // start the recorder
           this.activeRecorderOffset = offset.toString()
           // only one at a time
@@ -268,20 +226,18 @@
         activeRecorderOffset: false,
         recording: {},
         illustrating: {},
-        bulk: {
-          nextNarration: 0,
-          nextIllustration: 0,
-        },
+        nextNarration: 0,
+
       }
     },
     mounted () {
       window.jim = window.jim || {}
-      window.jim.manage = this
+      window.jim.narrate = this
 
-      this.bulk.nextNarration = parseInt(this.activeFolder.pageOrder[this.activeFolder.pageOrder.length - 1]) + 1 || 0
-      this.bulk.nextIllustration = this.bulk.nextNarration || 0
+      this.nextNarration = this.nextSound(this.activeFolder)
+
     },
-    name: 'manage',
+    name: 'narrate',
   }
 </script>
 

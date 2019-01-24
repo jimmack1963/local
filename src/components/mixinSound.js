@@ -42,6 +42,12 @@ export const mixinSound = {
     },
   },
   methods: {
+    narrateBook (folder) {
+      this.$store.commit('setActiveFolder', {
+        activeFolder: folder
+      })
+      this.$router.push('/Narrate')
+    },
     record (folder) {
       // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {

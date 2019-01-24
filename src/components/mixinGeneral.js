@@ -63,6 +63,57 @@ export const mixinGeneral = {
 
   },
   methods: {
+    maxSound (folder) {
+      let testing = folder.soundOrder
+      let keys = Object.keys(testing)
+      let last = false
+      let possible = false
+      do {
+        possible = keys.pop()
+        last = testing[possible]
+      } while (!last && keys.length > 0)
+      return possible
+    },
+    nextSound (folder) {
+      let testing = folder.soundOrder
+      let keys = Object.keys(testing)
+      let last = false
+      let possibleKey = false
+      do {
+        possibleKey = keys.pop()
+        last = testing[possibleKey]
+      } while (!last && keys.length > 0)
+
+      if (/^\d+$/.test(possibleKey)) {
+        let converted = parseInt(possibleKey) + 1
+        return converted
+      }
+      else {
+        return possibleKey + '.1'
+      }
+    },
+    maxIllustration (folder) {
+      let testing = folder.imageOrder
+      let keys = Object.keys(testing)
+      let last = false
+      let possible = false
+      do {
+        possible = keys.pop()
+        last = testing[possible]
+      } while (!last || keys.length > 0)
+      return possible
+    },
+    nextIllustration (folder) {
+      let testing = folder.imageOrder
+      let keys = Object.keys(testing)
+      let last = false
+      let possible = false
+      do {
+        possible = keys.pop()
+        last = testing[possible]
+      } while (!last || keys.length > 0)
+      return possible
+    },
     async startBook (bookTitle) {
 
       if (!bookTitle) {

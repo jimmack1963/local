@@ -121,6 +121,13 @@
         <q-btn
           flat
           color="secondary"
+          label="Narrate"
+          @click="narrateBook(folder)"
+
+        ></q-btn>
+        <q-btn
+          flat
+          color="secondary"
           label="Manage"
           @click="manage(folder)"
 

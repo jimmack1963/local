@@ -6,6 +6,7 @@ import Main from '../pages/Main.vue'
 import Selfie from '../pages/Selfie.vue'
 import Carousel from '../pages/Carousel.vue'
 import Illustrate from '../pages/Illustrate.vue'
+import Narrate from '../pages/Narrate.vue'
 import Manage from '../pages/Manage.vue'
 import Error404 from '../pages/Error404.vue'
 
@@ -68,6 +69,14 @@ const routes = [
     component: MyLayout,
     children: [
       { path: '', component: Illustrate }
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
+  },
+  {
+    path: '/Narrate',
+    component: MyLayout,
+    children: [
+      { path: '', component: Narrate }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },
