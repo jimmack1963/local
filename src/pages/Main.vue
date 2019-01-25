@@ -30,7 +30,7 @@
 
     </q-card>
 
-    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id">
+    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"

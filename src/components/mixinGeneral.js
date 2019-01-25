@@ -156,6 +156,7 @@ export const mixinGeneral = {
       v.$router.push('/selfie')
     },
     logout () {
+      this.$router.push('/')
       this.leftDrawerOpen = false
       this.$q.localStorage.set('access_token', false)
       this.purgeLocalStorageFromDropbox()

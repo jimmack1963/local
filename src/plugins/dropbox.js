@@ -83,12 +83,13 @@ export default ({app, router, Vue}) => {
   let token_type = queryString.token_type
   let uid = queryString.uid
   let account_id = queryString.account_id
+  let dbx
 
   if (!!access_token) {
     // Create an instance of Dropbox with the access token and use it to
     // fetch and render the files in the users root directory.
 
-    let dbx = new Dropbox.Dropbox({accessToken: access_token, fetch: fetch})
+    dbx = new Dropbox.Dropbox({clientId: CLIENT_ID, accessToken: access_token, fetch: fetch})
     Vue.prototype.$dbx = dbx
 
     if (Store) {
@@ -116,17 +117,20 @@ export default ({app, router, Vue}) => {
       if (window.jim_DEBUG_FULL) console.log('No store?')
     }
 
-    let dbx = new Dropbox.Dropbox({clientId: CLIENT_ID, fetch: fetch})
+    dbx = new Dropbox.Dropbox({clientId: CLIENT_ID, fetch: fetch})
     Vue.prototype.$dbx = dbx
     // TODO: url for each deployment
     // let authUrl = dbx.getAuthenticationUrl('https://playitagainkid.com')
     // let authUrl = dbx.getAuthenticationUrl('https://localhost:8080')
 
-    let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
-    console.log('authUrl')
-    console.dir(authUrl)
-    Vue.prototype.$authURL = authUrl
+
   }
+
+  let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
+  console.log('authUrl')
+  console.dir(authUrl)
+  Vue.prototype.$authURL = authUrl
+
   /*
   let Dropbox = dropbox.Dropbox
   let myToken = false
