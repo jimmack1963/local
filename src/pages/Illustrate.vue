@@ -5,10 +5,10 @@
     ref="background"
     >
     <q-window-resize-observable @resize="onResize" />
-    <q-tabs class="row" v-model="cameraMode">
+    <q-tabs class="col-12" v-model="cameraMode">
       <q-tab
         name="take"
-        label="Take Selfie"
+        :label="'keep as page ' + nextIllustration(activeFolder)"
         @click="touchHandler8"
         icon="camera"
         slot="title"
@@ -31,7 +31,15 @@
         icon="attachment"
         slot="title"
       >
+      </q-tab>
 
+      <q-tab
+        name="done"
+        label="done"
+        @click="home"
+        icon="stop"
+        slot="title"
+      >
       </q-tab>
     </q-tabs>
 
@@ -94,6 +102,4 @@
 </script>
 
 <style>
-  .camFeedback {
-  }
 </style>

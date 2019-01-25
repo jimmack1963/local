@@ -112,4 +112,20 @@ export default {
 </script>
 
 <style>
+
+  .camera-portrait {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(98vw) !important;
+    width: calc(96vw);
+  }
+  .camera-landscape {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: calc(98vh - 110px) !important;
+    height: calc(98vh - 110px);
+    width: auto;
+  }
 </style>

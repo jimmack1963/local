@@ -6,7 +6,7 @@
       <q-tabs class="row" v-model="cameraMode">
         <q-tab
           name="take"
-          label="Take Selfie"
+          label="Take Selfie as Cover"
           @click="touchHandler8"
           icon="camera"
           slot="title"
@@ -29,7 +29,15 @@
           icon="attachment"
           slot="title"
         >
+        </q-tab>
 
+        <q-tab
+          name="done"
+          label="done"
+          @click="home"
+          icon="stop"
+          slot="title"
+        >
         </q-tab>
       </q-tabs>
 

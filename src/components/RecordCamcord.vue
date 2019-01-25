@@ -3,7 +3,7 @@
     <q-tabs class="row" v-model="cameraMode">
       <q-tab
         name="take"
-        label="Take Selfie"
+        :label="'keep as page ' + nextIllustration(activeFolder)"
         @click="touchHandler8"
         icon="camera"
         slot="title"
@@ -26,7 +26,15 @@
         icon="attachment"
         slot="title"
       >
+      </q-tab>
 
+      <q-tab
+        name="done"
+        label="done"
+        @click="home"
+        icon="stop"
+        slot="title"
+      >
       </q-tab>
     </q-tabs>
     <slot></slot>
@@ -111,20 +119,4 @@
   }
 </script>
 
-<style>
-  .camera-portrait {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: calc(98vw) !important;
-    width: calc(96vw);
-  }
-  .camera-landscape {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-height: calc(98vh - 16px) !important;
-    height: calc(96vh - 48px);
-    width: auto;
-  }
-</style>
+<style></style>
