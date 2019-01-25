@@ -26,7 +26,7 @@
             :class="`bg-${colors[n % 5]}`"
 
           >
-            <img :src="imageForPage(p)" :alt="imageForPage(p)">
+            <img :alt="imageForPage(p)" class="full"  :src="imageForPage(p)">
             <!--<div class="q-display-3">Page {{ p }} {{ imageForPage(p)}}</div>-->
           </q-carousel-slide>
 
@@ -34,11 +34,11 @@
             slot="control-full"
             slot-scope="carousel"
             position="bottom-right"
-            :offset="[18, 22]"
+            :offset="[18, 44]"
           >
             <q-btn
               rounded push
-              color="amber"
+              color="secondary"
               icon="close"
               label="Close me"
               @click="home()"

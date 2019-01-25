@@ -157,6 +157,7 @@ export const mixinSound = {
       })
     },
     playBookPage (folder, pageNumber) {
+      this.endHowlPlay()
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
       this.$store.commit('setActiveFolder', {
         activeFolder: folder
@@ -184,12 +185,13 @@ export const mixinSound = {
             }
           },
           done () {
-            vue.$refs.playingPage.forEach(r => {
-              r.style.left = '-2000px'
-              // r.style.fontsize = `${pos}px`
-              // r.style.top = `${pos}px`
-            })
-
+            if (vue.$refs.playingPage) {
+              vue.$refs.playingPage.forEach(r => {
+                r.style.left = '-2000px'
+                // r.style.fontsize = `${pos}px`
+                // r.style.top = `${pos}px`
+              })
+            }
           }
         })
       }
