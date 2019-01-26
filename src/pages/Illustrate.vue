@@ -71,7 +71,8 @@
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
       return {
-        quality: 0.5
+        // TODO: quality
+        quality: 1
       }
     },
     computed: {

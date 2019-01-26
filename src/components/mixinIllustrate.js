@@ -271,6 +271,7 @@ export const mixinIllustrate = {
         canvas.height = video.videoHeight
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
 
+        // TODO: quality of image
         this.dataURL = canvas.toDataURL('image/jpeg', this.quality ? parseFloat(this.quality) : 0.95)
       }
       else {

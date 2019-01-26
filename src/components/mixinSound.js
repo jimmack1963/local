@@ -156,7 +156,10 @@ export const mixinSound = {
         dbx: this.$dbx
       })
     },
-    playBookPage (folder, pageNumber) {
+    playBookPage (folder, pageNumber, stopAtOne) {
+      if (stopAtOne) {
+        this.setDelayPlayNext(0)
+      }
       this.endHowlPlay()
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
       this.$store.commit('setActiveFolder', {
@@ -283,6 +286,7 @@ export const mixinSound = {
       this.$store.commit('silence')
     },
     playBook (folder) {
+      this.setDelayPlayNext(1)
       this.$store.commit('setActiveFolder', {
         activeFolder: folder
       })

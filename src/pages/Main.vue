@@ -3,20 +3,22 @@
     <div v-if="!access_token">
       <h1>{{title}}</h1>
       We help you {{verb}} books for your loved ones, however they may be behaving currently.
-      This version used DropBox to store images and recordings.  Specifically, it uses <em>your</em> DropBox account,
-      making a folder called \Apps\PlayItAgainKid.    It's your own disk in the cloud, easy to copy anywhere.
+      This version used DropBox to store images and recordings. Specifically, it uses <em>your</em> DropBox account,
+      making a folder called \Apps\PlayItAgainKid. It's your own disk in the cloud, easy to copy anywhere.
 
       This means you always will have your originals, and that we never even see anything you create.
       <br><br>
       <a id="authlink" :href="authURL" class="button">Authenticate with Dropbox</a>
       <br><br>
-      If you are not a current user, you may want to sign up on <a href="https://www.dropbox.com/register" targt="_blank">their site first</a>.  Or, install their app.
+      If you are not a current user, you may want to sign up on <a href="https://www.dropbox.com/register"
+                                                                   targt="_blank">their site first</a>. Or, install
+      their app.
       <br>
 
-      {{title}}  is not affiliated with or otherwise sponsored by Dropbox, Inc.
+      {{title}} is not affiliated with or otherwise sponsored by Dropbox, Inc.
     </div>
 
-    <q-card class="card-itself col-lg-4 col-xs-12" v-if="access_token && TOCSorted.length === 0" >
+    <q-card class="card-itself col-lg-4 col-xs-12" v-if="access_token && TOCSorted.length === 0">
       <q-card-title>Make your first Book</q-card-title>
       <q-card-main>
         <p>The menu at the left has an entry, "Make a new book." </p>
@@ -25,7 +27,8 @@
           <q-icon name="menu"></q-icon>
         </p>
 
-          <p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting anywhere on the screen.  You can always replace it if you want a second chance.</p>
+        <p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting
+          anywhere on the screen. You can always replace it if you want a second chance.</p>
       </q-card-main>
 
     </q-card>
@@ -41,7 +44,7 @@
           class="book-on-card"
           :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail"
           :alt="folder.name">
-        <q-card-title slot="overlay" >
+        <q-card-title slot="overlay">
           {{folder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
         </q-card-title>
@@ -62,22 +65,117 @@
       </q-card-main>
 
       <!--if book (folder)-->
-      <q-card-actions v-if="folder['.tag'] === 'folder'" >
-        <q-btn
-          flat
-          color="primary"
-          label="Take Selfie"
-          @click="selfie(folder)"
-          v-if="!folder.thumbnail"
-        ></q-btn>
+      <q-card-actions v-if="folder['.tag'] === 'folder'">
+
+        <q-btn-dropdown split color="primary" label="Playing" class="q-mr-sm">
+          <q-list link>
+            <q-item
+              @click.native="selfie(folder)"
+              v-if="!folder.thumbnail"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Take Selfie
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+            <q-item
+              @click.native="carousel(folder)"
+              v-if="pageCount(folder) > 0"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Carousel
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+
+            <q-item
+              @click.native="playBook(folder)"
+              v-if="pageCount(folder) > 0"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Play All
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+
+            <q-item
+              v-for="p in pageOrder(folder)"
+              v-if="p"
+              v-bind:key="p"
+              @click.native="playBookPage(folder, p, true)"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Page {{p}}
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+
+          </q-list>
+
+        </q-btn-dropdown>
+
+        <q-btn-dropdown split color="primary" label="Creating" class="q-mr-sm">
+          <q-list link>
+            <q-item
+              @click.native="record(folder)"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Illustrate
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+            <q-item
+              @click.native="narrateBook(folder)"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Narrate
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+            <q-item
+              @click.native="manage(folder)"
+            >
+              <q-item-main>
+                <q-item-tile label>
+                  Manage
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
 
         <q-btn
           flat
-          color="primary"
-          label="carousel"
-          @click="carousel(folder)"
-          v-if="pageCount(folder) > 0"
+          color="secondary"
+          icon="stop"
+          label="Silence"
+          @click="endHowlPlay(folder)"
+          v-if="(pageCount(folder) > 0) && (playing.length > 0)"
         ></q-btn>
+
+        <!--
+                <q-btn
+                  flat
+                  color="primary"
+                  label="Take Selfie"
+                  @click="selfie(folder)"
+                  v-if="!folder.thumbnail"
+                ></q-btn>
+
+                <q-btn
+                  flat
+                  color="primary"
+                  label="carousel"
+                  @click="carousel(folder)"
+                  v-if="pageCount(folder) > 0"
+                ></q-btn>
+
         <q-btn
           flat
           color="primary"
@@ -85,16 +183,8 @@
           @click="playBook(folder)"
           v-if="pageCount(folder) > 0"
         ></q-btn>
-        <q-btn
-          flat
-          color="secondary"
-          label="Silence"
-          @click="endHowlPlay(folder)"
-          v-if="pageCount(folder) > 0"
-        ></q-btn>
 
-
-        <q-btn
+<q-btn
           flat
           color="primary"
           :label="p"
@@ -102,13 +192,6 @@
           v-if="p"
           v-bind:key="p"
           @click="playBookPage(folder, p)"
-        ></q-btn>
-        <q-btn
-          flat
-          color="primary"
-          label="continue play"
-          @click="continuePlaying(folder)"
-          v-if="pageCount(folder) > 0"
         ></q-btn>
 
         <q-btn
@@ -132,6 +215,18 @@
           @click="manage(folder)"
 
         ></q-btn>
+
+
+
+        <q-btn
+          flat
+          color="primary"
+          label="continue play"
+          @click="continuePlaying(folder)"
+          v-if="pageCount(folder) > 0"
+        ></q-btn>
+
+        -->
 
       </q-card-actions>
 
@@ -169,11 +264,13 @@
       min-height: 100%;
       max-height: 100%;
     }
+
     .card-itself {
       width: 100%;
       margin-bottom: 0.3em;
     }
   }
+
   @media (orientation: landscape) {
     .book-on-card {
       width: auto;
@@ -183,6 +280,7 @@
       min-height: 100%;
       max-height: 100%;
     }
+
     .card-itself {
       width: 49%;
       margin-right: 0.3em;
@@ -206,64 +304,64 @@
   import { mixinSound } from '../components/mixinSound'
   import { mixinGeneral } from '../components/mixinGeneral'
 
-export default {
-  name: 'Main',
-  components: {},
-  mixins: [ mixinGeneral, mixinSound ],
-  methods: {
-    savedEntry (returnedEntry) {
+  export default {
+    name: 'Main',
+    components: {},
+    mixins: [mixinGeneral, mixinSound],
+    methods: {
+      savedEntry (returnedEntry) {
 
-      let found = this.ids[returnedEntry.id]
-      return found
+        let found = this.ids[returnedEntry.id]
+        return found
+      },
+      play (entry) {
+
+        let howlable = this.savedEntry(entry)
+        if (howlable) {
+          howlable.howl.play()
+        }
+        else {
+          if (window.jim_DEBUG_FULL) console.log('Can not play!')
+        }
+      },
+      view (entry) {
+        this.$dbx.filesGetThumbnail({path: entry.path_lower})
+          .then((response) => {
+
+            console.log(response.fileBlob.size)
+
+            this.$set(entry, 'thumbnail', window.URL.createObjectURL(response.fileBlob))
+            // TODO: save these blobs, they are not that large.
+            /* let img = document.createElement('img')
+            img.src = window.URL.createObjectURL(response.fileBlob)
+            document.body.appendChild(img) */
+          })
+          .catch((error) => {
+
+            if (window.jim_DEBUG_FULL) console.log('ERROR:')
+            console.log(error)
+          })
+      },
     },
-    play (entry) {
-
-      let howlable = this.savedEntry(entry)
-      if (howlable) {
-        howlable.howl.play()
+    computed: {
+      authURL () {
+        return this.$authURL
+      },
+    },
+    data () {
+      return {
+        contents: [],
+        folder: '',
+        folder3: '',
+        isLoading: true,
       }
-      else {
-        if (window.jim_DEBUG_FULL) console.log('Can not play!')
+    },
+    mounted () {
+      window.jim = window.jim || {}
+      window.jim.main = this
+      if (Object.keys(this.TOC).length < 1) {
+        this.readDropboxFolder()
       }
     },
-    view (entry) {
-      this.$dbx.filesGetThumbnail({path: entry.path_lower})
-        .then((response) => {
-
-          console.log(response.fileBlob.size)
-
-          this.$set(entry, 'thumbnail', window.URL.createObjectURL(response.fileBlob))
-          // TODO: save these blobs, they are not that large.
-          /* let img = document.createElement('img')
-          img.src = window.URL.createObjectURL(response.fileBlob)
-          document.body.appendChild(img) */
-        })
-        .catch((error) => {
-
-          if (window.jim_DEBUG_FULL) console.log('ERROR:')
-          console.log(error)
-        })
-    },
-  },
-  computed: {
-    authURL () {
-      return this.$authURL
-    }
-  },
-  data () {
-    return {
-      contents: [],
-      folder: '',
-      folder3: '',
-      isLoading: true
-    }
-  },
-  mounted () {
-    window.jim = window.jim || {}
-    window.jim.main = this
-    if (Object.keys(this.TOC).length < 1) {
-      this.readDropboxFolder()
-    }
   }
-}
 </script>

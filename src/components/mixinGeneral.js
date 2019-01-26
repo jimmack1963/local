@@ -236,6 +236,7 @@ export const mixinGeneral = {
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
+      this.purgeLocalStorageFromDropbox()
       let self = this
       let dbx = this.$dbx
       // /PlayItAgainKid/book1

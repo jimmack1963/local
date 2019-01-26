@@ -42,6 +42,12 @@ export function createHowl (state, payload) {
       console.log('HOWL loaded page ' + which.pageNumber || which.page || '')
     })
     newHowl.on('end', () => {
+      // remove myself from playing
+      let killLength = state.playing.length
+      for (let killing = 0; killing < killLength; killing++) {
+        state.playing.shift()
+      }
+
       which.next()
     })
     // vue.set(which, 'metadata', payload.response.metadata) 1mpr0v3m3b  !mpr0v3m3
