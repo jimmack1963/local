@@ -265,6 +265,9 @@ export const mixinGeneral = {
       // this.$q.fullscreen.request()
       this.$store.commit('silence')
       this.$router.push('/')
+      this.$store.commit('setActiveFolder', {
+        activeFolder: false
+      })
     },
     selfie (entry) {
       // this.$q.fullscreen.request()

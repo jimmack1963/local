@@ -33,7 +33,7 @@
 
     </q-card>
 
-    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token">
+    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"
@@ -67,7 +67,7 @@
       <!--if book (folder)-->
       <q-card-actions v-if="folder['.tag'] === 'folder'">
 
-        <q-btn-dropdown split color="primary" label="Playing" class="q-mr-sm">
+        <q-btn-dropdown color="primary" label="Playing" class="q-mr-sm">
           <q-list link>
             <q-item
               @click.native="selfie(folder)"
@@ -118,7 +118,7 @@
 
         </q-btn-dropdown>
 
-        <q-btn-dropdown split color="primary" label="Creating" class="q-mr-sm">
+        <q-btn-dropdown color="primary" label="Creating" class="q-mr-sm">
           <q-list link>
             <q-item
               @click.native="record(folder)"

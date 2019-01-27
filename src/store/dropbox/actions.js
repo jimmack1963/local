@@ -135,10 +135,12 @@ export const registerFile = async (context, payload) => {
               entry,
               response,
             })
+
             context.commit('createHowl', {
               entry,
               response,
               context,
+              ids: context.rootState.dropbox.ids,
               howlPreload: context.rootState.sounds.howlPreload,
             })
           })
@@ -157,10 +159,12 @@ export const registerFile = async (context, payload) => {
           entry,
           response,
         })
+
         context.commit('createHowl', {
           entry,
           response,
           context,
+          ids: context.rootState.dropbox.ids,
           howlPreload: context.rootState.sounds.howlPreload,
         })
       }
