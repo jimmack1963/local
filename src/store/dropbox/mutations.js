@@ -67,6 +67,8 @@ export function saveEntry (state, payload) {
     entry['.tag'] = 'folder'
   }
 
+  if (entry.ext === 'wav') entry.ext = 'mp3'
+
   if (entry.path_lower) {
     // let org = entry.parts.dir.split('/')
     // let base = state.folders

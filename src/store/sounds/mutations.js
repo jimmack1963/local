@@ -48,7 +48,7 @@ export function createHowl (state, payload) {
   if (which) {
     let newHowl = new Howl({
       src: [src],
-      format: ['wav'],
+      html5: true,
       preload: payload.howlPreload || false,
     })
     vue.set(which, 'howl', newHowl)
