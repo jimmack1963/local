@@ -52,10 +52,12 @@
         this.recordingInProgress = false
       },
       onNewRecording (evt) {
+        debugger
         this.recordings.push(evt.detail.recording)
         this.pushToDropbox(evt.detail.recording)
       },
       async pushToDropbox (recording, ctr) {
+        debugger
         this.$emit('completed')
         this.$store.commit('setMicAvailable')
         let pageFileName
