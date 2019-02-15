@@ -34,9 +34,57 @@
     components: {folderCardDisplay},
     mixins: [mixinGeneral, mixinDropbox, mixinSound],
     props: ['pageName', 'start', 'autoclose', 'showButtons'],
+    methods: {
+      startRecording () {
+        this.recorderSrvc.config.stopTracksAndCloseCtxWhenFinished = this.cleanupWhenFinished
+        this.recorderSrvc.config.createDynamicsCompressorNode = this.addDynamicsCompressor
+        this.recorderSrvc.startRecording()
+          .then(() => {
+            this.recordingInProgress = true
+          })
+          .catch((error) => {
+            console.error('Exception while start recording: ' + error)
+            alert('Exception while start recording: ' + error.message)
+          })
+      },
+      stopRecording () {
+        this.recorderSrvc.stopRecording()
+        this.recordingInProgress = false
+      },
+      onNewRecording (evt) {
+
+        this.recordings.push(evt.detail.recording)
+        this.pushToDropbox(evt.detail.recording)
+      },
+      async pushToDropbox (recording, ctr) {
+        this.$emit('completed')
+        this.$store.commit('setMicAvailable')
+        let pageFileName
+        if (/^[0-9]+$/.test(this.pageName)) {
+          // numeric page numbers start with 'p'
+          pageFileName = 'p' + this.pageName
+        }
+        else {
+          pageFileName = this.pageName
+        }
+
+        let fname = `${this.activeFolder.path_lower}/${pageFileName}.mp3`
+        let reader = new FileReader()
+        let base64data
+        // reader.readAsDataURL(recording.blobUrl) param 1 not type blob
+        // reader.readAsArrayBuffer(recording.blobUrl) param 1 not type blob
+        // reader.readAsBinaryString(recording.blobUrl)
+        // reader.readAsText(recording.blobUrl)
+        reader.onloadend = function () {
+          base64data = reader.result
+          console.log(base64data)
+        }
+
+        this.uploadFileBlobAudio(recording.blob, fname, recording.size)
+      },
+    },
     data () {
       return {
-        recording: false,
         recordingInProgress: false,
         supportedMimeTypes: [],
         recordings: [],
@@ -61,71 +109,6 @@
       if (this.start) {
         this.doAction(false)
       }
-    },
-    methods: {
-      inProgress () {
-        this.recordingInProgress = true
-      },
-      startRecording () {
-
-        this.recording = new window.WebAudioTrack()
-        try {
-          this.recording.startRecording(this.inProgress)
-        }
-        catch (e) {
-          alert('error recording: ' + e)
-        }
-        /*
-        this.recorderSrvc.config.stopTracksAndCloseCtxWhenFinished = this.cleanupWhenFinished
-        this.recorderSrvc.config.createDynamicsCompressorNode = this.addDynamicsCompressor
-        this.recorderSrvc.startRecording()
-          .then(() => {
-            this.recordingInProgress = true
-          })
-          .catch((error) => {
-            console.error('Exception while start recording: ' + error)
-            alert('Exception while start recording: ' + error.message)
-          }) */
-      },
-      stopRecording () {
-
-        this.recording.stopRecording(() => {
-          this.onNewRecording()
-          this.recordingInProgress = false
-
-        })
-              },
-      onNewRecording () {
-        this.recordings.push(this.recording)
-        this.recording.play()
-        this.pushToDropbox()
-      },
-      async pushToDropbox () {
-        this.$emit('completed')
-        this.$store.commit('setMicAvailable')
-        let pageFileName
-        if (/^[0-9]+$/.test(this.pageName)) {
-          // numeric page numbers start with 'p'
-          pageFileName = 'p' + this.pageName
-        }
-        else {
-          pageFileName = this.pageName
-        }
-
-        let fname = `${this.activeFolder.path_lower}/${pageFileName}.m4a`
-        let reader = new FileReader()
-        let base64data
-        // reader.readAsDataURL(recording.blobUrl) param 1 not type blob
-        // reader.readAsArrayBuffer(recording.blobUrl) param 1 not type blob
-        // reader.readAsBinaryString(recording.blobUrl)
-        // reader.readAsText(recording.blobUrl)
-        reader.onloadend = function () {
-          base64data = reader.result
-          console.log(base64data)
-        }
-
-        this.uploadFileBlobAudio(this.recording.blob, fname, this.recording.getRecordingTime())
-      },
     },
     filters: {
       fileSizeToHumanSize (val) {

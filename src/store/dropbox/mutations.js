@@ -68,6 +68,7 @@ export function saveEntry (state, payload) {
   }
 
   if (entry.ext === 'wav') entry.ext = 'mp3'
+  if (entry.ext === 'm4a') entry.ext = 'mp3'
 
   if (entry.path_lower) {
     // let org = entry.parts.dir.split('/')
@@ -95,8 +96,13 @@ export function saveEntry (state, payload) {
             NoExt: [],
             // txt: {},
           }
-          base[entry.fname][(entry.ext || 'NoExt')].push(entry)
-          placed = true
+          if (entry.ext in base[entry.fname]) {
+            base[entry.fname][(entry.ext || 'NoExt')].push(entry)
+            placed = true
+          }
+          else {
+            console.log('Not valid extention: ' + entry.ext + ' for ' + entry.path_lower)
+          }
         }
  else {
           let pageNumber

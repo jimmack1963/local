@@ -268,7 +268,6 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlobAudio (blob, fileName, size) {
-
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {

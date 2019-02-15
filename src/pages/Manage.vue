@@ -10,8 +10,8 @@
         overlay-position="bottom"
         v-if="activeFolder.thumbnail"
       >
-        <img    :src="activeFolder.thumbnail" :alt="activeFolder.name">
-        <q-card-title slot="overlay" >
+        <img :src="activeFolder.thumbnail" :alt="activeFolder.name">
+        <q-card-title slot="overlay">
           {{activeFolder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
         </q-card-title>
@@ -185,9 +185,9 @@
 </template>
 
 <script>
-  import { mixinDropbox } from '../components/mixinDropbox'
-  import { mixinGeneral } from '../components/mixinGeneral'
-  import { mixinSound } from '../components/mixinSound'
+  import {mixinDropbox} from '../components/mixinDropbox'
+  import {mixinGeneral} from '../components/mixinGeneral'
+  import {mixinSound} from '../components/mixinSound'
   import RecordAudio from '../components/RecordAudio'
   import RecordCamcord from '../components/RecordCamcord'
   import folderCardDisplay from '../components/folderCardDisplay'
@@ -225,6 +225,45 @@
         this.bulk.nextIllustration += 1
       },
       narratePage (folder, pageName, offset) {
+        console.log('Disabled: narratePageAndroid')
+        this.narratePageIOS(folder, pageName, offset)
+      },
+      narratePageIOS (folder, pageName, offset) {
+        if (window.currentAudioContext.state === 'suspended') {
+
+          window.currentAudioContext.resume().then(() => {
+            this.narratePageIOS(folder, pageName, offset)
+          })
+        }
+        else {
+          console.log('recording in IOS!')
+          if (!this.activeRecorderOffset) {
+            // start the recorder
+            this.activeRecorderOffset = offset.toString()
+            // only one at a time
+            let toggled = {}
+            if (!this.recording[pageName]) {
+              toggled[pageName] = !(toggled[pageName])
+            }
+            this.$set(this, 'recording', toggled)
+          }
+          else {
+            // close Recorder
+            if (this.$refs['record_audio_' + offset.toString()]) {
+              let child = this.$refs['record_audio_' + offset.toString()]
+              if (child.length > 0) {
+                child[0].doAction()
+              }
+            }
+            else {
+              if (window.jim_DEBUG_FULL) console.log('can not find record_audio_' + offset)
+            }
+            this.activeRecorderOffset = false
+            this.$set(this, 'recording', {})
+          }
+        }
+      },
+      narratePageAndroid (folder, pageName, offset) {
         if (!this.activeRecorderOffset) {
           // start the recorder
           this.activeRecorderOffset = offset.toString()
@@ -261,7 +300,7 @@
           // this.$q.fullscreen.request()
         }
         this.$set(this, 'illustrating', toggled)
-      }
+      },
     },
     data () {
       return {
