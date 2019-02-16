@@ -71,6 +71,7 @@ switch (hostname) {
 }
 
 export default {
+  playAfterRecord: true,
   micStatus: micStatus.uninitialized,
   // facingMode: 'environment', // 'user'
   facingMode: 'user',

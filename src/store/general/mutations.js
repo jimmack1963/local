@@ -44,3 +44,12 @@ export function nextCamera (state) {
 export function facingMode (state, payload) {
   state.facingMode = payload.facingMode
 }
+
+export function playAfterRecord (state, payload) {
+  if (!payload || payload.toggle) {
+    state.playAfterRecord = !state.playAfterRecord
+  }
+  else {
+    state.playAfterRecord = payload.playAfterRecord
+  }
+}

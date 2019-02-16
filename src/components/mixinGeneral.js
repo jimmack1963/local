@@ -24,6 +24,7 @@ export const mixinGeneral = {
       'subtitle',
       'dataPrefix',
       'authURL',
+      'playAfterRecord',
       'hostname']),
     currentSlide: {
       get: function () {

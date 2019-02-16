@@ -48,3 +48,7 @@ export function facingMode (state) {
 export function cameraPreference (state) {
   return state.cameraPreference
 }
+
+export function playAfterRecord (state) {
+  return state.playAfterRecord
+}

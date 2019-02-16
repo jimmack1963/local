@@ -112,12 +112,19 @@ export const mixinSound = {
         this.playBook(folder)
       }
     },
-    deleteBookSound (TOC, pageNumber) {
-      this.$store.dispatch('removeEntry', {
-        TOC,
-        pageNumber,
-        family: 'mp3',
-        dbx: this.$dbx
+    async deleteBookSound (TOC, pageNumber) {
+      this.$q.dialog({
+        title: 'Delete?',
+        message: 'Remove dialog for Page ' + pageNumber,
+        ok: 'Delete',
+        cancel: 'Keep',
+      }).then(async function () {
+        this.$store.dispatch('removeEntry', {
+          TOC,
+          pageNumber,
+          family: 'mp3',
+          dbx: this.$dbx
+        })
       })
       /*
       let self = this
@@ -148,12 +155,19 @@ export const mixinSound = {
        if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
       }
 */ },
-    deleteBookImage (TOC, pageNumber) {
-      this.$store.dispatch('removeEntry', {
-        TOC,
-        pageNumber,
-        family: 'png',
-        dbx: this.$dbx
+    async deleteBookImage (TOC, pageNumber) {
+      this.$q.dialog({
+        title: 'Delete?',
+        message: 'Remove illustration for Page ' + pageNumber,
+        ok: 'Delete',
+        cancel: 'Keep',
+      }).then(async function () {
+        this.$store.dispatch('removeEntry', {
+          TOC,
+          pageNumber,
+          family: 'png',
+          dbx: this.$dbx
+        })
       })
     },
     playBookPage (folder, pageNumber, stopAtOne) {

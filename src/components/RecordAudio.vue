@@ -97,7 +97,7 @@
               },
       onNewRecording () {
         this.recordings.push(this.recording)
-        this.recording.play()
+        if (this.playAfterRecord) this.recording.play()
         this.pushToDropbox()
       },
       async pushToDropbox () {
