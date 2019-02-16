@@ -26,7 +26,7 @@
             :class="`bg-${colors[n % 5]}`"
 
           >
-            <img :alt="imageForPage(p)" class="full"  :src="imageForPage(p)">
+            <img :alt="imageForPage(p)" class="fit"  :src="imageForPage(p)">
             <!--<div class="q-display-3">Page {{ p }} {{ imageForPage(p)}}</div>-->
           </q-carousel-slide>
 
