@@ -108,6 +108,13 @@
           <q-item-main label="Refresh" sublabel="Reload from DropBox" />
         </q-item>
 
+        <q-item @click.native="openURL('https://www.dropbox.com/home/Apps/PlayItAgainKid')">
+          <q-item-side icon="open in browser" />
+          <q-item-main label="Open Dropbox Folder" sublabel="See your files" />
+        </q-item>
+
+
+
         <q-item @click.native="logout()">
           <q-item-side icon="logout" />
           <q-item-main label="Logout" sublabel="Log out from DropBox" />
