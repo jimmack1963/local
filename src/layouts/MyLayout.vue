@@ -10,7 +10,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
         >
           <q-icon name="menu" />
@@ -75,7 +75,7 @@
 
 
     <q-layout-drawer
-      v-model="leftDrawerOpen"
+      v-model="leftDrawerOpenOrNoBooks"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list
@@ -94,7 +94,6 @@
           <q-item-main label="Carousel" sublabel="See the pages" />
         </q-item>-->
 
-        <q-list-header>Essential Links</q-list-header>
         <q-item @click.native="startBook(false)" >
           <q-item-side icon="add a photo" />
           <q-item-main label="Make a new book" sublabel="Take a selfie of you, the book, your kid" />
@@ -137,18 +136,36 @@ import { openURL } from 'quasar'
 export default {
   name: 'MyLayout',
   mixins: [ mixinSound, mixinGeneral ],
+  computed: {
+    leftDrawerOpenOrNoBooks: {
+      get: function () {
+        return this.TOCSorted.length === 0 || this.leftDrawerOpen
+      },
+      set: function (value) {
+
+        this.leftDrawerOpen = value
+      }
+    }
+  },
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
+      leftDrawerOpen: false, // this.TOCSorted.length === 0,
       rightDrawerOpen: false,
       version: v.version
     }
   },
   methods: {
     openURL,
+    toggleLeftDrawer: function () {
+
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    }
   },
   mounted: function () {
+    window.jim = window.jim || {}
+    window.jim.layout = this
     this.$root.$on('reload', this.readDropboxFolder)
+    // this.leftDrawerOpen = this.TOCSorted.length === 0
     // $root.$emit('reload')
   }
 }

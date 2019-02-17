@@ -104,6 +104,10 @@ export const mixinGeneral = {
       } while (!last && keys.length > 0)
     },
     nextIllustration (folder) {
+
+      if (!folder) {
+        return this.pageName
+      }
       let testing = folder.imageOrder
       let keys = Object.keys(testing)
       let last = false
@@ -121,10 +125,11 @@ export const mixinGeneral = {
       }
     },
     async startBook (bookTitle) {
+      this.$router.push('/book/new/step/0')
+    },
+    async startBookOld (bookTitle) {
 
       if (!bookTitle) {
-
-
         let data = await this.$q.dialog({
           title: 'Title Round!',
           message: 'What is the book title?',

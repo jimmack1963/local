@@ -53,9 +53,13 @@ module.exports = function (ctx) {
     framework: {
       cssAddon: true,
       components: [
+        'QStepper',
+        'QStep',
+        'QStepperNavigation',
+        'QRadio',
+
         'QItemTile',
         'QBtnDropdown',
-
 
         'QTabs',
         'QTab',

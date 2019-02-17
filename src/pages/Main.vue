@@ -19,7 +19,7 @@
     </div>
 
     <q-card class="card-itself col-lg-4 col-xs-12" v-if="access_token && TOCSorted.length === 0">
-      <q-card-title>Make your first Book</q-card-title>
+      <q-card-title>Make your first book</q-card-title>
       <q-card-main>
         <p>The menu at the left has an entry, "Make a new book." </p>
 

@@ -9,7 +9,7 @@ import Illustrate from '../pages/Illustrate.vue'
 import Narrate from '../pages/Narrate.vue'
 import Manage from '../pages/Manage.vue'
 import Error404 from '../pages/Error404.vue'
-
+import newBook from '../pages/newBook'
 
 let store = Store()
 
@@ -55,6 +55,15 @@ const routes = [
       { path: '', component: Selfie }
     ],
     beforeEnter: multiguard([])
+  },
+  {
+    path: '/book/new/step/:step',
+    component: MyLayout,
+    name: 'newbook',
+    children: [
+      { path: '', component: newBook }
+    ],
+    beforeEnter: multiguard([noActiveFolder])
   },
   {
     path: '/carousel',
