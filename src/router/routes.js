@@ -14,7 +14,7 @@ import newBook from '../pages/newBook'
 let store = Store()
 
 const guardActiveFolder = (to, from, next) => {
-  // TODO: this invalidates bookmarks.  Allow bookmarks into specific pages of books
+  // TODO: this invalidates bookmarks.  Allow bookmarks into specific pages of books #16hrs
   if (store.state.dropbox.activeFolder) {
     next()
   }

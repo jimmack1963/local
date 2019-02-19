@@ -211,7 +211,7 @@ export const mixinIllustrate = {
       if (this.activeFolder) {
         this.lockCameraImage()
 
-        // TODO: make this settable preference
+        // TODO: make this settable preference #2hrs
         this.useImage()
       }
     },
@@ -271,7 +271,6 @@ export const mixinIllustrate = {
         canvas.height = video.videoHeight
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
 
-        // TODO: quality of image
         this.dataURL = canvas.toDataURL('image/jpeg', this.quality)
       }
       else {

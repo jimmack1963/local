@@ -119,11 +119,6 @@ export default ({app, router, Vue}) => {
 
     dbx = new Dropbox.Dropbox({clientId: CLIENT_ID, fetch: fetch})
     Vue.prototype.$dbx = dbx
-    // TODO: url for each deployment
-    // let authUrl = dbx.getAuthenticationUrl('https://playitagainkid.com')
-    // let authUrl = dbx.getAuthenticationUrl('https://localhost:8080')
-
-
   }
 
   let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)

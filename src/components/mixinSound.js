@@ -86,12 +86,6 @@ export const mixinSound = {
         if (window.jim_DEBUG_FULL) console.log('Mic set available')
       }
     },
-    rerecord () {
-      // TODO: replace a recording before saving it
-    },
-    playLast () {
-      // TODO: play recording in buffer before it is saved
-    },
     pageAfter (folder, page) {
 
       let pagesOrdered = this.pageOrder(folder)
@@ -138,7 +132,7 @@ export const mixinSound = {
       }
       if (itemGroup) {
         let entry = itemGroup.mp3.find((recording) => {
-          // TODO: selecting the sound must be more precise
+
           return recording.pageNumber === pageNumber
         })
         self.$dbx.filesDeleteV2({
@@ -256,7 +250,7 @@ export const mixinSound = {
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
                 if (vue.delayPlayNext && nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
                   // cue up next page
-                  // TODO: generally, this should be kept so it can be cancelled
+                  // TODO: generally, this should be kept so it can be cancelled #2hrs
 
                   setTimeout(function () {
                       vue.playBookPage(folder, nextPageNumber)

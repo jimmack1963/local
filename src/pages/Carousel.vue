@@ -16,7 +16,7 @@
           :easing="overshoot"
           :swipe-easing="overshoot"
           class="text-white full-height"
-          :thumbnails="myImages"
+          :thumbnails="currentBookThumbnails"
           @slide-trigger="slideTrigger"
           v-model="currentSlide"
         >
@@ -81,7 +81,7 @@
       this.myPages = this.pageOrder(this.activeFolder)
       this.sourcePages = this.folders[this.activeFolder.path_lower]
       this.slide = 0
-      this.myImages = this.myPages.map((p) => {
+      this.currentBookThumbnails = this.myPages.map((p) => {
         return this.imageForPage(p)
       })
     }

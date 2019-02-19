@@ -41,8 +41,6 @@ export const registerFile = async (context, payload) => {
     entry,
   })
   switch (entry.ext) {
-    // TODO: let this be configured
-    // 'w32h32' | 'w64h64' | 'w128h128' | 'w256h256' | 'w480h320' | 'w640h480' | 'w960h640' | 'w1024h768' | 'w2048h1536'
     case 'jpg':
     case 'png': {
       if (LocalStorage.has(entry.id)) {
@@ -192,7 +190,7 @@ export const recalc = (context) => {
 
 export const removeEntry = async (context, payload) => {
   /*
-  TODO: make this work for a scene not a page
+  TODO: make this work for a scene not a page #16hr
    */
   // let self = this
   let TOC = payload.TOC

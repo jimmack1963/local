@@ -5,8 +5,8 @@ export const mixinGeneral = {
     return {
       bookTitle: '',
       myPages: [],
-      myImages: [], // TODO: should be in VUEX as TOC element
-      sourcePages: {}, // TODO: maybe should be a getter in VUEX
+      currentBookThumbnails: [],
+      sourcePages: {},
     }
   },
   computed: {
@@ -180,11 +180,10 @@ export const mixinGeneral = {
     },
     logout () {
       /*
-      // TODO: implement usersGetCurrentAccount
+      // TODO: implement usersGetCurrentAccount #4hrs
 
       let dbx = this.$dbx
       // /PlayItAgainKid/book1
-      // TODO: if .has_more call /continue
       dbx.usersGetCurrentAccount()
         .then(function (response) {
 
@@ -287,7 +286,7 @@ export const mixinGeneral = {
       let self = this
       let dbx = this.$dbx
       // /PlayItAgainKid/book1
-      // TODO: if .has_more call /continue
+      // TODO: if .has_more call /continue  #4hrs
       dbx.filesListFolder({
         path: this.folder || '',
         include_media_info: true,

@@ -332,10 +332,6 @@
             console.log(response.fileBlob.size)
 
             this.$set(entry, 'thumbnail', window.URL.createObjectURL(response.fileBlob))
-            // TODO: save these blobs, they are not that large.
-            /* let img = document.createElement('img')
-            img.src = window.URL.createObjectURL(response.fileBlob)
-            document.body.appendChild(img) */
           })
           .catch((error) => {
 

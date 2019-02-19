@@ -5,4 +5,4 @@ export default {
   howlPreload: true,
 }
 
-// TODO: not clear why, but howlPreload must be true or it does not play
+// not clear why, but howlPreload must be true or it does not play

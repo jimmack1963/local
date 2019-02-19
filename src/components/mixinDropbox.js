@@ -23,7 +23,7 @@ export const mixinDropbox = {
     },
     renameFolder (folder) {
       let v = this
-      // TODO make renameFolder happen in VUEX
+      // TODO make renameFolder happen in VUEX #2hr
       this.$dbx.filesMoveV2({
         from_path: folder.path_lower,
         to_path: '/jim',
@@ -33,7 +33,7 @@ export const mixinDropbox = {
 
     },
     deleteFolder (folder) {
-      // TODO make deleteFolder happen in VUEX
+      // TODO make deleteFolder happen in VUEX #2hr
       let self = this
       this.$q.dialog({
         title: 'Delete ' + folder.path_lower,
@@ -100,7 +100,7 @@ export const mixinDropbox = {
           //   thumbnail: thumbnail,
           // })
 
-          // TODO: this has .id, .path_lower and should be used
+          // TODO: this has .id, .path_lower and should be used on insert #4hr
           if (window.jim_DEBUG_FULL) {
             console.log('@response')
             console.dir(response)
@@ -115,7 +115,7 @@ export const mixinDropbox = {
 
       }
       else {
-        // TODO: big file upload
+        // TODO: big file upload #8hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')
         /**
@@ -202,7 +202,7 @@ export const mixinDropbox = {
               thumbnail: thumbnail,
             })
 
-            // TODO: this has .id, .path_lower and should be used
+            // TODO: this has .id, .path_lower and should be used #2hr
             if (window.jim_DEBUG_FULL) {
               console.log('@response')
               console.dir(response)
@@ -217,7 +217,7 @@ export const mixinDropbox = {
         }
       }
       else {
-        // TODO: big file upload
+        // TODO: big file upload #2hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')
         /**
@@ -296,7 +296,7 @@ export const mixinDropbox = {
                 })
               }
 
-              // TODO: this has .id, .path_lower and should be used
+              // TODO: this has .id, .path_lower and should be used #2hr
               if (window.jim_DEBUG_FULL) {
                 console.log('@response')
                 console.dir(response)
@@ -313,7 +313,7 @@ export const mixinDropbox = {
         }
       }
       else {
-        // TODO: big file upload
+        // TODO: big file upload #2hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')
         /**

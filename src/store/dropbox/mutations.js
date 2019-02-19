@@ -23,7 +23,6 @@ export function saveTempLink (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-  // TODO cache the thumbnails locally
   vue.set(state.thumbnails, payload.entry.id, payload.thumbnail)
   let which = state.ids[payload.entry.id]
   if (which) {
