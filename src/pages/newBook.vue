@@ -64,6 +64,60 @@
       </q-step>
 
       <q-step
+        name="plan"
+        title="Plan"
+        :order="25"
+      >
+        <q-list>
+          <q-list-header>
+            You can start by
+          </q-list-header>
+          <q-item>
+            <q-item-side icon="mic"></q-item-side>
+            <q-item-main label="narrating the whole book"></q-item-main>
+          </q-item>
+          <q-item>
+            <q-item-side icon="photo library"></q-item-side>
+            <q-item-main label="illustrating the whole book"></q-item-main>
+          </q-item>
+          <q-item>
+            <q-item-side icon="library books"></q-item-side>
+            <q-item-main label="or work page-by-page"></q-item-main>
+          </q-item>
+        </q-list>
+
+        (At any time, you can stop what you are doing, and restart in any way you like).
+
+        <q-stepper-navigation>
+          <q-btn
+            icon="mic"
+            color="primary"
+            @click="narrate"
+            label="Narrate"
+          />
+          <q-btn
+            icon="photo library"
+            color="primary"
+            @click="illustrate"
+            label="Illustrate"
+          />
+          <q-btn
+            icon="library books"
+            color="primary"
+            @click="pageByPage"
+            label="Page by Page"
+          />
+
+          <q-btn
+            color="secondary"
+            @click="$router.push('/')"
+            label="Cancel"
+          />
+        </q-stepper-navigation>
+
+      </q-step>
+
+      <q-step
         name="recording"
         title="Recording"
         :order="30">
