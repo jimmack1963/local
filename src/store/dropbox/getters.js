@@ -45,3 +45,7 @@ export function thumbnailSize (state) {
 export function thumbnailSizes (state) {
   return state.thumbnailSizes
 }
+
+export function quality (state) {
+  return state.quality
+}

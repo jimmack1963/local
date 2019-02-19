@@ -182,7 +182,6 @@ export function setActivePage (state, payload) {
 }
 
 export function activeScene (state, payload) {
-
   state.activeScene = payload.activeScene
 }
 
@@ -282,4 +281,8 @@ export function thumbnailSize (state, payload) {
   else {
     state.thumbnailSize = state.thumbnailSizes[0]
   }
+}
+
+export function quality (state, payload) {
+  state.quality = payload.quality
 }

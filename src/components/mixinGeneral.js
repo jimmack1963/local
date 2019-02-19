@@ -27,6 +27,7 @@ export const mixinGeneral = {
       'playAfterRecord',
       'thumbnailSize',
       'thumbnailSizes',
+      'quality',
       'hostname']),
     thumbnailSizeIndex: {
       get: function () {

@@ -88,7 +88,7 @@
           v-if="illustrating['bulk']"
           v-on:completed="completedBulkIllustration"
           :pageName="bulk.nextIllustration"
-          :quality="0.5"
+          :quality="quality"
         >
           Page {{bulk.nextIllustration}}
         </RecordCamcord>
@@ -173,7 +173,7 @@
         <RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
-          :quality="0.5"
+          :quality="quality"
         >
           Page {{pageName}}
         </RecordCamcord>

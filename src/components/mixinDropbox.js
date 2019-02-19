@@ -8,7 +8,7 @@ export const mixinDropbox = {
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder']),
+    ...mapGetters(['TOC', 'activeFolder', 'quality']),
   },
   methods: {
     async replaceSelfie () {

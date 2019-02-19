@@ -70,10 +70,7 @@
     name: 'Illustrate',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
-      return {
-        // TODO: quality
-        quality: 1
-      }
+      return {}
     },
     computed: {
       pageName () {

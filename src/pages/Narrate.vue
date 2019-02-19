@@ -66,7 +66,7 @@
         <RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
-          :quality="0.5"
+          :quality="quality"
         >
           Page {{pageName}}
         </RecordCamcord>

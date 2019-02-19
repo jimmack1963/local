@@ -113,7 +113,7 @@
         </anyCamera>-->
         <RecordCamcord
           :pageName="pageName"
-          :quality="0.5"
+          :quality="quality"
         >
           Page {{pageName}}
         </RecordCamcord>
