@@ -178,7 +178,8 @@ export const mixinGeneral = {
       v.$router.push('/selfie')
     },
     logout () {
-      // jrm delete this
+      /*
+      // TODO: implement usersGetCurrentAccount
 
       let dbx = this.$dbx
       // /PlayItAgainKid/book1
@@ -188,7 +189,7 @@ export const mixinGeneral = {
 
           console.dir(response)
           // useful:
-          /*
+          /!*
           country
           email
           email_verified
@@ -197,24 +198,25 @@ export const mixinGeneral = {
           name.familiar_name
           profile_photo_url
           referral_link
-           */
+           *!/
         })
         .catch(function (error) {
           console.error(error)
         })
 
       return false
-      //
-      // this.$router.push('/')
-      // this.leftDrawerOpen = false
-      // this.$q.localStorage.set('access_token', false)
-      // this.purgeLocalStorageFromDropbox()
-      // this.$store.commit('dropboxCredentials', {
-      //   access_token: false,
-      //   token_type: false,
-      //   uid: false,
-      //   account_id: false,
-      // })
+      */
+
+      this.$router.push('/')
+      this.leftDrawerOpen = false
+      this.$q.localStorage.set('access_token', false)
+      this.purgeLocalStorageFromDropbox()
+      this.$store.commit('dropboxCredentials', {
+        access_token: false,
+        token_type: false,
+        uid: false,
+        account_id: false,
+      })
     },
     pageOrder (aFolder) {
       if (aFolder.pageOrder) {
