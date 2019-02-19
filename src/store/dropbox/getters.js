@@ -36,3 +36,12 @@ export function uid (state) {
 export function account_id (state) {
   return state.account_id
 }
+
+
+export function thumbnailSize (state) {
+  return state.thumbnailSize
+}
+
+export function thumbnailSizes (state) {
+  return state.thumbnailSizes
+}

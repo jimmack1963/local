@@ -274,7 +274,12 @@ export function clearData (state) {
   state.ids = {}
 }
 
-export function deleteEntryReferences (state, payload) {
-  // let TOC, entry = payload
-  // state._
+export function thumbnailSize (state, payload) {
+  // if not a valid size, use the smallest size
+  if (state.thumbnailSizes.includes(payload.thumbnailSize)) {
+    state.thumbnailSize = payload.thumbnailSize
+  }
+  else {
+    state.thumbnailSize = state.thumbnailSizes[0]
+  }
 }

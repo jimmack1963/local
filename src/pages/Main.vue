@@ -325,7 +325,8 @@
         }
       },
       view (entry) {
-        this.$dbx.filesGetThumbnail({path: entry.path_lower})
+
+        this.$dbx.filesGetThumbnail({path: entry.path_lower, size: this.thumbnailSize})
           .then((response) => {
 
             console.log(response.fileBlob.size)

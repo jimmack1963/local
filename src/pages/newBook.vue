@@ -13,12 +13,13 @@
         <q-field
           class="col-xs-12 q-mx-sm"
           label="Book Title">
-          <q-input autofocus id="bookTitle" v-model.lazy="bookTitle"></q-input>
+          <q-input @keyup.enter="$refs.newBookCycle.next()" autofocus id="bookTitle" v-model.lazy="bookTitle"></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
             color="primary"
-            @click="$refs.newBookCycle.next()"
+            @click="next"
+            v-if="bookTitle"
             label="Next"
           />
           <!-- <q-btn
@@ -35,23 +36,23 @@
       </q-step>
 
       <q-step
-        name="author"
-        title="Author"
+        name="tags"
+        title="Tags"
         :order="20">
         <q-field
           class="col-xs-12 q-mx-sm"
-          label="Author (optional)">
-          <q-input autofocus id="bookAuthor" v-model.lazy="author"></q-input>
+          label="Tags for grouping (optional)">
+          <q-input @keyup.enter="next" autofocus id="bookTags" v-model.lazy="tags"></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
             color="primary"
-            @click="$refs.newBookCycle.next()"
+            @click="next"
             label="Next"
           />
           <q-btn
             color="secondary"
-            @click="$refs.newBookCycle.previous()"
+            @click="previous"
             label="Back"
           />
           <q-btn
@@ -76,12 +77,12 @@
         <q-stepper-navigation>
           <q-btn
             color="primary"
-            @click="$refs.newBookCycle.next()"
+            @click="next"
             label="Next"
           />
           <q-btn
             color="secondary"
-            @click="$refs.newBookCycle.previous()"
+            @click="previous"
             label="Back"
           />
           <q-btn
@@ -120,12 +121,12 @@
           <q-btn
             color="primary"
             v-if="image"
-            @click="$refs.newBookCycle.next()"
+            @click="next"
             label="Next"
           />
           <q-btn
             color="secondary"
-            @click="$refs.newBookCycle.previous()"
+            @click="previous"
             label="Back"
           />
           <q-btn
@@ -151,7 +152,7 @@
           </q-btn>
           <q-btn
             color="secondary"
-            @click="$refs.newBookCycle.previous()"
+            @click="previous"
             label="Back"
           />
           <q-btn
@@ -191,8 +192,14 @@
       createBookAndAdvance () {
 
         this.commitAnySource()
+        this.next()
+      },
+      next () {
         this.$refs.newBookCycle.next()
-      }
+      },
+      previous () {
+        this.$refs.newBookCycle.previous()
+      },
     },
     name: 'newBook',
     // mixins: [mixinCamera],
@@ -203,7 +210,7 @@
         currentStep: 'title',
 
         bookTitle: '',
-        author: '',
+        tags: '',
         pageName: 'CoverSelfie',
         pageStyle: 'page',
         illustrating: false,

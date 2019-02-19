@@ -52,3 +52,4 @@ export function cameraPreference (state) {
 export function playAfterRecord (state) {
   return state.playAfterRecord
 }
+

@@ -81,7 +81,7 @@ export const registerFile = async (context, payload) => {
         let response = await dbx.filesGetThumbnail({
           path: entry.path_lower,
           format: 'jpeg',
-          size: 'w480h320',
+          size: context.getters.thumbnailSize,
         })
 
         try {

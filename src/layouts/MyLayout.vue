@@ -47,6 +47,25 @@
           <q-item-main :label="playAfterRecord ? 'Don\'t replay after recording' : 'Replay after recording'" sublabel="Immediately hear your Narration" />
         </q-item>
 
+
+        <q-list-header>Image Quality</q-list-header>
+        <q-item>
+
+          <q-item-side icon="photo_size_select_small" />
+          <q-item-main>
+            <q-slider
+              :value="thumbnailSizeIndex"
+              @change="val => {thumbnailSizeIndex = val}"
+              :min="0"
+              :max="thumbnailSizes.length - 1"
+               />
+          </q-item-main>
+          <q-item-side right icon="photo size select actual" />
+        </q-item>
+
+
+
+
         <q-item @click.native="setDelayPlayNext(1)" v-if="delayPlayNext < 0.01">
           <q-item-side icon="playlist_play" />
           <q-item-main label="Autoplay pages" sublabel="Continue to end of book" />

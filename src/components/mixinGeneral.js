@@ -25,7 +25,18 @@ export const mixinGeneral = {
       'dataPrefix',
       'authURL',
       'playAfterRecord',
+      'thumbnailSize',
+      'thumbnailSizes',
       'hostname']),
+    thumbnailSizeIndex: {
+      get: function () {
+        return this.thumbnailSizes.indexOf(this.thumbnailSize)
+      },
+      set: function (index) {
+        this.$store.commit('thumbnailSize', {thumbnailSize: this.thumbnailSizes[index]})
+        this.readDropboxFolder()
+      }
+    },
     currentSlide: {
       get: function () {
         if (window.jim_DEBUG_FULL) console.log('currentSlide??')
@@ -168,13 +179,13 @@ export const mixinGeneral = {
     },
     logout () {
       // jrm delete this
-      debugger
+
       let dbx = this.$dbx
       // /PlayItAgainKid/book1
       // TODO: if .has_more call /continue
       dbx.usersGetCurrentAccount()
         .then(function (response) {
-          debugger
+
           console.dir(response)
           // useful:
           /*
