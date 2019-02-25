@@ -30,7 +30,6 @@ export const saveLevel = async (context, payload) => {
 }
 
 export const registerFile = async (context, payload) => {
-
   let folder = payload.folder
   let entry = payload.entry
   let dbx = payload.dbx
@@ -140,7 +139,8 @@ export const registerFile = async (context, payload) => {
               context,
               ids: context.rootState.dropbox.ids,
               howlPreload: context.rootState.sounds.howlPreload,
-            })
+            },
+              { root: true })
           })
       }
       catch (err) {

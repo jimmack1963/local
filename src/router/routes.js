@@ -15,7 +15,7 @@ let store = Store()
 
 const guardActiveFolder = (to, from, next) => {
   // TODO: this invalidates bookmarks.  Allow bookmarks into specific pages of books #16hrs
-  if (store.state.dropbox.activeFolder) {
+  if (store.state.groups.activeFolder) {
     next()
   }
   else {
@@ -24,7 +24,7 @@ const guardActiveFolder = (to, from, next) => {
 }
 
 const noActiveFolder = (to, from, next) => {
-  if (store.state.dropbox.activeFolder) {
+  if (store.state.groups.activeFolder) {
     store.commit('setActiveFolder', {
       activeFolder: false
     })

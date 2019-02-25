@@ -66,11 +66,11 @@ export default ({app, router, Vue}) => {
   // in the DOM and uses this function to show/hide the correct section.
   let queryString = parseQueryString(window.location.hash)
 
-  let saved = LocalStorage.get.item('access_token')
+  let saved = LocalStorage.get.item('dropbox/access_token')
   let access_token = queryString.access_token
   if (access_token) {
     if (!saved || saved !== access_token) {
-      LocalStorage.set('access_token', access_token)
+      LocalStorage.set('dropbox/access_token', access_token)
     }
   }
   else if (saved) {
@@ -96,7 +96,7 @@ export default ({app, router, Vue}) => {
       store = Store()
       if (window.jim_DEBUG_FULL) console.dir(store)
 
-      store.commit('dropboxCredentials', {
+      store.commit('dropbox/Credentials', {
         access_token,
         token_type,
         uid,

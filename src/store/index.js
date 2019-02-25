@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import dropbox from './dropbox'
 import general from './general'
 import sounds from './sounds'
+import demos from './demos'
+import groups from './groups'
 
 Vue.use(Vuex)
 
@@ -17,7 +19,9 @@ export default function (/* { ssrContext } */) {
     modules: {
       sounds,
       general,
-      dropbox
+      dropbox,
+      groups,
+      demos,
     }
   })
 

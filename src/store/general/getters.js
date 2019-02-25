@@ -53,3 +53,7 @@ export function playAfterRecord (state) {
   return state.playAfterRecord
 }
 
+export function showDemos (state) {
+  return state.showDemos
+}
+

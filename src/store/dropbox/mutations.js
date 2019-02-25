@@ -100,9 +100,9 @@ export function saveEntry (state, payload) {
             placed = true
           }
           else {
+        }
             console.log('Not valid extention: ' + entry.ext + ' for ' + entry.path_lower)
           }
-        }
  else {
           let pageNumber
           switch (pageParts.length) {
@@ -163,28 +163,7 @@ export function saveEntry (state, payload) {
   }
 }
 
-export function setActiveFolder (state, payload) {
-  state.activeFolder = payload.activeFolder
-  state.activeScene = payload.activeScene || 0
-}
-
-export function setActivePage (state, payload) {
-
-  if (state.activeFolder && state.activeFolder.pageOrder) {
-    let index = state.activeFolder.pageOrder.indexOf(payload.activePage)
-    state.activeScene = index
-    if (window.jim_DEBUG_VUEX) console.log(`setActivePage>> ${payload.activePage} set scene ${index}`)
-  }
- else {
-    state.activeScene = 0
-  }
-}
-
-export function activeScene (state, payload) {
-  state.activeScene = payload.activeScene
-}
-
-export function dropboxCredentials (state, payload) {
+export function Credentials (state, payload) {
   vue.set(state, 'access_token', payload.access_token)
   vue.set(state, 'token_type', payload.token_type)
   vue.set(state, 'uid', payload.uid)
@@ -263,14 +242,6 @@ export function calc (state, payload) {
   }
 }
 
-export function clearData (state) {
-  state._TOC = {}
-  state.activeFolder = false
-  state.folders = {}
-  state.thumbnails = {}
-  state.activeScene = false
-  state.ids = {}
-}
 
 export function thumbnailSize (state, payload) {
   // if not a valid size, use the smallest size

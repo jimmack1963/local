@@ -1,25 +1,5 @@
 /* eslint-disable camelcase */
 
-export function ids (state) {
-  return state.ids
-}
-
-export function TOC (state) {
-  return state._TOC
-}
-
-export function TOCSorted (state) {
-  let maybe = Object.values(state._TOC).reverse()
-  return maybe
-}
-
-export function folders (state) {
-  return state.folders
-}
-
-export function activeFolder (state) { return state.activeFolder }
-
-export function activeScene (state) { return state.activeScene }
 
 export function access_token (state) {
   return state.access_token
@@ -48,4 +28,17 @@ export function thumbnailSizes (state) {
 
 export function quality (state) {
   return state.quality
+}
+
+export function _TOC (state) {
+  return state._TOC
+}
+
+
+export function ids (state) {
+  return state.ids
+}
+
+export function folders (state) {
+  return state.folders
 }

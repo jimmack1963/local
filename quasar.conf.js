@@ -42,6 +42,11 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+
+        cfg.module.rules.push({
+          test: /\.(png|m4a)$/,
+          loader: 'file-loader'
+        })
       }
     },
     devServer: {

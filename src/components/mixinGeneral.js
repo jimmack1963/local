@@ -10,25 +10,30 @@ export const mixinGeneral = {
     }
   },
   computed: {
-    ...mapGetters(['TOC',
+    ...mapGetters([
+      'showDemos',
       'facingMode',
       'cameraPreference',
+      'TOC',
       'TOCSorted',
       'camera',
       'folders',
       'activeFolder',
       'activeScene',
-      'access_token',
       'title',
       'verb',
       'subtitle',
       'dataPrefix',
       'authURL',
       'playAfterRecord',
-      'thumbnailSize',
-      'thumbnailSizes',
+
       'quality',
       'hostname']),
+    ...mapGetters('dropbox', [
+      'access_token',
+      'thumbnailSize',
+      'thumbnailSizes',
+    ]),
     thumbnailSizeIndex: {
       get: function () {
         return this.thumbnailSizes.indexOf(this.thumbnailSize)
@@ -36,7 +41,7 @@ export const mixinGeneral = {
       set: function (index) {
         this.$store.commit('thumbnailSize', {thumbnailSize: this.thumbnailSizes[index]})
         this.readDropboxFolder()
-      }
+      },
     },
     currentSlide: {
       get: function () {
@@ -57,7 +62,7 @@ export const mixinGeneral = {
       if (this.activeFolder) {
         return this.activeFolder.name
       }
-      else {
+ else {
         return this.title
       }
     },
@@ -101,7 +106,7 @@ export const mixinGeneral = {
         let converted = parseInt(possibleKey) + 1
         return converted
       }
-      else {
+ else {
         return possibleKey + '.1'
       }
     },
@@ -132,7 +137,7 @@ export const mixinGeneral = {
         let converted = parseInt(possibleKey) + 1
         return converted
       }
-      else {
+ else {
         return possibleKey + '.1'
       }
     },
@@ -147,9 +152,9 @@ export const mixinGeneral = {
           message: 'What is the book title?',
           prompt: {
             model: '',
-            type: 'text'
+            type: 'text',
           },
-          cancel: true
+          cancel: true,
         })
         bookTitle = data
         if (!data) {
@@ -209,9 +214,9 @@ export const mixinGeneral = {
 
       this.$router.push('/')
       this.leftDrawerOpen = false
-      this.$q.localStorage.set('access_token', false)
+      this.$q.localStorage.set('dropbox/access_token', false)
       this.purgeLocalStorageFromDropbox()
-      this.$store.commit('dropboxCredentials', {
+      this.$store.commit('dropbox/Credentials', {
         access_token: false,
         token_type: false,
         uid: false,
@@ -277,11 +282,59 @@ export const mixinGeneral = {
       if (window.jim_DEBUG_FULL) {
         console.log('all')
         console.dir(all)
-        }
+      }
+    },
+
+    readDemoFile (folder, name, tag, index) {
+      // let link = require('.statics/recordings' + folder + name)
+
+      // let linkData = require('../statics/recordings/' + folder + '/' + name)
+      let link = '../statics/recordings/' + folder + '/' + name
+      this.$store.dispatch('demos/registerFile', {
+        folder,
+        entry: {
+          link,
+          name,
+          id: 'demo: ' + name,
+          '.tag': tag,
+          pageNumber: index,
+          ext: tag
+        },
+      })
+    },
+    readDemos () {
+
+      let base = 'How To Use'
+      this.readDemoFile(base, 'book_cover.png', 'png')
+      for (let pageCtr = 0; pageCtr < 4; pageCtr++ ) {
+        let page = 'p' + pageCtr
+        this.readDemoFile(base, page + '.png', 'png', pageCtr)
+        this.readDemoFile(base, page + '.m4a', 'm4a', pageCtr)
+
+      }
+
+      /*
+            self.$store.dispatch('registerFile', {
+              folder: 'How To Use',
+              entry: {
+                id: 'demo 1',
+                '.tag': 'file',
+                ext: 'png',
+                fname: 'book_cover',
+                path_lower: base + 'book_cover.png',
+                pageNumber: '0',
+                thumbnail: false,
+              }
+
+            })
+      */
+
     },
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
+      this.readDemos()
+
       this.purgeLocalStorageFromDropbox()
       let self = this
       let dbx = this.$dbx
@@ -293,7 +346,7 @@ export const mixinGeneral = {
         recursive: true,
       })
         .then(function (response) {
-          self.$store.dispatch('saveLevel', {
+          self.$store.dispatch('dropbox/saveLevel', {
             folder: self.folder,
             response,
             dbx: self.$dbx,
@@ -312,7 +365,7 @@ export const mixinGeneral = {
       this.$store.commit('silence')
       this.$router.push('/')
       this.$store.commit('setActiveFolder', {
-        activeFolder: false
+        activeFolder: false,
       })
     },
     selfie (entry) {
@@ -337,7 +390,7 @@ export const mixinGeneral = {
       if (this.pageCount(entry) > 0) {
         this.$router.push('/carousel')
       }
- else {
+      else {
         // I don't know why this is here, but it interferes with taking multiple images in a row
         // this.$router.push('/Illustrate')
       }
@@ -345,7 +398,7 @@ export const mixinGeneral = {
     setDelayPlayNext (seconds) {
       this.leftDrawerOpen = false
       this.$store.commit('delayPlayNext', seconds * 1000)
-      this.$store.dispatch('recalc')
+      // this.$store.dispatch('recalc')
     },
   },
 }
