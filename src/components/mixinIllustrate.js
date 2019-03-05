@@ -214,6 +214,11 @@ export const mixinIllustrate = {
         // TODO: make this settable preference #2hrs
         this.useImage()
       }
+      else {
+        // Brand new image taken, book does not yet exist...
+        // where to save?
+
+      }
     },
     captureCanvas (ev) {
       if (!this.streaming) {
@@ -224,7 +229,7 @@ export const mixinIllustrate = {
     async useImage () {
       this.$emit('completed')
       // let v = this
-      // this.$store.commit('saveThumbnail', {
+      // this.$store.commit('dropbox/saveThumbnail', {
       //   entry: this.activeFolder,
       //   thumbnail: this.dataURL,
       // })

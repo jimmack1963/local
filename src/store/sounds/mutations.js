@@ -19,7 +19,7 @@ export function playHowlAlso (state, payload) {
 }
 
 export function silence (state) {
-  debugger
+
   let killing = state.playing.pop()
   while (killing) {
     killing.howl.stop()
@@ -42,7 +42,7 @@ export function howlPreload (state, value) {
 }
 
 export function createHowl (state, payload) {
-  debugger
+
   let which = payload.ids[payload.entry.id]
   let src = payload.response.link
 

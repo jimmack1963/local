@@ -8,7 +8,8 @@ export const mixinDropbox = {
     }
   },
   computed: {
-    ...mapGetters(['TOC', 'activeFolder', 'quality']),
+    ...mapGetters(['TOC', 'activeFolder']),
+    ...mapGetters('dropbox', ['quality']),
   },
   methods: {
     async replaceSelfie () {
@@ -90,12 +91,12 @@ export const mixinDropbox = {
 
           let folder = v.$store.state.dropbox._TOC[response.dir]
           if (folder) {
-            v.$store.commit('calc', {
+            v.$store.commit('dropbox/calc', {
               TOC: folder,
             })
           }
 
-          // v.$store.commit('saveThumbnail', {
+          // v.$store.commit('dropbox/saveThumbnail', {
           //   entry: response,
           //   thumbnail: thumbnail,
           // })
@@ -192,12 +193,12 @@ export const mixinDropbox = {
 
             let folder = v.$store.state.dropbox._TOC[response.dir]
             if (folder) {
-              v.$store.commit('calc', {
+              v.$store.commit('dropbox/calc', {
                 TOC: folder,
               })
             }
 
-            v.$store.commit('saveThumbnail', {
+            v.$store.commit('dropbox/saveThumbnail', {
               entry: response,
               thumbnail: thumbnail,
             })
@@ -291,7 +292,7 @@ export const mixinDropbox = {
 
               let folder = v.$store.state.dropbox._TOC[response.dir]
               if (folder) {
-                v.$store.commit('calc', {
+                v.$store.commit('dropbox/calc', {
                   TOC: folder,
                 })
               }

@@ -150,7 +150,7 @@
       <q-step
         name="image"
         title="Image"
-        :order="40">
+        :order="4">
     <!--    <anyCamera
           class="col full-width row"
           :takeImage="takeImage"
@@ -168,6 +168,7 @@
         <RecordCamcord
           :pageName="pageName"
           :quality="quality"
+          v-on:completed="newBookIllustrated"
         >
           Page {{pageName}}
         </RecordCamcord>
@@ -202,7 +203,7 @@
                  id="btnCompleteImage"
                  icon="library add"
                  ref="createButton"
-                 @click="createBookAndAdvance">{{$t('message.book.complete.' + available, { title: title })}}
+                 @click="createBookAndAdvance">{{$t('message.book.complete.' + available, { title: bookTitle })}}
           </q-btn>
           <q-btn
             color="secondary"
@@ -237,12 +238,25 @@
 </template>
 
 <script>
+  import { mixinDropbox } from '../components/mixinDropbox'
   // import { mixinBook } from '../components/mixinBook'
   // import { mixinCamera } from '../components/mixinCamera'
   import RecordCamcord from '../components/RecordCamcord'
 
   export default {
     methods: {
+      newBookIllustrated () {
+        alert('newBookIllustrated')
+      },
+      narrate () {
+        alert('narrate')
+      },
+      illustrate () {
+        alert('illustrate')
+      },
+      pageByPage () {
+        alert('pageByPage')
+      },
       createBookAndAdvance () {
 
         this.commitAnySource()
@@ -256,7 +270,7 @@
       },
     },
     name: 'newBook',
-    // mixins: [mixinCamera],
+    mixins: [mixinDropbox],
     components: {RecordCamcord},
     props: ['step'],
     data () {
@@ -270,7 +284,6 @@
         illustrating: false,
         image: false,
         available: 'general',
-        title: false,
       }
     },
     mounted () {

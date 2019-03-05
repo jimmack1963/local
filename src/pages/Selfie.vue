@@ -106,7 +106,7 @@
           return false
         }
         let v = this
-        this.$store.commit('saveThumbnail', {
+        this.$store.commit('dropbox/saveThumbnail', {
           entry: this.activeFolder,
           thumbnail: this.dataURL,
         })

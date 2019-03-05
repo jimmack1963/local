@@ -27,7 +27,6 @@ export const mixinGeneral = {
       'authURL',
       'playAfterRecord',
 
-      'quality',
       'hostname']),
     ...mapGetters('dropbox', [
       'access_token',

@@ -161,7 +161,6 @@
       },
 
       narratePage (folder, pageName, offset, recursive) {
-
         if (offset === -1) {
           this.activeRecorderOffset = 'bulk'
           if (!recursive) {

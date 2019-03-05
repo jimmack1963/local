@@ -193,6 +193,7 @@ export const removeEntry = async (context, payload) => {
   TODO: make this work for a scene not a page #16hr
    */
   // let self = this
+
   let TOC = payload.TOC
   let family = payload.family
   let pageNumber = payload.pageNumber

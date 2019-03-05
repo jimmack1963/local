@@ -150,19 +150,25 @@ export const mixinSound = {
       }
 */ },
     async deleteBookImage (TOC, pageNumber) {
+      let v = this
       this.$q.dialog({
         title: 'Delete?',
         message: 'Remove illustration for Page ' + pageNumber,
         ok: 'Delete',
         cancel: 'Keep',
       }).then(async function () {
-        this.$store.dispatch('removeEntry', {
+
+        v.$store.dispatch('dropbox/removeEntry', {
           TOC,
           pageNumber,
           family: 'png',
-          dbx: this.$dbx
+          dbx: v.$dbx
         })
       })
+        .catch(() => {
+           if (window.jim_DEBUG_FULL) console.log('Page Image not deleted: ' + pageNumber)
+
+        })
     },
     playBookPage (folder, pageNumber, stopAtOne) {
       if (stopAtOne) {
