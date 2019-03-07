@@ -208,6 +208,7 @@ export const mixinIllustrate = {
       }
     },
     touchHandler8 (obj, count) {
+      debugger
       if (this.activeFolder) {
         this.lockCameraImage()
 
@@ -225,8 +226,8 @@ export const mixinIllustrate = {
         this.onResize()
         this.streaming = true
       }
-    },
-    async useImage () {
+    },{
+    async useImage ()
       this.$emit('completed')
       // let v = this
       // this.$store.commit('dropbox/saveThumbnail', {
