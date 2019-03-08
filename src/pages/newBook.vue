@@ -1,6 +1,14 @@
 <template>
   <q-page padding>
     <b>Create a new book:</b>
+    <RecordCamcord
+      :pageName="pageName"
+      :quality="quality"
+      v-on:completed="newBookIllustrated"
+    >
+
+    </RecordCamcord>
+
     <q-stepper
       v-model="currentStep"
       :vertical="false"
@@ -35,7 +43,7 @@
         </q-stepper-navigation>
       </q-step>
 
-      <q-step
+      <!--<q-step
         name="tags"
         title="Tags"
         :order="20">
@@ -61,7 +69,7 @@
             label="Cancel"
           />
         </q-stepper-navigation>
-      </q-step>
+      </q-step>-->
 
       <q-step
         name="plan"
@@ -131,51 +139,6 @@
         <q-stepper-navigation>
           <q-btn
             color="primary"
-            @click="next"
-            label="Next"
-          />
-          <q-btn
-            color="secondary"
-            @click="previous"
-            label="Back"
-          />
-          <q-btn
-            color="secondary"
-            @click="$router.push('/')"
-            label="Cancel"
-          />
-        </q-stepper-navigation>
-      </q-step>
-
-      <q-step
-        name="selfie"
-        title="Selfie"
-        :order="25">
-    <!--    <anyCamera
-          class="col full-width row"
-          :takeImage="takeImage"
-          :buttonCreate="false"
-
-          messageTakeImage="message.book.takeImage"
-          messageReuseImage="message.book.reuseImage"
-          messageComplete="message.book.complete"
-          v-on:resetSnapshot="resetSnapshot"
-          v-on:usePickedImage="usePickedImage"
-          v-on:create="false"
-        >
-        v-if="illustrating[pageName]"
-        </anyCamera>-->
-        <RecordCamcord
-          :pageName="pageName"
-          :quality="quality"
-          v-on:completed="newBookIllustrated"
-        >
-          Page {{pageName}}
-        </RecordCamcord>
-        <q-stepper-navigation>
-          <q-btn
-            color="primary"
-            v-if="image"
             @click="next"
             label="Next"
           />
@@ -279,7 +242,7 @@
 
         bookTitle: '',
         tags: '',
-        pageName: 'CoverSelfie',
+        pageName: 'Selfie with Book',
         pageStyle: 'page',
         illustrating: false,
         image: false,

@@ -1,9 +1,9 @@
 <template>
-  <q-page  v-touch-swipe="swipeHandler">
+  <div  v-touch-swipe="swipeHandler">
     <q-tabs class="row" v-model="cameraMode">
       <q-tab
         name="take"
-        :label="'keep as page ' + nextIllustration(activeFolder)"
+        label="Take Image"
         @click="touchHandler8"
         icon="camera"
         slot="title"
@@ -44,7 +44,7 @@
     </div>
     <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
 
-  </q-page>
+  </div>
 </template>
 
 <script>
