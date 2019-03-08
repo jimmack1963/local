@@ -148,9 +148,9 @@
       </q-step>
 
       <q-step
-        name="image"
-        title="Image"
-        :order="4">
+        name="selfie"
+        title="Selfie"
+        :order="25">
     <!--    <anyCamera
           class="col full-width row"
           :takeImage="takeImage"

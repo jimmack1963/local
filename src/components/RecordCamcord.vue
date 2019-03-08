@@ -55,7 +55,7 @@
   export default {
     name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
-    props: ['pageName'],
+    props: ['pageName', 'fileName'],
     data () {
       return {
       }

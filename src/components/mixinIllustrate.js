@@ -217,13 +217,27 @@ export const mixinIllustrate = {
       else {
         // Brand new image taken, book does not yet exist...
         // where to save?
-
+        debugger
+        this.lockCameraImage()
+        this.saveImage()
       }
     },
     captureCanvas (ev) {
       if (!this.streaming) {
         this.onResize()
         this.streaming = true
+      }
+    },
+    async saveImage () {
+      this.$emit('completed')
+      if (this.dataURL && this.dataURL !== 'data:,') {
+        // let fileName = this.generateImageName()
+        window.savedImage = this.dataURL
+        // await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
+        // this.clearPhoto()
+      }
+      else {
+        alert('Image not available')
       }
     },
     async useImage () {
@@ -284,6 +298,9 @@ export const mixinIllustrate = {
     },
 
     generateImageName () {
+      if (this.fileName) {
+        return this.fileName
+      }
       let pageFileName
       if (/^[0-9]+$/.test(this.pageName)) {
         // numeric page numbers start with 'p'
