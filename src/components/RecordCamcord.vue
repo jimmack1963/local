@@ -3,9 +3,18 @@
     <q-tabs class="row" v-model="cameraMode">
       <q-tab
         name="take"
-        label="Take Image"
-        @click="touchHandler8"
+        :label="dataURL ? 'Retake' : 'Take' "
+        @click="dataURL ? clearPhoto() : touchHandler8()"
         icon="camera"
+        slot="title"
+      >
+      </q-tab>
+
+      <q-tab
+        name="File"
+        label="file"
+        @click="clickFile"
+        icon="attachment"
         slot="title"
       >
       </q-tab>
@@ -20,17 +29,8 @@
       </q-tab>
 
       <q-tab
-        name="file"
-        label="file"
-        @click="clickFile"
-        icon="attachment"
-        slot="title"
-      >
-      </q-tab>
-
-      <q-tab
         name="done"
-        label="done"
+        label="Cancel"
         @click="home"
         icon="stop"
         slot="title"

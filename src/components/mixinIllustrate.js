@@ -217,7 +217,6 @@ export const mixinIllustrate = {
       else {
         // Brand new image taken, book does not yet exist...
         // where to save?
-        debugger
         this.lockCameraImage()
         this.saveImage()
       }
@@ -272,6 +271,7 @@ export const mixinIllustrate = {
     },
     clearPhoto () {
       this.preview = false
+      this.dataURL = false
       let canvas = this.$refs.canvas
       if (canvas) {
         let context = canvas.getContext('2d')
