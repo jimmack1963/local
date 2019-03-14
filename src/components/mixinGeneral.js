@@ -304,10 +304,10 @@ export const mixinGeneral = {
     readDemos () {
 
       let base = 'How To Use'
-      this.readDemoFile(base, 'book_cover.png', 'png')
-      for (let pageCtr = 0; pageCtr < 4; pageCtr++ ) {
+      this.readDemoFile(base, 'book_cover.jpg', 'png')
+      for (let pageCtr = 1; pageCtr <= 6; pageCtr++ ) {
         let page = 'p' + pageCtr
-        this.readDemoFile(base, page + '.png', 'png', pageCtr)
+        this.readDemoFile(base, page + '.jpg', 'png', pageCtr)
         this.readDemoFile(base, page + '.m4a', 'm4a', pageCtr)
 
       }
