@@ -44,7 +44,8 @@ module.exports = {
     // custom
     'indent': 'off',
     'comma-dangle': ['error', 'only-multiline'],
-    'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+    // 'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+    'brace-style': 'off',
     'no-multiple-empty-lines': 'off',
     'padded-blocks': 'off',
     'space-in-parens': 'off',

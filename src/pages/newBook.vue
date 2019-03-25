@@ -10,9 +10,41 @@
       ref="newBookCycle">
 
       <q-step
+        name="cover"
+        title="Cover Selfie"
+        :order="10">
+        <div v-if="!imageTaken">
+          Take a selfie!  Show the book -- it helps find this recording.
+        </div>
+
+
+        <div v-else>
+          You can retake the cover
+        </div>
+        <q-stepper-navigation>
+          <q-btn
+            color="primary"
+            @click="next"
+            label="Next"
+            v-if="imageTaken"
+          />
+          <!-- <q-btn
+             color="secondary"
+             @click="$refs.newBookCycle.previous()"
+             label="Back"
+           />-->
+          <q-btn
+            color="secondary"
+            @click="$router.push('/')"
+            label="Cancel"
+          />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step
         name="title"
         title="Title"
-        :order="10">
+        :order="20">
         <q-field
           class="col-xs-12 q-mx-sm"
           label="Book Title">
@@ -22,14 +54,13 @@
           <q-btn
             color="primary"
             @click="next"
-            v-if="bookTitle"
             label="Next"
           />
-          <!-- <q-btn
+          <q-btn
              color="secondary"
              @click="$refs.newBookCycle.previous()"
              label="Back"
-           />-->
+           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
@@ -66,7 +97,7 @@
         </q-stepper-navigation>
       </q-step>-->
 
-      <q-step
+      <!--<q-step
         name="numbering"
         title="Page Numbering"
         @keyup.enter="$refs.newBookCycle.next()"
@@ -95,7 +126,7 @@
             label="Cancel"
           />
         </q-stepper-navigation>
-      </q-step>
+      </q-step>-->
 
       <q-step
         name="plan"
@@ -124,6 +155,11 @@
 
         <q-stepper-navigation>
           <q-btn
+            color="secondary"
+            @click="$refs.newBookCycle.previous()"
+            label="Back"
+          />
+          <q-btn
             icon="photo library"
             color="primary"
             @click="illustrate"
@@ -150,7 +186,7 @@
         </q-stepper-navigation>
       </q-step>
 
-      <q-step
+     <!-- <q-step
         name="illustrating"
         title="Illustrating"
         :order="120">
@@ -217,12 +253,15 @@
           />
         </q-stepper-navigation>
       </q-step>
+    -->
     </q-stepper>
 
     <RecordCamcord
+      ref="recordCamCord"
       class="col-12"
-      :pageName="pageName"
-      :quality="quality"
+      pageName="book_cover.png"
+      :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
+      :active="currentStep === 'cover'"
       v-on:completed="newBookIllustrated"
     >
 
@@ -239,21 +278,34 @@
 
   export default {
     methods: {
-      newBookIllustrated () {
-        this.next()
+      newBookIllustrated (completed) {
+        this.imageTaken = completed
+        // run when image correctly taken in RecordCamcord
       },
-      narrate () {
-        this.$refs.newBookCycle.goToStep('narrating')
+      async narrate () {
+
+        await this.createBookAndAdvance()
+
+        this.$router.push('/narrate')
       },
-      illustrate () {
-        this.$refs.newBookCycle.goToStep('illustrating')
+      async illustrate () {
+
+        await this.createBookAndAdvance()
+
+        this.$router.push('/illustrate')
       },
-      pageByPage () {
-        this.$refs.newBookCycle.goToStep('pageByPage')
+      async pageByPage () {
+
+        await this.createBookAndAdvance()
+
+        this.$router.push('/pageByPage')
       },
-      createBookAndAdvance () {
-        this.commitAnySource()
-        this.next()
+      async createBookAndAdvance () {
+        this.filename = 'book_cover.jpg'
+        let newFolder = this.cleanFileNameForDropbox(this.bookTitle)
+        await this.createActiveFolder(newFolder)
+        await this.$refs.recordCamCord.commit(newFolder, this.tags, this.pageStyle)
+        // this.uploadFile()
       },
       next () {
         this.$refs.newBookCycle.next()
@@ -268,14 +320,14 @@
     props: ['step'],
     data () {
       return {
-        currentStep: 'title',
+        currentStep: 'cover',
 
         bookTitle: '',
         tags: '',
-        pageName: 'Selfie with Book',
         pageStyle: 'page',
         illustrating: false,
         image: false,
+        imageTaken: false,
         available: 'general',
       }
     },

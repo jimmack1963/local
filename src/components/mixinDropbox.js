@@ -48,6 +48,7 @@ export const mixinDropbox = {
           })
             .then(function () {
               self.$root.$emit('reload')
+
               self.$router.push('/')
             })
         })
@@ -65,6 +66,46 @@ export const mixinDropbox = {
       }
       return bytes.buffer
     },
+    cleanFileNameForDropbox (dirty) {
+      return dirty.replace(/[/\\?%*:|"<>]/g, '-')
+    },
+    async createActiveFolder (bookTitle) {
+
+      if (!bookTitle) {
+        let data = await this.$q.dialog({
+          title: 'Title Round!',
+          message: 'What is the book title?',
+          prompt: {
+            model: '',
+            type: 'text',
+          },
+          cancel: true,
+        })
+        bookTitle = data
+        if (!data) {
+          return false
+        }
+      }
+
+      // createFolder
+      let v = this
+      let result = await this.$dbx.filesCreateFolderV2({path: '/' + bookTitle})
+
+      let entry = result.metadata
+      entry.path_lower = '/' + bookTitle.toLowerCase()
+
+      await v.$store.dispatch('dropbox/registerFile', {
+        entry,
+        folder: '_TOC',
+        '.tag': 'folder',
+        dbx: v.$dbx,
+        calc: true,
+      })
+
+      v.$store.commit('setActiveFolder', {
+        activeFolder: entry,
+      })
+    },
     uploadFile: async function (sourceFile, fileName) {
 
       let v = this
@@ -75,14 +116,13 @@ export const mixinDropbox = {
             contents: sourceFile,
           })
 
-
           response.parts = pathParse(response.path_lower)
           response.ext = response.parts.ext.toLowerCase().replace('.', '')
           response.dir = response.parts.dir
           response.fname = response.parts.name
           response['.tag'] = 'file'
 
-          v.$store.dispatch('registerFile', {
+          v.$store.dispatch('dropbox/registerFile', {
             folder: response.dir,
             entry: response,
             dbx: v.$dbx,
@@ -106,16 +146,14 @@ export const mixinDropbox = {
             console.log('@response')
             console.dir(response)
           }
-        }
- catch (error) {
+        } catch (error) {
           if (window.jim_DEBUG_FULL) {
             console.log('@uploadFile error')
             console.dir(error)
           }
         }
 
-      }
-      else {
+      } else {
         // TODO: big file upload #8hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')
@@ -178,13 +216,14 @@ export const mixinDropbox = {
               contents: thumbnail,
             })
 
+
             response.parts = pathParse(response.path_lower)
             response.ext = response.parts.ext.toLowerCase().replace('.', '')
             response.dir = response.parts.dir
             response.fname = response.parts.name
             response['.tag'] = 'file'
 
-            v.$store.dispatch('registerFile', {
+            await v.$store.dispatch('dropbox/registerFile', {
               folder: response.dir,
               entry: response,
               dbx: v.$dbx,
@@ -208,16 +247,15 @@ export const mixinDropbox = {
               console.log('@response')
               console.dir(response)
             }
-          }
- catch (error) {
+          } catch (error) {
+
             if (window.jim_DEBUG_FULL) {
               console.log('@uploadFileBlobImage error')
               console.dir(error)
             }
           }
         }
-      }
-      else {
+      } else {
         // TODO: big file upload #2hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')
@@ -269,6 +307,7 @@ export const mixinDropbox = {
       }
     },
     uploadFileBlobAudio (blob, fileName, size) {
+
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (blob) {
@@ -283,7 +322,7 @@ export const mixinDropbox = {
               response.fname = response.parts.name
               response['.tag'] = 'file'
 
-              v.$store.dispatch('registerFile', {
+              v.$store.dispatch('dropbox/registerFile', {
                 folder: response.dir,
                 entry: response,
                 dbx: v.$dbx,
@@ -312,8 +351,7 @@ export const mixinDropbox = {
 
             })
         }
-      }
-      else {
+      } else {
         // TODO: big file upload #2hr
         alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
           ' mixinDropBox.uploadFileBlobImage')

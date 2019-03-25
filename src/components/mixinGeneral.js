@@ -16,6 +16,7 @@ export const mixinGeneral = {
       'cameraPreference',
       'TOC',
       'TOCSorted',
+      'thumbs',
       'camera',
       'folders',
       'activeFolder',
@@ -122,12 +123,18 @@ export const mixinGeneral = {
     nextIllustration (folder) {
 
       if (!folder) {
+
         return this.pageName
       }
       let testing = folder.imageOrder
+      if (testing.length === 0) {
+
+        return '0'
+      }
       let keys = Object.keys(testing)
       let last = false
       let possibleKey = false
+
       do {
         possibleKey = keys.pop()
         last = testing[possibleKey]
@@ -137,6 +144,7 @@ export const mixinGeneral = {
         return converted
       }
  else {
+
         return possibleKey + '.1'
       }
     },
@@ -167,7 +175,7 @@ export const mixinGeneral = {
 
       let entry = result.metadata
 
-      await v.$store.dispatch('registerFile', {
+      await v.$store.dispatch('dropbox/registerFile', {
         entry,
         folder: '_TOC',
         '.tag': 'folder',
@@ -285,6 +293,7 @@ export const mixinGeneral = {
     },
 
     readDemoFile (folder, name, tag, index) {
+
       // let link = require('.statics/recordings' + folder + name)
 
       // let linkData = require('../statics/recordings/' + folder + '/' + name)
@@ -311,28 +320,11 @@ export const mixinGeneral = {
         this.readDemoFile(base, page + '.m4a', 'm4a', pageCtr)
 
       }
-
-      /*
-            self.$store.dispatch('registerFile', {
-              folder: 'How To Use',
-              entry: {
-                id: 'demo 1',
-                '.tag': 'file',
-                ext: 'png',
-                fname: 'book_cover',
-                path_lower: base + 'book_cover.png',
-                pageNumber: '0',
-                thumbnail: false,
-              }
-
-            })
-      */
-
     },
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
-      this.readDemos()
+      // this.readDemos()
 
       this.purgeLocalStorageFromDropbox()
       let self = this
@@ -362,6 +354,7 @@ export const mixinGeneral = {
     home () {
       // this.$q.fullscreen.request()
       this.$store.commit('silence')
+
       this.$router.push('/')
       this.$store.commit('setActiveFolder', {
         activeFolder: false,

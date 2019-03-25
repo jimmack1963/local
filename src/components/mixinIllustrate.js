@@ -149,6 +149,7 @@ export const mixinIllustrate = {
         let files = e.target.files
         // this.$emit('usePickedImage', e, files)
         this.useFile(files[0])
+
         this.$router.push('/')
       }
     },
@@ -194,10 +195,12 @@ export const mixinIllustrate = {
             break
           }
           case 'up': {
+
             this.$router.push('/')
             break
           }
           case 'down': {
+
             this.$router.push('/')
             break
           }
@@ -228,11 +231,11 @@ export const mixinIllustrate = {
       }
     },
     async saveImage () {
-      this.$emit('completed')
+      this.$emit('completed', true)
       if (this.dataURL && this.dataURL !== 'data:,') {
-        // let fileName = this.generateImageName()
+        // let wholeFileName = this.generateImageName()
         window.savedImage = this.dataURL
-        // await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
+        // await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
         // this.clearPhoto()
       }
       else {
@@ -240,16 +243,22 @@ export const mixinIllustrate = {
       }
     },
     async useImage () {
-      this.$emit('completed')
-      // let v = this
-      // this.$store.commit('dropbox/saveThumbnail', {
-      //   entry: this.activeFolder,
-      //   thumbnail: this.dataURL,
-      // })
-      if (this.dataURL && this.dataURL !== 'data:,') {
-        let fileName = this.generateImageName()
+      this.$emit('completed', true)
 
-        await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
+
+      // let v = this
+      this.$store.commit('dropbox/saveThumbnail', {
+        entry: this.activeFolder,
+        overridePageName: this.pageName,
+        thumbnail: this.dataURL,
+      })
+
+      if (this.dataURL && this.dataURL !== 'data:,') {
+        let wholeFileName = this.generateImageName()
+        console.log('filename in useImage: ' + wholeFileName)
+
+        await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
+        console.log('useImage done')
         this.clearPhoto()
       }
       else {
@@ -258,12 +267,12 @@ export const mixinIllustrate = {
     },
     async useFile (file) {
 
-      this.$emit('completed')
+      this.$emit('completed', true)
 
       if (file) {
-        let fileName = this.generateImageName()
+        let wholeFileName = this.generateImageName()
 
-        await this.uploadFile(file, fileName)
+        await this.uploadFile(file, wholeFileName)
       }
       else {
         alert('File not available')
@@ -278,6 +287,7 @@ export const mixinIllustrate = {
         context.fillStyle = '#AAA'
         context.fillRect(0, 0, canvas.width, canvas.height)
       }
+      this.$emit('completed', false)
     },
 
     lockCameraImage () {
@@ -298,8 +308,8 @@ export const mixinIllustrate = {
     },
 
     generateImageName () {
-      if (this.fileName) {
-        return this.fileName
+      if (this.wholeFileName) {
+        return this.wholeFileName
       }
       let pageFileName
       if (/^[0-9]+$/.test(this.pageName)) {

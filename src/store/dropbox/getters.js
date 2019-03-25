@@ -42,3 +42,7 @@ export function ids (state) {
 export function folders (state) {
   return state.folders
 }
+
+export function thumbnails (state) {
+  return state.thumbnails
+}

@@ -94,7 +94,7 @@
 
 
     <q-layout-drawer
-      v-model="leftDrawerOpenOrNoBooks"
+      v-model="leftDrawerOpen"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list
@@ -165,6 +165,7 @@ export default {
   computed: {
     leftDrawerOpenOrNoBooks: {
       get: function () {
+
         return this.TOCSorted.length === 0 || this.leftDrawerOpen
       },
       set: function (value) {

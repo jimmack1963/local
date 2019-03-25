@@ -6,8 +6,9 @@ export const clearAll = (context) => {
 }
 
 export const saveLevel = async (context, payload) => {
-  let folder = payload.folder
+  let folder = payload.folder // folder is like a root base of operations more than a location
   let entries = payload.response.entries
+  // jrm: this has all the entries as a bunch, which can be reserved for when needed.
   let dbx = payload.dbx
   let promises = []
 
@@ -30,8 +31,10 @@ export const saveLevel = async (context, payload) => {
 }
 
 export const registerFile = async (context, payload) => {
-  let folder = payload.folder
+
+  let folder = payload.folder // folder is like a root base of operations more than a location
   let entry = payload.entry
+  console.log('FILE:,' + JSON.stringify(entry))
   let dbx = payload.dbx
   entry.parts = pathParse(entry.path_lower)
   entry.ext = entry.parts.ext.toLowerCase().replace('.', '')
@@ -39,6 +42,8 @@ export const registerFile = async (context, payload) => {
     folder,
     entry,
   })
+
+  // does nothing for .tag = folder
   switch (entry.ext) {
     case 'jpg':
     case 'png': {

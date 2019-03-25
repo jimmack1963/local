@@ -8,7 +8,7 @@ export const mixinSound = {
     }
   },
   computed: {
-    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'uid', 'delayPlayNext', 'mostRecentPage', 'micRecording', 'micUninitialized', 'micAvailable', 'micSaving']),
+    ...mapGetters(['ids', 'TOC', 'folders', 'playing', 'playingPage', 'delayPlayNext', 'mostRecentPage', 'micRecording', 'micUninitialized', 'micAvailable', 'micSaving']),
     likelyIcon () {
       if (this.micAvailable) {
         return 'mic'

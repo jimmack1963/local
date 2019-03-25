@@ -116,6 +116,7 @@
           await this.uploadFileBlobImage(this.dataURL, fileName, this.width * this.height)
 
           this.clearPhoto()
+
           v.$router.push('/')
         }
         else {

@@ -22,3 +22,30 @@ export function TOC (state, getters) {
 
   return sofar
 }
+
+export function thumbs (state, getters) {
+  let sofar = {...getters['dropbox/thumbnails'], ...getters['demos/thumbnails']}
+
+  return sofar
+}
+
+/*
+export function thumbnailByID2 (state) {
+
+}
+*/
+
+/*
+const nested = {
+  thumbnailByID: (state, getters) => key => {
+
+    let found
+    found = state.dropbox.thumbnails[key]
+    return found
+  }
+}
+
+export function thumbnailByID {
+  return nested.thumbnailByID
+}
+*/

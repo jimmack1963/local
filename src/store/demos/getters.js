@@ -15,3 +15,7 @@ export function activeScene (state) { return state.activeScene }
 export function _TOC (state) {
   return state._TOC
 }
+
+export function thumbnails (state) {
+  return state.thumbnails
+}

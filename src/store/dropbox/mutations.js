@@ -23,8 +23,18 @@ export function saveTempLink (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-  vue.set(state.thumbnails, payload.entry.id, payload.thumbnail)
-  let which = state.ids[payload.entry.id]
+  let targetId = payload.overloadThumbnailID || payload.entry.id
+
+  if (targetId in state.thumbnails) {
+
+    console.log('thumbnail' + targetId + ' already cached')
+    return
+  }
+  else {
+    vue.set(state.thumbnails, targetId, payload.thumbnail)
+  }
+
+  let which = state.ids[targetId]
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
 
@@ -41,13 +51,27 @@ export function saveThumbnail (state, payload) {
     }
   }
  else {
-    if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', payload.entry.id)
+    if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', targetId)
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
 
   let entry = payload.entry
   let TOC = state._TOC[(entry.dir || entry.path_lower)]
-  if (TOC && TOC.imageOrder) {
+  if (payload.overridePageName || !('pageNumber' in entry)) {
+
+    if (payload.overridePageName) {
+      if (TOC && TOC.imageOrder) {
+        vue.set(TOC.imageOrder, payload.overridePageName, payload.thumbnail)
+      }
+    }
+ else {
+
+      if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
+      if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
+    }
+    // how no page number inside entry?
+  }
+ else if (TOC && TOC.imageOrder) {
     vue.set(TOC.imageOrder, entry.pageNumber, payload.thumbnail)
   }
  else {
@@ -57,6 +81,12 @@ export function saveThumbnail (state, payload) {
 }
 
 export function saveEntry (state, payload) {
+  /*
+  First entry = folder.  because path_lower starts with a /,
+  when chopped intor parts, the dir = /, which makes it skip to the section !placed
+  THis makes the TOC entry
+   */
+  // folder is like a root base of operations more than a location
 
   let placed = false
 
@@ -76,7 +106,8 @@ export function saveEntry (state, payload) {
     if (entry.parts.dir !== '/') {
 
       // make easier to get as used often
-      entry.dir = entry.parts.dir
+
+      entry.dir = entry.parts.dir || entry.parts.name
       entry.fname = entry.parts.name
       if (!(entry.dir in state.folders)) {
         vue.set(state.folders, entry.dir, {})
@@ -99,10 +130,10 @@ export function saveEntry (state, payload) {
             base[entry.fname][(entry.ext || 'NoExt')].push(entry)
             placed = true
           }
-          else {
-        }
+ else {
             console.log('Not valid extention: ' + entry.ext + ' for ' + entry.path_lower)
           }
+        }
  else {
           let pageNumber
           switch (pageParts.length) {
@@ -135,16 +166,18 @@ export function saveEntry (state, payload) {
             placed = true
           }
         }
+
         vue.set(state.folders, entry.dir, base)
       }
  else {
-        vue.set(base, entry.fname, entry)
+        vue.set(state.folders, entry.fname, entry)
         placed = true
       }
     }
   }
 
   if (!placed) {
+    // make the TOC entry on first pass - as is a folder not an asset
     let folder = payload.folder || '_TOC'
 
     if (folder === '_TOC') {
@@ -242,13 +275,12 @@ export function calc (state, payload) {
   }
 }
 
-
 export function thumbnailSize (state, payload) {
   // if not a valid size, use the smallest size
   if (state.thumbnailSizes.includes(payload.thumbnailSize)) {
     state.thumbnailSize = payload.thumbnailSize
   }
-  else {
+ else {
     state.thumbnailSize = state.thumbnailSizes[0]
   }
 }

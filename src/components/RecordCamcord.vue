@@ -1,6 +1,7 @@
 <template>
   <div  v-touch-swipe="swipeHandler">
-    <q-tabs class="row" v-model="cameraMode">
+    <!--v-model="cameraMode"-->
+    <q-tabs class="row"  v-if="active">
       <q-tab
         name="take"
         :label="dataURL ? 'Retake' : 'Take' "
@@ -55,9 +56,10 @@
   export default {
     name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
-    props: ['pageName', 'fileName'],
+    props: ['pageName', 'wholeFileName', 'active'],
     data () {
       return {
+
       }
     },
     mounted () {
@@ -115,7 +117,11 @@
 
       vue.clearPhoto()
     },
-    methods: {},
+    methods: {
+      async commit (bookTitle, tags, pageStyle) {
+        await this.useImage(bookTitle)
+      }
+    },
   }
 </script>
 

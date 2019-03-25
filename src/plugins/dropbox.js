@@ -5,7 +5,7 @@ import { LocalStorage } from 'quasar'
 import fetch from 'isomorphic-unfetch'
 
 const parseQueryString = function (str) {
-  let ret = Object.create(null)
+  let ret = {}
 
   if (typeof str !== 'string') {
     return ret
