@@ -5,7 +5,8 @@
         </folderCardDisplay>
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
-    <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
+
+   <!-- <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
       <q-card-media
         overlay-position="bottom"
         v-show="activeFolder.imageOrder[offset]"
@@ -13,18 +14,18 @@
         <img :src="activeFolder.imageOrder[offset]" :alt="'Image #' + offset">
         <q-card-title slot="overlay">
           {{pageName}}
-          <!--<span slot="subtitle"></span>-->
+          &lt;!&ndash;<span slot="subtitle"></span>&ndash;&gt;
         </q-card-title>
       </q-card-media>
       <q-card-title v-show="!activeFolder.imageOrder[offset]">
         Page {{pageName}} (No Image)
-        <!--<span slot="subtitle"></span>-->
+        &lt;!&ndash;<span slot="subtitle"></span>&ndash;&gt;
       </q-card-title>
 
       <q-card-actions vertical align="center">
         <q-btn
           :id="`narrate_${offset}`"
-          :label="activeRecorderOffset != offset.toString() ?  'Narrate' : likelyAction"
+          :label="(activeRecorderOffset != offset.toString() ?  'Narrate'  : likelyAction)  + ' ' + pageName"
           @click="narratePage(activeFolder, pageName, offset)"
           v-if="!activeFolder.soundOrder[offset]"
           flat
@@ -53,6 +54,12 @@
       </q-card-actions>
 
       <q-card-main>
+        <div v-if="recording[pageName]">
+          Recording Component present
+        </div>
+        <div v-else>
+          NO COMPONENT YET
+        </div>
         <RecordAudio
           :ref="`record_audio_${offset}`"
           v-if="recording[pageName]"
@@ -62,7 +69,7 @@
           :showButtons="false"
         >
         </RecordAudio>
-        <!--v-on:autoclose="narrate(activeFolder, pageName, offset)"-->
+        &lt;!&ndash;v-on:autoclose="narrate(activeFolder, pageName, offset)"&ndash;&gt;
         <RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
@@ -72,7 +79,7 @@
         </RecordCamcord>
       </q-card-main>
     </q-card>
-
+-->
     <q-card class="q-ma-sm">
       <q-card-media
         overlay-position="bottom"
@@ -88,14 +95,19 @@
       <q-card-main>
 
         <q-field
-          label="Next Narration Page"
+          label="Next Page to Narrate"
         >
           <q-input
             v-model="nextNarration"
           >
           </q-input>
         </q-field>
-
+        <div v-if="recording['bulk']">
+          Recording Component present
+        </div>
+        <div v-else>
+          NO RECORDING YET
+        </div>
         <RecordAudio
           ref="record_audio_bulk"
           v-if="recording['bulk']"
@@ -157,32 +169,42 @@
               }
             }, */
       completedBulkNarration () {
-        this.nextNarration += 1
+        let last = parseInt(this.nextNarration)
+        if (isNaN(last)) {
+          this.nextNarration += '.1'
+        } else {
+          this.nextNarration = last + 1
+        }
       },
 
       narratePage (folder, pageName, offset, recursive) {
-        if (offset === -1) {
+        let refName = `record_audio_${offset >= 0 ? offset : 'bulk'}`
+
+        if (!this.activeRecorderOffset && offset === -1) {
           this.activeRecorderOffset = 'bulk'
           if (!recursive) {
             let toggled = {}
             toggled[pageName] = true
             this.$set(this, 'recording', toggled)
           }
-          let child = this.$refs.record_audio_bulk
-          if (child) {
-            child.doAction()
-          }
-          else {
-            alert('Second chance')
-            this.$nextTick(() => {
-              this.narratePage(folder, pageName, offset, true)
-            })
-          }
+          this.$nextTick(() => {
+            let child = this.$refs[refName]
+            if (child) {
+              child.doAction()
+            }
+            else {
+              this.$nextTick(() => {
+                this.narratePage(folder, pageName, offset, true)
+              })
+            }
+          })
+
           // record a bunch of new ones, starting at ...
 
           // this.narratePage(folder, this.nextNarration, this.nextNarration)
         }
         else if (!this.activeRecorderOffset) {
+
           // start the recorder
           this.activeRecorderOffset = offset.toString()
           // only one at a time
@@ -193,18 +215,25 @@
           this.$set(this, 'recording', toggled)
         }
         else {
+
           // close Recorder
-          if (this.$refs['record_audio_' + offset.toString()]) {
-            let child = this.$refs['record_audio_' + offset.toString()]
-            if (child.length > 0) {
-              child[0].doAction()
+          if (this.$refs[refName]) {
+            let child = this.$refs[refName]
+            if (child) {
+              if (Array.isArray(child)) {
+                if (child.length > 0) {
+                  child[0].doAction()
+                }
+              } else {
+                child.doAction()
+              }
             }
           }
           else {
-            if (window.jim_DEBUG_FULL) console.log('can not find record_audio_' + offset)
+            if (window.jim_DEBUG_FULL) console.log('can not find ' + refName)
           }
           this.activeRecorderOffset = false
-          this.$set(this, 'recording', {})
+          // this.$set(this, 'recording', {})
         }
       },
       illustrate (folder, pageName) {

@@ -171,6 +171,7 @@ export const mixinIllustrate = {
           console.log('assigned th')
           self.theStream = stream
           videoRef.srcObject = stream
+
           videoRef.play()
         })
         .catch(function (err) {

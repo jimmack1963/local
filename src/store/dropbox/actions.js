@@ -37,6 +37,9 @@ export const registerFile = async (context, payload) => {
   console.log('FILE:,' + JSON.stringify(entry))
   let dbx = payload.dbx
   entry.parts = pathParse(entry.path_lower)
+  if (entry.parts.dir.length > 7 && entry.parts.dir.endsWith('/history')) {
+    return false
+  }
   entry.ext = entry.parts.ext.toLowerCase().replace('.', '')
   context.commit('saveEntry', {
     folder,

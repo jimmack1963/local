@@ -61,8 +61,7 @@ export const mixinGeneral = {
     appTitle () {
       if (this.activeFolder) {
         return this.activeFolder.name
-      }
- else {
+      } else {
         return this.title
       }
     },
@@ -73,17 +72,53 @@ export const mixinGeneral = {
         let pnum = parseInt(lastPage)
         if (isNaN(pnum)) return this.activeFolder.pageOrder.length
         return pnum + 1
-      }
- else {
+      } else {
         return 0
       }
     },
 
   },
   methods: {
+    lastPageWithFile (folder, lookFor, increment) {
+      debugger
+      let pages = folder.contents.pages
+      let order = folder.pageOrder
+
+      while (order.length > 0) {
+        let lastPageKey = order.pop()
+        let examine = pages[lastPageKey]
+        if (examine[lookFor].length > 0) {
+          // there is a record/entry for that page matching mp3/png whatever
+          if (/^\d+$/.test(lastPageKey)) {
+            return parseInt(lastPageKey) + increment
+          } else {
+
+            return lastPageKey + '.' + increment
+          }
+        }
+      }
+      return 0
+    },
+
+    maxSound (folder) {
+      return this.lastPageWithFile(folder, 'mp3', 0)
+    },
+    nextSound (folder) {
+      return this.lastPageWithFile(folder, 'mp3', 1)
+    },
+    maxIllustration (folder) {
+      return Math.max(this.lastPageWithFile(folder, 'png', 0), this.lastPageWithFile(folder, 'jpg', 0))
+    },
+    nextIllustration (folder) {
+      return Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1))
+    },
+    /*
     maxSound (folder) {
       let testing = folder.soundOrder
       let keys = Object.keys(testing)
+      if (keys.length < 1) {
+        return '0'
+      }
       let last = false
       let possible = false
       do {
@@ -93,8 +128,13 @@ export const mixinGeneral = {
       return possible
     },
     nextSound (folder) {
+
       let testing = folder.soundOrder
       let keys = Object.keys(testing)
+      if (keys.length < 1) {
+        return '0'
+      }
+
       let last = false
       let possibleKey = false
       do {
@@ -105,14 +145,18 @@ export const mixinGeneral = {
       if (/^\d+$/.test(possibleKey)) {
         let converted = parseInt(possibleKey) + 1
         return converted
-      }
- else {
+      } else {
+
         return possibleKey + '.1'
       }
     },
     maxIllustration (folder) {
       let testing = folder.imageOrder
       let keys = Object.keys(testing)
+      if (keys.length < 1) {
+        return '0'
+      }
+
       let last = false
       let possibleKey = false
       do {
@@ -121,17 +165,17 @@ export const mixinGeneral = {
       } while (!last && keys.length > 0)
     },
     nextIllustration (folder) {
-
       if (!folder) {
-
         return this.pageName
       }
       let testing = folder.imageOrder
       if (testing.length === 0) {
-
         return '0'
       }
       let keys = Object.keys(testing)
+      if (keys.length < 1) {
+        return '0'
+      }
       let last = false
       let possibleKey = false
 
@@ -142,12 +186,11 @@ export const mixinGeneral = {
       if (/^\d+$/.test(possibleKey)) {
         let converted = parseInt(possibleKey) + 1
         return converted
-      }
- else {
+      } else {
 
         return possibleKey + '.1'
       }
-    },
+    }, */
     async startBook (bookTitle) {
       this.$router.push('/book/new/step/0')
     },
@@ -233,24 +276,21 @@ export const mixinGeneral = {
     pageOrder (aFolder) {
       if (aFolder.pageOrder) {
         return aFolder.pageOrder
-      }
- else {
+      } else {
         return []
       }
     },
     imageOrder (aFolder) {
       if (aFolder.imageOrder) {
         return aFolder.imageOrder
-      }
- else {
+      } else {
         return []
       }
     },
     soundOrder (aFolder) {
       if (aFolder.soundOrder) {
         return aFolder.soundOrder
-      }
- else {
+      } else {
         return []
       }
     },
@@ -266,8 +306,7 @@ export const mixinGeneral = {
       if (collection) {
         if (collection.jpg.length > 0) {
           possible = collection.jpg[0].thumbnail
-        }
- else if (collection.png.length > 0) {
+        } else if (collection.png.length > 0) {
           possible = collection.png[0].thumbnail
         }
       }
@@ -306,7 +345,7 @@ export const mixinGeneral = {
           id: 'demo: ' + name,
           '.tag': tag,
           pageNumber: index,
-          ext: tag
+          ext: tag,
         },
       })
     },
@@ -314,7 +353,7 @@ export const mixinGeneral = {
 
       let base = 'How To Use'
       this.readDemoFile(base, 'book_cover.jpg', 'png')
-      for (let pageCtr = 1; pageCtr <= 6; pageCtr++ ) {
+      for (let pageCtr = 1; pageCtr <= 6; pageCtr++) {
         let page = 'p' + pageCtr
         this.readDemoFile(base, page + '.jpg', 'png', pageCtr)
         this.readDemoFile(base, page + '.m4a', 'm4a', pageCtr)
@@ -381,8 +420,7 @@ export const mixinGeneral = {
       })
       if (this.pageCount(entry) > 0) {
         this.$router.push('/carousel')
-      }
-      else {
+      } else {
         // I don't know why this is here, but it interferes with taking multiple images in a row
         // this.$router.push('/Illustrate')
       }

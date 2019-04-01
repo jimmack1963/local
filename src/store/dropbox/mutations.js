@@ -1,12 +1,12 @@
 import vue from 'vue'
 
 export function saveTempLink (state, payload) {
+  debugger
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'link', payload.response.link)
     vue.set(which, 'linkTime', new Date())
-  }
- else {
+  } else {
     if (window.jim_DEBUG_VUEX) console.log('Fail save templink: ')
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
@@ -29,8 +29,7 @@ export function saveThumbnail (state, payload) {
 
     console.log('thumbnail' + targetId + ' already cached')
     return
-  }
-  else {
+  } else {
     vue.set(state.thumbnails, targetId, payload.thumbnail)
   }
 
@@ -49,8 +48,7 @@ export function saveThumbnail (state, payload) {
         return true
       }
     }
-  }
- else {
+  } else {
     if (window.jim_DEBUG_VUEX) console.log('Fail save thumbnail: ', targetId)
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
@@ -63,18 +61,15 @@ export function saveThumbnail (state, payload) {
       if (TOC && TOC.imageOrder) {
         vue.set(TOC.imageOrder, payload.overridePageName, payload.thumbnail)
       }
-    }
- else {
+    } else {
 
       if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
       if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
     }
     // how no page number inside entry?
-  }
- else if (TOC && TOC.imageOrder) {
+  } else if (TOC && TOC.imageOrder) {
     vue.set(TOC.imageOrder, entry.pageNumber, payload.thumbnail)
-  }
- else {
+  } else {
     if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
     if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
   }
@@ -88,6 +83,7 @@ export function saveEntry (state, payload) {
    */
   // folder is like a root base of operations more than a location
 
+  debugger
   let placed = false
 
   let entry = payload.entry
@@ -129,12 +125,10 @@ export function saveEntry (state, payload) {
           if (entry.ext in base[entry.fname]) {
             base[entry.fname][(entry.ext || 'NoExt')].push(entry)
             placed = true
-          }
- else {
+          } else {
             console.log('Not valid extention: ' + entry.ext + ' for ' + entry.path_lower)
           }
-        }
- else {
+        } else {
           let pageNumber
           switch (pageParts.length) {
             case 3: {
@@ -168,8 +162,7 @@ export function saveEntry (state, payload) {
         }
 
         vue.set(state.folders, entry.dir, base)
-      }
- else {
+      } else {
         vue.set(state.folders, entry.fname, entry)
         placed = true
       }
@@ -217,12 +210,10 @@ export function calc (state, payload) {
         if (numberTest.test(key)) {
           let index = parseInt(key)
           assemble[index] = key
-        }
- else {
+        } else {
           if (key === 'cover') {
             assemble[0] = key
-          }
- else {
+          } else {
             // TODO: handle multiple string keys better
             let index = assemble.length + 10000
             assemble[index] = key
@@ -279,8 +270,7 @@ export function thumbnailSize (state, payload) {
   // if not a valid size, use the smallest size
   if (state.thumbnailSizes.includes(payload.thumbnailSize)) {
     state.thumbnailSize = payload.thumbnailSize
-  }
- else {
+  } else {
     state.thumbnailSize = state.thumbnailSizes[0]
   }
 }

@@ -219,10 +219,20 @@
               }
             }, */
       completedBulkNarration () {
-        this.bulk.nextNarration += 1
+        let last = parseInt(this.bulk.nextNarration)
+        if (isNaN(last)) {
+          this.bulk.nextNarration += '.1'
+        } else {
+          this.bulk.nextNarration = last + 1
+        }
       },
       completedBulkIllustration () {
-        this.bulk.nextIllustration += 1
+        let last = parseInt(this.bulk.nextIllustration)
+        if (isNaN(last)) {
+          this.bulk.nextIllustration += '.1'
+        } else {
+          this.bulk.nextIllustration = last + 1
+        }
       },
       narratePage (folder, pageName, offset) {
         console.log('Disabled: narratePageAndroid')

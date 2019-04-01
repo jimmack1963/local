@@ -318,6 +318,7 @@
 
         let howlable = this.savedEntry(entry)
         if (howlable) {
+
           howlable.howl.play()
         }
         else {

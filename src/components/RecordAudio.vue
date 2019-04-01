@@ -64,15 +64,17 @@
     },
     methods: {
       inProgress () {
+
         this.recordingInProgress = true
       },
       startRecording () {
 
+
         this.recording = new window.WebAudioTrack()
         try {
           this.recording.startRecording(this.inProgress)
-        }
-        catch (e) {
+        } catch (e) {
+
           alert('error recording: ' + e)
         }
         /*
@@ -89,26 +91,37 @@
       },
       stopRecording () {
 
-        this.recording.stopRecording(() => {
-          this.onNewRecording()
-          this.recordingInProgress = false
+        try {
+          this.recording.stopRecording(() => {
 
-        })
-              },
+            this.onNewRecording()
+            this.recordingInProgress = false
+
+          })
+        } catch (e) {
+
+          console.log(e)
+        }
+      },
       onNewRecording () {
+
         this.recordings.push(this.recording)
-        if (this.playAfterRecord) this.recording.play()
+
+        if (this.playAfterRecord) {
+
+          this.recording.play()
+        }
         this.pushToDropbox()
       },
       async pushToDropbox () {
+
         this.$emit('completed')
         this.$store.commit('setMicAvailable')
         let pageFileName
         if (/^[0-9]+$/.test(this.pageName)) {
           // numeric page numbers start with 'p'
           pageFileName = 'p' + this.pageName
-        }
-        else {
+        } else {
           pageFileName = this.pageName
         }
 

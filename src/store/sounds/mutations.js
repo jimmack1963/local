@@ -5,6 +5,7 @@ export function playHowl (state, payload) {
   let killLength = state.playing.length
 
   state.playing.push(payload.page)
+
   payload.page.howl.play()
   state.mostRecentPage = payload.page.pageNumber
 
@@ -15,6 +16,7 @@ export function playHowl (state, payload) {
 
 export function playHowlAlso (state, payload) {
   state.playing.push(payload.page)
+
   payload.page.howl.play()
 }
 

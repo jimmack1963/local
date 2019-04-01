@@ -141,6 +141,8 @@
             <q-item-side icon="photo library"></q-item-side>
             <q-item-main label="Illustrating the whole book (Take a snapshot of each page)"></q-item-main>
           </q-item>
+
+          <!--
           <q-item>
             <q-item-side icon="mic"></q-item-side>
             <q-item-main label="Narrating the whole book (Read each page)"></q-item-main>
@@ -148,7 +150,7 @@
           <q-item>
             <q-item-side icon="library books"></q-item-side>
             <q-item-main label="Work page-by-page (Narrate and Illustrate a page at a time)"></q-item-main>
-          </q-item>
+          </q-item>-->
         </q-list>
 
         (At any time, you can stop what you are doing, and restart in any way you like).
@@ -165,6 +167,8 @@
             @click="illustrate"
             label="Illustrate"
           />
+
+          <!--
           <q-btn
             icon="mic"
             color="primary"
@@ -177,7 +181,7 @@
             @click="pageByPage"
             label="Page by Page"
           />
-
+-->
           <q-btn
             color="secondary"
             @click="$router.push('/')"

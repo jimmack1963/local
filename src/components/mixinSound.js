@@ -31,7 +31,7 @@ export const mixinSound = {
         return 'Stop'
       }
       else if (this.micSaving) {
-        return 'Saving... page ' + this.page
+        return 'Saving... page'
       }
       else if (this.micUninitialized) {
         return 'Not Ready to Record'
@@ -58,7 +58,9 @@ export const mixinSound = {
       this.$router.push('/Illustrate')
     },
     doAction () {
+
       if (this.micAvailable) {
+
         this.startRecording()
         this.$store.commit('setMicRecording')
         // this record is just of 'next'
@@ -78,10 +80,12 @@ export const mixinSound = {
         if (window.jim_DEBUG_FULL) console.log('stop recording emitted.')
       }
       else if (this.micSaving) {
+
         this.$store.commit('setMicAvailable')
         if (window.jim_DEBUG_FULL) console.log('Mic has saved, set as available')
       }
       else if (this.micUninitialized) {
+
         this.$store.commit('setMicAvailable')
         if (window.jim_DEBUG_FULL) console.log('Mic set available')
       }
@@ -107,17 +111,19 @@ export const mixinSound = {
       }
     },
     async deleteBookSound (TOC, pageNumber) {
+      let self = this
       this.$q.dialog({
         title: 'Delete?',
         message: 'Remove dialog for Page ' + pageNumber,
         ok: 'Delete',
         cancel: 'Keep',
       }).then(async function () {
-        this.$store.dispatch('removeEntry', {
+
+        self.$store.dispatch('dropbox/removeEntry', {
           TOC,
           pageNumber,
           family: 'mp3',
-          dbx: this.$dbx
+          dbx: self.$dbx
         })
       })
       /*
@@ -282,6 +288,7 @@ export const mixinSound = {
               page: target
             })
             // target.mp3[0].howl.play()
+
             played = true
           }
         }
