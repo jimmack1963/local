@@ -82,7 +82,7 @@ export const mixinGeneral = {
     lastPageWithFile (folder, lookFor, increment) {
       debugger
       let pages = folder.contents.pages
-      let order = folder.pageOrder
+      let order = JSON.parse(JSON.stringify(folder.pageOrder))
 
       while (order.length > 0) {
         let lastPageKey = order.pop()
