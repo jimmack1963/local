@@ -1,7 +1,6 @@
 import vue from 'vue'
 
 export function saveTempLink (state, payload) {
-  debugger
   let which = state.ids[payload.entry.id]
   if (which) {
     vue.set(which, 'link', payload.response.link)
@@ -83,7 +82,6 @@ export function saveEntry (state, payload) {
    */
   // folder is like a root base of operations more than a location
 
-  debugger
   let placed = false
 
   let entry = payload.entry

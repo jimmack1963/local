@@ -68,13 +68,18 @@
    */
   export default {
     name: 'Illustrate',
+    /* props: ['pageName'], */
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
       return {}
     },
     computed: {
       pageName () {
-        if (this.activeFolder.pageOrder.length > 0) {
+        if (this.$route.params.pageName) {
+
+          return this.$route.params.pageName
+        }
+        else if (this.activeFolder.pageOrder.length > 0) {
           let po = this.activeFolder.pageOrder
           return parseInt(po[po.length - 1]) + 1
         }

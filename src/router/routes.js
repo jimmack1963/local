@@ -74,10 +74,29 @@ const routes = [
     beforeEnter: multiguard([guardActiveFolder])
   },
   {
+    path: '/Illustrate/:pageName',
+    props: true,
+    name: 'illustratePage',
+    component: MyLayout,
+    children: [
+      { path: '', component: Illustrate }
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
+  },
+  {
     path: '/Illustrate',
     component: MyLayout,
     children: [
       { path: '', component: Illustrate }
+    ],
+    beforeEnter: multiguard([guardActiveFolder])
+  },
+  {
+    path: '/Narrate/:pageName',
+    props: true,
+    component: MyLayout,
+    children: [
+      { path: '', component: Narrate }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },

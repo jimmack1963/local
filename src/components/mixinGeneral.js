@@ -80,7 +80,6 @@ export const mixinGeneral = {
   },
   methods: {
     lastPageWithFile (folder, lookFor, increment) {
-      debugger
       let pages = folder.contents.pages
       let order = JSON.parse(JSON.stringify(folder.pageOrder))
 
@@ -110,6 +109,7 @@ export const mixinGeneral = {
       return Math.max(this.lastPageWithFile(folder, 'png', 0), this.lastPageWithFile(folder, 'jpg', 0))
     },
     nextIllustration (folder) {
+      if (this.pageName) { return this.pageName }
       return Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1))
     },
     /*

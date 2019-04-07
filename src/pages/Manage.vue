@@ -300,7 +300,7 @@
         }
       },
       illustrate (folder, pageName) {
-        this.$router.push('/Illustrate')
+        this.$router.push('/Illustrate/' + pageName)
       },
       illustrateLocal (folder, pageName) {
         // only one at a time
