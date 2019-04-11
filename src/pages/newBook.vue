@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="row">
-    <b>Create a new book:</b>
+    <div class="strip">Create a new book:</div>
 
     <q-stepper
       v-model="currentStep"
@@ -16,8 +16,6 @@
         <div v-if="!imageTaken">
           Take a selfie!  Show the book -- it helps find this recording.
         </div>
-
-
         <div v-else>
           You can retake the cover
         </div>
@@ -33,11 +31,11 @@
              @click="$refs.newBookCycle.previous()"
              label="Back"
            />-->
-          <q-btn
+      <!--    <q-btn
             color="secondary"
             @click="$router.push('/')"
             label="Cancel"
-          />
+          />-->
         </q-stepper-navigation>
       </q-step>
 
@@ -344,4 +342,7 @@
 </script>
 
 <style>
+  .strip {
+    height: 1em;
+  }
 </style>
