@@ -41,14 +41,14 @@
         no-border
         inset-delimiter
       >
-        <q-list-header>Settings</q-list-header>
+        <q-list-header>{{$t('Settings')}}</q-list-header>
         <q-item @click.native="$store.commit('playAfterRecord')" >
           <q-item-side icon="replay" />
-          <q-item-main :label="playAfterRecord ? 'Don\'t replay after recording' : 'Replay after recording'" sublabel="Immediately hear your Narration" />
+          <q-item-main :label="$t(playAfterRecord ? 'Don\'t replay after recording' : 'Replay after recording')" :sublabel="$t('Immediately hear your Narration')" />
         </q-item>
 
 
-        <q-list-header>Image Quality</q-list-header>
+        <q-list-header>{{$t('Image Quality')}}</q-list-header>
         <q-item>
 
           <q-item-side icon="photo_size_select_small" />
@@ -68,24 +68,24 @@
 
         <q-item @click.native="setDelayPlayNext(1)" v-if="delayPlayNext < 0.01">
           <q-item-side icon="playlist_play" />
-          <q-item-main label="Autoplay pages" sublabel="Continue to end of book" />
+          <q-item-main :label="$t('Autoplay pages')" :sublabel="$t('Continue to end of book')" />
         </q-item>
 
         <q-item @click.native="setDelayPlayNext(0)" v-else >
           <q-item-side icon="play arrow" />
-          <q-item-main label="One page at a time" sublabel="Waits for you to advance" />
+          <q-item-main :label="$t('One page at a time')" :sublabel="$t('Waits for you to advance')" />
         </q-item>
 
 
         <q-item @click.native="rightDrawerOpen = false" >
           <q-item-side icon="settings" />
-          <q-item-main label="Done" sublabel="Close this menu" />
+          <q-item-main :label="$t('Done')" :sublabel="$t('Close this menu')" />
         </q-item>
         <q-item>
-          <q-item-main :label="'Released ' + version "></q-item-main>
+          <q-item-main :label="$t('Released') + ' '  + version "></q-item-main>
         </q-item>
         <q-item>
-          <q-item-main label="(c) 2019, James R. Mack"></q-item-main>
+          <q-item-main labelc="(c) 2019, James R. Mack"></q-item-main>
         </q-item>
 
       </q-list>
@@ -103,45 +103,45 @@
         inset-delimiter
       >
 
-<!--        <q-item to="/selfie" >
+<!-- $t('       <q-item to="/selfi')e" >
           <q-item-side icon="add a photo" />
-          <q-item-main label="Selfie" sublabel="You, the book, your kid" />
+          <q-item-main :label="$t('Selfie')" :sublabel="You, the book, your kid" />
         </q-item>
 
         <q-item to="/carousel" >
           <q-item-side icon="playlist_play" />
-          <q-item-main label="Carousel" sublabel="See the pages" />
+          <q-item-main :label="$t('Carousel')" :sublabel="See the pages" />
         </q-item>-->
 
         <q-item @click.native="startBook(false)" >
           <q-item-side icon="add a photo" />
-          <q-item-main label="Make a new book" sublabel="Take a selfie of you, the book, your kid" />
+          <q-item-main :label="$t('message.menu.newBook')" :sublabel="$t('Take a selfie of you, the book, your kid')" />
         </q-item>
         <q-item v-if="activeFolder" @click.native="manage(activeFolder)" >
           <q-item-side icon="add a photo" />
-          <q-item-main label="Manage" sublabel="manage sound and images for every page" />
+          <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
         </q-item>
 
         <q-item @click.native="readDropboxFolder()">
           <q-item-side icon="refresh" />
-          <q-item-main label="Refresh" sublabel="Reload from DropBox" />
+          <q-item-main :label="$t('Refresh')" :sublabel="$t('Reload from DropBox')" />
         </q-item>
 
         <q-item @click.native="openURL('https://www.dropbox.com/home/Apps/PlayItAgainKid')">
           <q-item-side icon="open in browser" />
-          <q-item-main label="Open Dropbox Folder" sublabel="See your files" />
+          <q-item-main :label="$t('Open Dropbox Folder')" :sublabel="$t('See your files')" />
         </q-item>
 
 
 
         <q-item @click.native="logout()">
           <q-item-side icon="logout" />
-          <q-item-main label="Logout" sublabel="Log out from DropBox" />
+          <q-item-main :label="$t('Logout')" :sublabel="$t('Log out from DropBox')" />
         </q-item>
 
-        <!--        <q-item @click.native="openURL('http://quasar-framework.org')">
+        <!-- $t('       <q-item @click.native="openURL('http://quasar-framework.org')')">
                   <q-item-side icon="school" />
-                  <q-item-main label="Docs" sublabel="quasar-framework.org" />
+                  <q-item-main :label="$t('Docs')" :sublabel="quasar-framework.org" />
                 </q-item>-->
 
       </q-list>

@@ -8,7 +8,7 @@
     <q-tabs class="col-12" v-model="cameraMode">
       <q-tab
         name="take"
-        :label="'keep as page ' + nextIllustration(activeFolder)"
+        :label="$t('keep as page') + ' ' + nextIllustration(activeFolder)"
         @click="touchHandler8"
         icon="camera"
         slot="title"
@@ -17,25 +17,25 @@
 
       <q-tab
         name="front"
-        :label="modeCaption"
+        :label="$t(modeCaption)"
         @click="modeClick"
         :icon="modeIcon"
         slot="title"
       >
       </q-tab>
 
-      <q-tab
+      <!--<q-tab
         name="file"
-        label="file"
+        :label="$t('file')"
         @click="clickFile"
         icon="attachment"
         slot="title"
       >
-      </q-tab>
+      </q-tab>-->
 
       <q-tab
         name="done"
-        label="done"
+        :label="$t('done')"
         @click="home"
         icon="stop"
         slot="title"

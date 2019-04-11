@@ -2,33 +2,19 @@
   <q-page padding class="row items-start flex flex-start">
     <div v-if="!access_token">
       <h1>{{title}}</h1>
-      We help you {{verb}} books for your loved ones, however they may be behaving currently.
-      This version used DropBox to store images and recordings. Specifically, it uses <em>your</em> DropBox account,
-      making a folder called \Apps\PlayItAgainKid. It's your own disk in the cloud, easy to copy anywhere.
-
-      This means you always will have your originals, and that we never even see anything you create.
+      {{$t('intro_function')}}
       <br><br>
-      <a id="authlink" :href="authURL" class="button">Authenticate with Dropbox</a>
+      <a id="authlink" :href="authURL" class="button">{{$t('Authenticate with Dropbox')}}</a>
       <br><br>
-      If you are not a current user, you may want to sign up on <a href="https://www.dropbox.com/register"
-                                                                   targt="_blank">their site first</a>. Or, install
-      their app.
+      <p v-html="$t('intro_signin')"></p>
       <br>
-
-      {{title}} is not affiliated with or otherwise sponsored by Dropbox, Inc.
+      {{$t('intro_disclaimer')}}
     </div>
 
     <q-card class="card-itself col-lg-4 col-xs-12" v-if="access_token && TOCSorted.length === 0">
-      <q-card-title>Make your first book</q-card-title>
-      <q-card-main>
-        <p>The menu at the left has an entry, "Make a new book." </p>
+      <q-card-title>{{$t('Make your first book')}}</q-card-title>
+      <q-card-main v-html="$t('first_book_intro')">
 
-        <p>You can open the menu, if it is closed, by hitting the icon
-          <q-icon name="menu"></q-icon>
-        </p>
-
-        <p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting
-          anywhere on the screen. You can always replace it if you want a second chance.</p>
       </q-card-main>
 
     </q-card>
@@ -67,7 +53,7 @@
       <!--if book (folder)-->
       <q-card-actions v-if="folder['.tag'] === 'folder'">
 
-        <q-btn-dropdown color="primary" label="Playing" class="q-mr-sm">
+        <q-btn-dropdown color="primary" :label="$t('Playing')" class="q-mr-sm">
           <q-list link>
             <q-item
               @click.native="selfie(folder)"
@@ -85,7 +71,7 @@
             >
               <q-item-main>
                 <q-item-tile label>
-                  Carousel
+                  {{$t('Carousel')}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -96,7 +82,7 @@
             >
               <q-item-main>
                 <q-item-tile label>
-                  Play All
+                  {{$t('Play All')}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -109,7 +95,7 @@
             >
               <q-item-main>
                 <q-item-tile label>
-                  Page {{p}}
+                  {{$t('Page')}} {{p}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -118,14 +104,14 @@
 
         </q-btn-dropdown>
 
-        <q-btn-dropdown color="primary" label="Creating" class="q-mr-sm">
+        <q-btn-dropdown color="primary" :label="$t('Creating')" class="q-mr-sm">
           <q-list link>
             <q-item
               @click.native="record(folder)"
             >
               <q-item-main>
                 <q-item-tile label>
-                  Illustrate
+                  {{$t('Illustrate')}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -134,7 +120,7 @@
             >
               <q-item-main>
                 <q-item-tile label>
-                  Narrate
+                  {{$t('Narrate')}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -143,7 +129,7 @@
             >
               <q-item-main>
                 <q-item-tile label>
-                  Manage
+                  {{$t('Manage')}}
                 </q-item-tile>
               </q-item-main>
             </q-item>
@@ -154,7 +140,7 @@
           flat
           color="secondary"
           icon="stop"
-          label="Silence"
+          :label="$t('Silence')"
           @click="endHowlPlay(folder)"
           v-if="(pageCount(folder) > 0) && (playing.length > 0)"
         ></q-btn>
@@ -236,7 +222,7 @@
           v-if="savedEntry(folder).howl"
           flat
           color="primary"
-          label="play"
+          :label="$t('play')"
           @click="play(folder)"
         ></q-btn>
       </q-card-actions>
@@ -244,7 +230,7 @@
         <q-btn
           flat
           color="primary"
-          label="view"
+          :label="$t('view')"
           @click="view(folder)"
         ></q-btn>
       </q-card-actions>

@@ -4,7 +4,7 @@
     <q-tabs class="row"  v-if="active">
       <q-tab
         name="take"
-        :label="dataURL ? 'Retake' : 'Take' "
+        :label="$t(dataURL ? 'Retake' : 'Take') "
         @click="dataURL ? clearPhoto() : touchHandler8()"
         icon="camera"
         slot="title"
@@ -13,7 +13,7 @@
 
       <q-tab
         name="File"
-        label="file"
+        :label="$t('file')"
         @click="clickFile"
         icon="attachment"
         slot="title"
@@ -22,7 +22,7 @@
 
       <q-tab
         name="front"
-        :label="modeCaption"
+        :label="$t(modeCaption)"
         @click="modeClick"
         :icon="modeIcon"
         slot="title"
@@ -31,7 +31,7 @@
 
       <q-tab
         name="done"
-        label="Cancel"
+        :label="$t('Cancel')"
         @click="home"
         icon="stop"
         slot="title"

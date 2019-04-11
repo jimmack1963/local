@@ -34,9 +34,9 @@ export default {
   'Narrate': 'Narrate',
   'Play All': 'Play All',
   'Page': 'Page',
-  'Playing': 'Playing',
-  'Creating': 'Creating',
-  'Silence': 'Silence',
+  'Playing': 'Tocando',
+  'Creating': 'Creando',
+  'Silence': 'Silencio',
   'play': 'play',
   'view': 'view',
 
@@ -110,7 +110,7 @@ export default {
     'At any time, you can stop what you are doing, and restart in any way you like',
   message: {
     menu: {
-      newBook: 'Make a new book',
+      newBook: 'Empezar un libro nuevo',
     },
     note: {
       takeImage: {

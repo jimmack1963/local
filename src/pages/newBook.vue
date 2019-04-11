@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="row">
-    <div class="strip">Create a new book:</div>
+    <div class="strip">{{$t('Create a new book')}}</div>
 
     <q-stepper
       v-model="currentStep"
@@ -11,19 +11,19 @@
 
       <q-step
         name="cover"
-        title="Cover Selfie"
+        :title="$t('Cover Selfie')"
         :order="10">
         <div v-if="!imageTaken">
-          Take a selfie!  Show the book -- it helps find this recording.
+          {{$t('Take a selfie!  Show the book -- it helps find this recording.')}}
         </div>
         <div v-else>
-          You can retake the cover
+          {{$t('You can retake the cover')}}
         </div>
         <q-stepper-navigation>
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
             v-if="imageTaken"
           />
           <!-- <q-btn
@@ -34,25 +34,25 @@
       <!--    <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Cancel"
+            :label="$t('Cancel')"
           />-->
         </q-stepper-navigation>
       </q-step>
 
       <q-step
         name="title"
-        title="Title"
+        :title="$t('Title')"
         :order="20">
         <q-field
           class="col-xs-12 q-mx-sm"
-          label="Book Title">
+          :label="$t('Book Title')">
           <q-input @keyup.enter="$refs.newBookCycle.next()" autofocus id="bookTitle" v-model.lazy="bookTitle"></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
           />
           <q-btn
              color="secondary"
@@ -62,14 +62,14 @@
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Cancel"
+            :label="$t('Cancel')"
           />
         </q-stepper-navigation>
       </q-step>
 
       <!--<q-step
         name="tags"
-        title="Tags"
+        :title="$('Tags')"
         :order="20">
         <q-field
           class="col-xs-12 q-mx-sm"
@@ -80,24 +80,24 @@
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
           />
           <q-btn
             color="secondary"
-            @click="previous"
+            :label="$t('Previous')"
             label="Back"
           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Cancel"
+            :label="$t('Cancel')"
           />
         </q-stepper-navigation>
       </q-step>-->
 
       <!--<q-step
         name="numbering"
-        title="Page Numbering"
+        :title="$t('Page Numbering')"
         @keyup.enter="$refs.newBookCycle.next()"
         :order="30">
         <q-field
@@ -111,47 +111,47 @@
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
           />
           <q-btn
             color="secondary"
-            @click="previous"
+            :label="$t('Previous')"
             label="Back"
           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Cancel"
+            :label="$t('Cancel')"
           />
         </q-stepper-navigation>
       </q-step>-->
 
       <q-step
         name="plan"
-        title="Plan"
+        :title="$t('Plan')"
         :order="40"
       >
         <q-list>
           <q-list-header>
-            You can start by
+            {{$t('You can start by')}}
           </q-list-header>
           <q-item>
             <q-item-side icon="photo library"></q-item-side>
-            <q-item-main label="Illustrating the whole book (Take a snapshot of each page)"></q-item-main>
+            <q-item-main :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-main>
           </q-item>
 
           <!--
           <q-item>
             <q-item-side icon="mic"></q-item-side>
-            <q-item-main label="Narrating the whole book (Read each page)"></q-item-main>
+            <q-item-main :label="$t('Narrating the whole book (Read each page)')"></q-item-main>
           </q-item>
           <q-item>
             <q-item-side icon="library books"></q-item-side>
-            <q-item-main label="Work page-by-page (Narrate and Illustrate a page at a time)"></q-item-main>
+            <q-item-main :label="$t('Work page-by-page (Narrate and Illustrate a page at a time)')"></q-item-main>
           </q-item>-->
         </q-list>
 
-        (At any time, you can stop what you are doing, and restart in any way you like).
+        ({{$t('At any time, you can stop what you are doing, and restart in any way you like')}}).
 
         <q-stepper-navigation>
           <q-btn
@@ -163,7 +163,7 @@
             icon="photo library"
             color="primary"
             @click="illustrate"
-            label="Illustrate"
+            :label="$t('Illustrate')"
           />
 
           <!--
@@ -183,55 +183,55 @@
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Cancel"
+            :label="$t('Cancel')"
           />
         </q-stepper-navigation>
       </q-step>
 
      <!-- <q-step
         name="illustrating"
-        title="Illustrating"
+        :title="$t('Illustrating')"
         :order="120">
 
         <q-stepper-navigation>
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
           />
           <q-btn
             color="secondary"
-            @click="previous"
+            :label="$t('Previous')"
             label="Back"
           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Done"
+            :label="$t('done')"
           />
         </q-stepper-navigation>
       </q-step>
 
       <q-step
         name="narrating"
-        title="Narrating"
+        :title="$t('Narrating')"
         :order="120">
 
         <q-stepper-navigation>
           <q-btn
             color="primary"
             @click="next"
-            label="Next"
+            :label="$t('Next')"
           />
           <q-btn
             color="secondary"
-            @click="previous"
+            :label="$t('Previous')"
             label="Back"
           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Done"
+            :label="$t('done')"
           />
         </q-stepper-navigation>
       </q-step>
@@ -239,19 +239,19 @@
 
       <q-step
         name="pageByPage"
-        title="Page By Page"
+        :title="$t('Page By Page')"
         :order="130">
 
         <q-stepper-navigation>
           <q-btn
             color="secondary"
-            @click="previous"
+            :label="$t('Previous')"
             label="Back"
           />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
-            label="Done"
+            :label="$t('done')"
           />
         </q-stepper-navigation>
       </q-step>

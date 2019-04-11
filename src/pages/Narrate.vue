@@ -95,7 +95,7 @@
       <q-card-main>
 
         <q-field
-          label="Next Page to Narrate"
+          :label="$t('Next Page to Narrate')"
         >
           <q-input
             v-model="nextNarration"
@@ -103,10 +103,10 @@
           </q-input>
         </q-field>
         <div v-if="recording['bulk']">
-          Recording Component present
+          {{$t('Recording Component present')}}
         </div>
         <div v-else>
-          NO RECORDING YET
+          {{$t('NO RECORDING YET')}}
         </div>
         <RecordAudio
           ref="record_audio_bulk"
@@ -118,7 +118,7 @@
       </q-card-main>
       <q-card-actions vertical align="center">
         <q-btn
-          :label="activeRecorderOffset != 'bulk' ? 'narrate multiple new pages' : likelyAction"
+          :label="$t(activeRecorderOffset != 'bulk' ? 'narrate multiple new pages' : likelyAction)"
           @click="narratePage(activeFolder, 'bulk', -1)"
           flat
           :icon="activeRecorderOffset != 'bulk' ? 'mic' : likelyIcon"

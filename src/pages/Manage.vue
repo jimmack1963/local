@@ -40,7 +40,7 @@
       --></q-card-main>
       <q-card-actions vertical align="center">
         <q-btn
-          label="narrate multiple new pages"
+          :label="$t('narrate multiple new pages')"
           @click="narratePage(activeFolder, 'bulk', -1)"
           flat
           icon="mic"
@@ -48,7 +48,7 @@
         ></q-btn>
 
         <q-btn
-          label="Illustrate multiple new pages"
+          :label="$t('Illustrate multiple new pages')"
           @click="illustrate(activeFolder, 'bulk')"
           flat
           icon="add a photo"
@@ -56,21 +56,21 @@
         ></q-btn>
 
         <q-btn
-          label="Replace Selfie"
+          :label="$t('Replace Selfie')"
           @click="replaceSelfie(activeFolder)"
           flat
           icon="label"
         ></q-btn>
 
         <q-btn
-          label="Rename"
+          :label="$t('Rename')"
           @click="renameFolder(activeFolder)"
           flat
           icon="label"
         ></q-btn>
 
         <q-btn
-          label="Delete  Book"
+          :label="$t('Delete  Book')"
           @click="deleteFolder(activeFolder)"
           flat
           icon="delete"
@@ -108,14 +108,14 @@
         </q-card-title>
       </q-card-media>
       <q-card-title v-show="!activeFolder.imageOrder[offset]">
-        Page {{pageName}} (No Image)
+        {{$t('Page')}} {{pageName}} ({{$t('No Image')}})
         <!--<span slot="subtitle"></span>-->
       </q-card-title>
 
       <q-card-actions vertical align="center">
         <q-btn
           :id="`narrate_${offset}`"
-          :label="activeRecorderOffset != offset.toString() ?  'Narrate' : likelyAction"
+          :label="$t(activeRecorderOffset != offset.toString() ?  'Narrate' : likelyAction)"
           @click="narratePage(activeFolder, pageName, offset)"
           v-if="!activeFolder.soundOrder[offset]"
           flat
@@ -124,7 +124,7 @@
         ></q-btn>
 
         <q-btn
-          label="play"
+          :label="$t('play')"
           @click="setDelayPlayNext(0); playBookPage(activeFolder, pageName)"
           v-if="activeFolder.soundOrder[offset]"
           flat
@@ -133,7 +133,7 @@
         ></q-btn>
 
         <q-btn
-          label="erase recording"
+          :label="$t('erase recording')"
           @click="deleteBookSound(activeFolder, pageName)"
           v-if="activeFolder.soundOrder[offset]"
           flat
@@ -142,7 +142,7 @@
         ></q-btn>
 
         <q-btn
-          label="Illustrate"
+          :label="$t('Illustrate')"
           @click="illustrate(activeFolder, pageName)"
           v-if="!activeFolder.imageOrder[offset]"
           flat
@@ -150,7 +150,7 @@
           color="primary"
         ></q-btn>
         <q-btn
-          label="erase image"
+          :label="$t('erase image')"
           @click="deleteBookImage(activeFolder, pageName)"
           v-if="activeFolder.imageOrder[offset]"
           flat

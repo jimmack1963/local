@@ -43,7 +43,7 @@ export const mixinIllustrate = {
         case 'user':
           return 'Switch:Rear'
         case 'environment':
-          return 'switch:front'
+          return 'Switch:front'
         default:
           return 'File'
       }
