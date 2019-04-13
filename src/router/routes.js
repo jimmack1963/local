@@ -59,9 +59,9 @@ const routes = [
   {
     path: '/book/new/step/:step',
     component: MyLayout,
-    name: 'newbook',
+
     children: [
-      { path: '', component: newBook }
+      { path: '', name: 'newbook', component: newBook }
     ],
     beforeEnter: multiguard([noActiveFolder])
   },
@@ -76,10 +76,9 @@ const routes = [
   {
     path: '/Illustrate/:pageName',
     props: true,
-    name: 'illustratePage',
     component: MyLayout,
     children: [
-      { path: '', component: Illustrate }
+      { path: '', name: 'illustratePage', component: Illustrate }
     ],
     beforeEnter: multiguard([guardActiveFolder])
   },

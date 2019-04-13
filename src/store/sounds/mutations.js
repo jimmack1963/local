@@ -47,11 +47,23 @@ export function createHowl (state, payload) {
 
   let which = payload.ids[payload.entry.id]
   let src = payload.response.link
+  let formats = []
 
+  if (payload.entry && payload.entry.parts && payload.entry.parts.ext) {
+    formats.push(payload.entry.parts.ext.replace('.', ''))
+  }
+  else {
+    console.log('guessing the format for : ' + which)
+    formats = ['m4a']
+  }
+
+  console.log('FORMATS: ' + JSON.stringify(formats))
   if (which) {
+    // TODO: m4a may not be the only format!  Must be more rigorous
     let newHowl = new Howl({
       src: [src],
-      html5: true,
+      format: formats,
+      xhtml5: true,
       preload: payload.howlPreload || false,
     })
     vue.set(which, 'howl', newHowl)
