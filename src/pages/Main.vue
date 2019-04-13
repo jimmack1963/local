@@ -2,9 +2,13 @@
   <q-page padding class="row items-start flex flex-start">
     <div v-if="!access_token">
       <h1>{{title}}</h1>
-      {{$t('intro_function')}}
-      <br><br>
-      <a id="authlink" :href="authURL" class="button">{{$t('Authenticate with Dropbox')}}</a>
+      <p v-html="$t('intro_function')"></p>
+
+      <div class="col-12 text-center">
+        <a class="flex-center button" id="authlink" :href="authURL" >
+          {{$t('Authenticate with Dropbox')}}: <img src="/statics/Dropbox.svg" alt="">
+        </a>
+      </div>
       <br><br>
       <p v-html="$t('intro_signin')"></p>
       <br>
@@ -19,7 +23,7 @@
 
     </q-card>
 
-    <q-card class="card-itself" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
+    <q-card class="card-itself col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
       <q-card-media
         overlay-position="bottom"
         v-if="folder.thumbnail"

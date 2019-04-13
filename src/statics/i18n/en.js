@@ -73,13 +73,12 @@ export default {
   'mic variable not set?': 'mic variable not set?',
   'Replace Selfie': 'Replace Selfie',
   'No Image': 'No Image',
-  'intro_function': 'We help you record books for your loved ones, however they may be behaving currently.\n' +
-    '      This version used DropBox to store images and recordings. Specifically, it uses <em>your</em> DropBox account,\n' +
-    '      making a folder called \\Apps\\PlayItAgainKid. It\'s your own disk in the cloud, easy to copy anywhere.\n' +
-    '\n' +
+  'intro_function': 'We help you record books for your loved ones to play back.\n' +
+    '      This free version uses <em>your</em> DropBox account to store images and recordings. \n' +
+    '<br><br>' +
     '      This means you always will have your originals, and that we never even see anything you create.',
-  'Authenticate with Dropbox': 'Authenticate with Dropbox',
-  'intro_signin': 'If you are not a current user, you may want to sign up on ' +
+  'Authenticate with Dropbox': 'Authenticate',
+  'intro_signin': 'If you are not a current user, you may want to create a free account on ' +
     '<a href="https://www.dropbox.com/register"     targt="_blank">their site first</a>. ' +
     'Or, install their app.',
   'intro_disclaimer': 'This website or app is not affiliated with or otherwise sponsored by Dropbox, Inc.',
