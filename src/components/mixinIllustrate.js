@@ -216,7 +216,9 @@ export const mixinIllustrate = {
         this.lockCameraImage()
 
         // TODO: make this settable preference #2hrs
-        this.useImage()
+
+        console.log('Saving page # ' + this.pageName)
+        this.useImage(this.pageName)
       }
       else {
         // Brand new image taken, book does not yet exist...
@@ -243,19 +245,22 @@ export const mixinIllustrate = {
         alert('Image not available')
       }
     },
-    async useImage () {
+    async useImage (overridePage) {
+      console.log('Dest page = ' + overridePage)
       this.$emit('completed', true)
 
 
       // let v = this
       this.$store.commit('dropbox/saveThumbnail', {
         entry: this.activeFolder,
-        overridePageName: this.pageName,
+        overridePageName: overridePage,
         thumbnail: this.dataURL,
       })
 
+      this.pageName = parseInt(this.pageName) + 1
+
       if (this.dataURL && this.dataURL !== 'data:,') {
-        let wholeFileName = this.generateImageName()
+        let wholeFileName = this.generateImageName(overridePage)
         console.log('filename in useImage: ' + wholeFileName)
 
         await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
@@ -271,7 +276,7 @@ export const mixinIllustrate = {
       this.$emit('completed', true)
 
       if (file) {
-        let wholeFileName = this.generateImageName()
+        let wholeFileName = this.generateImageName(this.pageName)
 
         await this.uploadFile(file, wholeFileName)
       }
@@ -308,17 +313,17 @@ export const mixinIllustrate = {
       }
     },
 
-    generateImageName () {
+    generateImageName (overridePage) {
       if (this.wholeFileName) {
         return this.wholeFileName
       }
       let pageFileName
-      if (/^[0-9]+$/.test(this.pageName)) {
+      if (/^[0-9]+$/.test(overridePage)) {
         // numeric page numbers start with 'p'
-        pageFileName = 'p' + this.pageName
+        pageFileName = 'p' + overridePage
       }
       else {
-        pageFileName = this.pageName
+        pageFileName = overridePage
       }
       return `${this.activeFolder.path_display}/${pageFileName}.png`
     },

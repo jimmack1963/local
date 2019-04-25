@@ -8,7 +8,7 @@
     <q-tabs class="col-12" v-model="cameraMode">
       <q-tab
         name="take"
-        :label="$t('keep as page') + ' ' + nextIllustration(activeFolder)"
+        :label="$t('keep as page') + ' ' + pageName"
         @click="touchHandler8"
         icon="camera"
         slot="title"
@@ -71,22 +71,26 @@
     /* props: ['pageName'], */
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
-      return {}
+      return {
+        pageName: 1
+      }
     },
     computed: {
-      pageName () {
+/*
+      pageNameOld () {
         if (this.$route.params.pageName) {
 
           return this.$route.params.pageName
         }
-        else if (this.activeFolder.pageOrder.length > 0) {
-          let po = this.activeFolder.pageOrder
-          return parseInt(po[po.length - 1]) + 1
-        }
+        // else if (this.activeFolder.pageOrder.length > 0) {
+        //   let po = this.activeFolder.pageOrder
+        //   return parseInt(po[po.length - 1]) + 1
+        // }
         else {
-          return 0
+          return false
         }
       }
+*/
     },
     mounted () {
       window.jim = window.jim || {}
@@ -97,6 +101,14 @@
       this.getUserMedia(this.videoRef)
 
       this.clearPhoto()
+
+      if (this.$route.params.pageName) {
+        this.pageName = this.$route.params.pageName
+      }
+      else {
+        this.pageName = this.nextIllustration(this.activeFolder)
+      }
+
     },
     methods: {
 

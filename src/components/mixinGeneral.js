@@ -60,7 +60,7 @@ export const mixinGeneral = {
     },
     appTitle () {
       if (this.activeFolder) {
-        return this.activeFolder.name
+        return this.activeFolder.name + '(Click here for main menu)'
       } else {
         return this.title
       }
@@ -80,6 +80,7 @@ export const mixinGeneral = {
   },
   methods: {
     lastPageWithFile (folder, lookFor, increment) {
+      if (!('contents' in folder)) return increment
       let pages = folder.contents.pages
       let order = JSON.parse(JSON.stringify(folder.pageOrder))
 
@@ -96,7 +97,7 @@ export const mixinGeneral = {
           }
         }
       }
-      return 0
+      return increment
     },
 
     maxSound (folder) {
@@ -110,7 +111,7 @@ export const mixinGeneral = {
     },
     nextIllustration (folder) {
       if (this.pageName) { return this.pageName }
-      return Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1))
+      return Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1), 1)
     },
     /*
     maxSound (folder) {
@@ -363,7 +364,7 @@ export const mixinGeneral = {
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
-      // this.readDemos()
+      this.readDemos()
 
       this.purgeLocalStorageFromDropbox()
       let self = this

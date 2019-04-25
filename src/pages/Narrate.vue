@@ -1,8 +1,5 @@
 <template>
   <q-page padding class="row">
-
-    <h3 class="col-12">{{activeFolder.name}}</h3>
-
     <q-card class="q-ma-sm">
       <q-card-media
         overlay-position="bottom"
@@ -49,6 +46,16 @@
           color="primary"
         ></q-btn>
 
+        <q-btn
+          :id="done"
+          :label="$t('done')"
+          @click="home()"
+          flat
+          icon="stop"
+          color="secondary"
+        >
+
+        </q-btn>
       </q-card-actions>
       <q-card-main>
 
@@ -125,7 +132,7 @@
         activeRecorderOffset: false,
         activeNow: {},
         illustrating: {},
-        nextNarration: 0,
+        nextNarration: 1,
 
       }
     },

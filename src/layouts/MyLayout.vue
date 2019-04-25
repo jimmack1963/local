@@ -121,6 +121,14 @@
           <q-item-side icon="add a photo" />
           <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
         </q-item>
+<!--        <q-item v-if="activeFolder" @click.native="illustrate(activeFolder)" >
+          <q-item-side icon="add a photo" />
+          <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
+        </q-item>
+        <q-item v-if="activeFolder" @click.native="narrate(activeFolder)" >
+          <q-item-side icon="add a photo" />
+          <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
+        </q-item>-->
 
         <q-item @click.native="readDropboxFolder()">
           <q-item-side icon="refresh" />

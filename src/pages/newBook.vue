@@ -139,12 +139,12 @@
             <q-item-side icon="photo library"></q-item-side>
             <q-item-main :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-main>
           </q-item>
-
-          <!--
           <q-item>
             <q-item-side icon="mic"></q-item-side>
             <q-item-main :label="$t('Narrating the whole book (Read each page)')"></q-item-main>
           </q-item>
+
+          <!--
           <q-item>
             <q-item-side icon="library books"></q-item-side>
             <q-item-main :label="$t('Work page-by-page (Narrate and Illustrate a page at a time)')"></q-item-main>
@@ -165,14 +165,14 @@
             @click="illustrate"
             :label="$t('Illustrate')"
           />
-
-          <!--
           <q-btn
             icon="mic"
             color="primary"
             @click="narrate"
             label="Narrate"
           />
+
+          <!--
           <q-btn
             icon="library books"
             color="primary"
