@@ -300,9 +300,7 @@
     mixins: [mixinGeneral, mixinSound],
     methods: {
       savedEntry (returnedEntry) {
-
-        let found = this.ids[returnedEntry.id]
-        return found
+        return this.ids[returnedEntry.id]
       },
       play (entry) {
 

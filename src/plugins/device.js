@@ -1,4 +1,4 @@
-var DetectRTC = require('detectrtc')
+const DetectRTC = require('detectrtc')
 // const adapter = require('adapter')
 
 export default ({ app, router, Vue }) => {

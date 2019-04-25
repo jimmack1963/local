@@ -115,17 +115,17 @@
       <q-card-actions vertical align="center">
         <q-btn
           :id="`narrate_${offset}`"
-          :label="$t(activeRecorderOffset != offset.toString() ?  'Narrate' : likelyAction)"
+          :label="$t(activeRecorderOffset !== offset.toString() ?  'Narrate' : likelyAction)"
           @click="narratePage(activeFolder, pageName, offset)"
           v-if="!activeFolder.soundOrder[offset]"
           flat
-          :icon="activeRecorderOffset != offset.toString() ?  'mic' : likelyIcon"
+          :icon="activeRecorderOffset !== offset.toString() ?  'mic' : likelyIcon"
           color="primary"
         ></q-btn>
 
         <q-btn
           :label="$t('play')"
-          @click="setDelayPlayNext(0); playBookPage(activeFolder, pageName)"
+          @click="playOnePage(activeFolder, pageName)"
           v-if="activeFolder.soundOrder[offset]"
           flat
           icon="play arrow"
@@ -225,6 +225,10 @@
         } else {
           this.bulk.nextNarration = last + 1
         }
+      },
+      playOnePage (activeFolder, pageName) {
+        this.setDelayPlayNext(0)
+        this.playBookPage(activeFolder, pageName)
       },
       completedBulkIllustration () {
         let last = parseInt(this.bulk.nextIllustration)

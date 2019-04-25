@@ -13,20 +13,15 @@ export function activeFolder (state) { return state.activeFolder }
 export function activeScene (state) { return state.activeScene }
 
 export function TOCSorted (state, getters) {
-  let maybe = Object.values(getters.TOC).reverse()
-  return maybe
+  return Object.values(getters.TOC).reverse()
 }
 
 export function TOC (state, getters) {
-  let sofar = {...getters['demos/_TOC'], ...getters['dropbox/_TOC'], ...state._TOC}
-
-  return sofar
+  return {...getters['demos/_TOC'], ...getters['dropbox/_TOC'], ...state._TOC}
 }
 
 export function thumbs (state, getters) {
-  let sofar = {...getters['dropbox/thumbnails'], ...getters['demos/thumbnails']}
-
-  return sofar
+  return {...getters['dropbox/thumbnails'], ...getters['demos/thumbnails']}
 }
 
 /*

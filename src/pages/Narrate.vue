@@ -38,11 +38,11 @@
       <q-card-actions vertical align="center">
         <q-btn
           :id="`narrate_${nextNarration}`"
-          :label="activeRecorderOffset != nextNarration.toString() ?  $t('narrate page') + ' ' + nextNarration : $t(likelyAction)"
+          :label="activeRecorderOffset !== nextNarration.toString() ?  $t('narrate page') + ' ' + nextNarration : $t(likelyAction)"
           @click="narratePage(activeFolder, nextNarration.toString(), nextNarration)"
           v-if="!activeFolder.soundOrder[nextNarration]"
           flat
-          :icon="activeRecorderOffset != nextNarration.toString() ?  'mic' : likelyIcon"
+          :icon="activeRecorderOffset !== nextNarration.toString() ?  'mic' : likelyIcon"
           color="primary"
         ></q-btn>
 
