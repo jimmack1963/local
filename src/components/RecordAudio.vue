@@ -69,7 +69,6 @@
       },
       startRecording () {
 
-
         this.recording = new window.WebAudioTrack()
         try {
           this.recording.startRecording(this.inProgress)
@@ -107,6 +106,9 @@
 
         this.recordings.push(this.recording)
 
+        this.$emit('nextitem')
+        console.log('completed!')
+
         if (this.playAfterRecord) {
 
           this.recording.play()
@@ -115,7 +117,8 @@
       },
       async pushToDropbox () {
 
-        this.$emit('completed')
+
+
         this.$store.commit('setMicAvailable')
         let pageFileName
         if (/^[0-9]+$/.test(this.pageName)) {
@@ -146,6 +149,7 @@
       },
     },
     created () {
+
       this.recorderSrvc = new RecorderService()
       this.recorderSrvc.em.addEventListener('recording', (evt) => this.onNewRecording(evt))
     },

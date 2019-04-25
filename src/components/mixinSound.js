@@ -48,6 +48,59 @@ export const mixinSound = {
       })
       this.$router.push('/Narrate')
     },
+    narratePage (folder, pageName, offset, childName) {
+      console.log('Disabled: narratePageAndroid')
+      this.narratePageIOS(folder, pageName, offset, childName)
+    },
+    narratePageIOS (folder, pageName, offset, childName) {
+
+      if (window.currentAudioContext.state === 'suspended') {
+
+        window.currentAudioContext.resume().then(() => {
+          this.narratePageIOS(folder, pageName, offset, childName)
+        })
+      }
+      else {
+        console.log('recording in IOS!')
+        if (!this.activeRecorderOffset) {
+          // start the recorder
+          this.activeRecorderOffset = offset.toString()
+          // only one at a time
+          let toggled = {}
+          if (!this.activeNow[(childName || pageName)]) {
+            toggled[(childName || pageName)] = !(toggled[(childName || pageName)])
+          }
+
+          this.$set(this, 'activeNow', toggled)
+        }
+        else {
+          // close Recorder
+          if (this.$refs['record_audio_' + (childName || offset.toString())]) {
+            let child = this.$refs['record_audio_' + (childName || offset.toString())]
+            if (child) {
+              if (Array.isArray(child)) {
+                if (child.length > 0) {
+                  child[0].doAction()
+                }
+                else {
+                  alert('Empty Array for ' + 'record_audio_' + (childName || offset.toString()))
+                }
+              }
+              else {
+                child.doAction()
+              }
+            }
+
+          }
+          else {
+            if (window.jim_DEBUG_FULL) console.log('can not find record_audio_' + offset)
+          }
+          this.activeRecorderOffset = false
+
+          // this.$set(this, 'activeNow', {})
+        }
+      }
+    },
     record (folder) {
       // this.$q.fullscreen.request()
       this.$store.commit('setActiveFolder', {
@@ -126,35 +179,7 @@ export const mixinSound = {
           dbx: self.$dbx
         })
       })
-      /*
-      let self = this
-      let itemGroup
-      let contents = TOC.contents
-      if (pageNumber in contents) {
-        itemGroup = contents[pageNumber]
-      }
-      else {
-        itemGroup = contents.pages[pageNumber]
-      }
-      if (itemGroup) {
-        let entry = itemGroup.mp3.find((recording) => {
-
-          return recording.pageNumber === pageNumber
-        })
-        self.$dbx.filesDeleteV2({
-          path: entry.path_lower
-        })
-          .then( function () {
-            // self.$root.$emit('reload')
-
-            // don't change location
-            // self.$router.push('/')
-          })
-      }
-      else {
-       if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
-      }
-*/ },
+    },
     async deleteBookImage (TOC, pageNumber) {
       let v = this
       this.$q.dialog({

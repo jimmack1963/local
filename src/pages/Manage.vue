@@ -41,7 +41,7 @@
       <q-card-actions vertical align="center">
         <q-btn
           :label="$t('narrate multiple new pages')"
-          @click="narratePage(activeFolder, 'bulk', -1)"
+          @click="narratePage(activeFolder, 'bulk', -1, 'bulk')"
           flat
           icon="mic"
           color="primary"
@@ -234,46 +234,7 @@
           this.bulk.nextIllustration = last + 1
         }
       },
-      narratePage (folder, pageName, offset) {
-        console.log('Disabled: narratePageAndroid')
-        this.narratePageIOS(folder, pageName, offset)
-      },
-      narratePageIOS (folder, pageName, offset) {
-        if (window.currentAudioContext.state === 'suspended') {
-
-          window.currentAudioContext.resume().then(() => {
-            this.narratePageIOS(folder, pageName, offset)
-          })
-        }
-        else {
-          console.log('recording in IOS!')
-          if (!this.activeRecorderOffset) {
-            // start the recorder
-            this.activeRecorderOffset = offset.toString()
-            // only one at a time
-            let toggled = {}
-            if (!this.recording[pageName]) {
-              toggled[pageName] = !(toggled[pageName])
-            }
-            this.$set(this, 'recording', toggled)
-          }
-          else {
-            // close Recorder
-            if (this.$refs['record_audio_' + offset.toString()]) {
-              let child = this.$refs['record_audio_' + offset.toString()]
-              if (child.length > 0) {
-                child[0].doAction()
-              }
-            }
-            else {
-              if (window.jim_DEBUG_FULL) console.log('can not find record_audio_' + offset)
-            }
-            this.activeRecorderOffset = false
-            this.$set(this, 'recording', {})
-          }
-        }
-      },
-      narratePageAndroid (folder, pageName, offset) {
+      narratePageAndroid (folder, pageName, offset, childName) {
         if (!this.activeRecorderOffset) {
           // start the recorder
           this.activeRecorderOffset = offset.toString()
@@ -286,8 +247,8 @@
         }
         else {
           // close Recorder
-          if (this.$refs['record_audio_' + offset.toString()]) {
-            let child = this.$refs['record_audio_' + offset.toString()]
+          if (this.$refs['record_audio_' + (childName || offset.toString())]) {
+            let child = this.$refs['record_audio_' + (childName || offset.toString())]
             if (child.length > 0) {
               child[0].doAction()
             }

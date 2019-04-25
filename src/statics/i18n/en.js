@@ -107,6 +107,7 @@ export default {
   'You can start by': 'You can start by',
   'At any time, you can stop what you are doing, and restart in any way you like':
     'At any time, you can stop what you are doing, and restart in any way you like',
+  'narrate page': 'narrate page',
   message: {
     menu: {
       newBook: 'Make a new book',
