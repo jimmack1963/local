@@ -18,7 +18,7 @@ export function TOCSorted (state, getters) {
 }
 
 export function TOC (state, getters) {
-  let sofar = {...getters['dropbox/_TOC'], ...getters['demos/_TOC'], ...state._TOC}
+  let sofar = {...getters['demos/_TOC'], ...getters['dropbox/_TOC'], ...state._TOC}
 
   return sofar
 }
