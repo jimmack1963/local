@@ -5,7 +5,7 @@
       <p v-html="$t('intro_function')"></p>
 
       <div class="col-12 text-center">
-        <a class="flex-center button" id="authlink" :href="authURL" >
+        <a class="flex-center button" id="authlink" :href="authURL">
           {{$t('Authenticate with Dropbox')}}: <img src="/statics/Dropbox.svg" alt="">
         </a>
       </div>
@@ -23,8 +23,10 @@
 
     </q-card>
 
-    <q-card class="card-itself col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id" v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
+    <q-card class="card-itself col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id"
+            v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
       <q-card-media
+        class="media-on-card"
         overlay-position="bottom"
         v-if="folder.thumbnail"
         @click.native.stop="carousel(folder)"
@@ -39,15 +41,16 @@
           <!--<span slot="subtitle">{{folder.size}}</span>-->
         </q-card-title>
       </q-card-media>
+
       <q-card-title v-else>
         {{folder.name}}
         <span slot="subtitle">Take a selfie!</span>
       </q-card-title>
 
 
-      <q-card-main>
+      <q-card-main v-show="playingPage">
         <div
-          v-show="playingPage"
+
           ref="playingPage"
           class="pageIndicatorStart text-center"
           v-html="`<small>pg</small>&nbsp;<b><big>${playingPage}</big></b>`"
@@ -246,35 +249,35 @@
 
 
   @media (orientation: portrait) {
+    .media-on-card {
+height: 60%;
+    }
     .book-on-card {
       width: auto;
       height: auto;
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 100%;
-      max-height: 100%;
     }
 
     .card-itself {
       width: 100%;
       margin-bottom: 0.3em;
+      height: 40vh !important;
     }
   }
 
   @media (orientation: landscape) {
+    .media-on-card {
+      height: 60vh;
+    }
     .book-on-card {
       width: auto;
       height: auto;
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 100%;
-      max-height: 100%;
     }
 
     .card-itself {
       width: 49%;
       margin-right: 0.3em;
       margin-bottom: 0.3em;
+      height: 80vh !important;
     }
   }
 
@@ -308,8 +311,7 @@
         if (howlable) {
 
           howlable.howl.play()
-        }
-        else {
+        } else {
           if (window.jim_DEBUG_FULL) console.log('Can not play!')
         }
       },

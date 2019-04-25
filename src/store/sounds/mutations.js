@@ -83,7 +83,7 @@ export function createHowl (state, payload) {
 
       which.next()
     })
-    // vue.set(which, 'metadata', payload.response.metadata) 1mpr0v3m3b  !mpr0v3m3
+    // vue.set(which, 'metadata', payload.response.metadata)
   }
   else {
 
