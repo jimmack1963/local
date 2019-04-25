@@ -5,7 +5,7 @@
         overlay-position="bottom"
         v-if="activeFolder.thumbnail"
       >
-        <img :src="activeFolder.imageOrder[nextNarration] || activeFolder.thumbnail" :alt="activeFolder.name">
+        <img :src="activeFolder.imageOrder[sceneFromPage(nextNarration)] || activeFolder.thumbnail" :alt="activeFolder.name">
         <q-card-title slot="overlay">
           {{activeFolder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->

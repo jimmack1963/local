@@ -89,6 +89,7 @@ export function saveEntry (state, payload) {
       case 'png': {
         pageDestination.png.push(entry)
         entry.thumbnail = entry.link
+        // todo: imageOrder should be indexed by scene not page
         TOCEntry.imageOrder[entry.pageNumber] = entry.link
         break
       }

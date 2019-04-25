@@ -79,6 +79,17 @@ export const mixinGeneral = {
 
   },
   methods: {
+    sceneFromPage (pageName) {
+      debugger
+      let possible = this.activeFolder.pageOrder.indexOf(pageName.toString())
+      if (possible >= 0) {
+        return possible
+      }
+      else {
+        console.log(`missing page ${pageName} in ${JSON.stringify(this.activeFolder.pageOrder)}`)
+        return -1
+      }
+    },
     lastPageWithFile (folder, lookFor, increment) {
       if (!('contents' in folder)) return increment
       let pages = folder.contents.pages

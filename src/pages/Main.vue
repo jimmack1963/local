@@ -116,8 +116,11 @@
             <q-item
               @click.native="record(folder)"
             >
+              <q-item-side icon="add a photo">
+
+              </q-item-side>
               <q-item-main>
-                <q-item-tile label>
+                <q-item-tile  label>
                   {{$t('Illustrate')}}
                 </q-item-tile>
               </q-item-main>
@@ -125,8 +128,11 @@
             <q-item
               @click.native="narrateBook(folder)"
             >
+              <q-item-side icon="mic">
+
+              </q-item-side>
               <q-item-main>
-                <q-item-tile label>
+                <q-item-tile  label>
                   {{$t('Narrate')}}
                 </q-item-tile>
               </q-item-main>

@@ -41,12 +41,12 @@
       <q-card-actions vertical align="center">
         <q-btn
           :label="$t('narrate multiple new pages')"
-          @click="narratePage(activeFolder, 'bulk', -1, 'bulk')"
+          @click="narrateBook(activeFolder)"
           flat
           icon="mic"
           color="primary"
         ></q-btn>
-
+        <!--@click="narratePage(activeFolder, 'bulk', -1, 'bulk')"-->
         <q-btn
           :label="$t('Illustrate multiple new pages')"
           @click="illustrate(activeFolder, 'bulk')"
