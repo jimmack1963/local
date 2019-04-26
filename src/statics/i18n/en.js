@@ -21,6 +21,7 @@ export default {
   'Continue to end of book': 'Continue to end of book',
   'Waits for you to advance': 'Waits for you to advance',
   'Close this menu': 'Close this menu',
+  'Close me': 'Close me',
   'manage sound and images for every page': 'manage sound and images for every page',
   'Reload from DropBox': 'Reload from DropBox',
   'See your files': 'See your files',
@@ -77,7 +78,10 @@ export default {
     '      This free version uses <em>your</em> DropBox account to store images and recordings. \n' +
     '<br><br>' +
     '      This means you always will have your originals, and that we never even see anything you create.',
-  'Authenticate with Dropbox': 'Authenticate',
+  'whole idea': '<div><p> So, the next time you’re reading a favorite book to your child, you grab your cell phone' +
+    ' and go to <b>Play It Again Kid</b>. You can <b>take a selfie of both of you, plus the book</b>. Then <b>record your reading</b>, page by page. </p><p> Now this can be <b>played back</b> on a tablet, phone or PC, any time they wish just by clicking on that selfie. It can play <b>straight through, or page by page</b> while the babysitter interacts over the illustrations. After your child plays it,<b> you can get an email</b> so you know they spent some time with your recording, and they can press a button to <b>record a message</b>, a picture of themselves, or a drawing by them, which is <b>sent to you</b> and <b>saved for posterity</b>. Maybe they wake up from a noise at night, and turn to the recording to <b>comfort themselves back to sleep</b> – now you’ll know. </p><p> And if they are learning to read, they can play it back word by word and <b>learn to sight read to your voice</b>, at their own speed. </p><p> On any page they want, you can prompt them to <b>draw what is happening</b>, retell you the story, or <b>take a picture of them</b> acting that page out in real life. <b>All saved permanently</b> so you can see their progress as they develop. Before you know it, your child’s favorite literature has become <b>a rich multi-media creative interaction</b> - fun to watch their own version of the book, saved for them to play to other family members. </p></div>',
+
+  'Login with Dropbox': 'Login',
   'intro_signin': 'If you are not a current user, you may want to create a free account on ' +
     '<a href="https://www.dropbox.com/register"     targt="_blank">their site first</a>. ' +
     'Or, install their app.',

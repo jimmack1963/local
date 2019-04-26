@@ -1,14 +1,30 @@
 <template>
   <q-page padding class="row items-start flex flex-start">
-    <div v-if="!access_token">
+    <div class="row" v-if="!access_token">
       <h1>{{title}}</h1>
-      <p v-html="$t('intro_function')"></p>
 
-      <div class="col-12 text-center">
-        <a class="flex-center button" id="authlink" :href="authURL">
-          {{$t('Authenticate with Dropbox')}}: <img src="/statics/Dropbox.svg" alt="">
-        </a>
-      </div>
+      <q-btn
+        class="col-6 offset-3 text-center shadow-6 q-mb-md"
+        color="primary"
+        id="authlink"
+        :label="$t('Login with Dropbox')"
+        @click="openURL(authURL)"
+      >
+        <img class="col-12" src="/statics/Dropbox.svg" alt="">
+      </q-btn>
+
+      <p v-html="$t('whole idea')"></p>
+      <p v-html="$t('intro_function')"></p>
+<!--
+      <q-btn
+        class="col-8 offset-2 text-center"
+        color="primary"
+        id="authlink"
+        :label="$t('Login with Dropbox')"
+        @click="openURL(authURL)"
+      >
+      </q-btn>-->
+
       <br><br>
       <p v-html="$t('intro_signin')"></p>
       <br>
@@ -302,12 +318,16 @@ height: 60%;
 <script>
   import { mixinSound } from '../components/mixinSound'
   import { mixinGeneral } from '../components/mixinGeneral'
+  import { openURL } from 'quasar'
 
   export default {
     name: 'Main',
     components: {},
     mixins: [mixinGeneral, mixinSound],
     methods: {
+      openURL (url) {
+        openURL(url)
+      },
       savedEntry (returnedEntry) {
         return this.ids[returnedEntry.id]
       },

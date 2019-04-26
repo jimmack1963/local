@@ -34,13 +34,13 @@
             slot="control-full"
             slot-scope="carousel"
             position="bottom-right"
-            :offset="[18, 44]"
+            :offset="[18, 66]"
           >
             <q-btn
               rounded push
               color="secondary"
               icon="close"
-              label="Close me"
+              :label="$t('Close me')"
               @click="home()"
             />
           </q-carousel-control>

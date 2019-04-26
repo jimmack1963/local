@@ -353,6 +353,7 @@
 <style>
   .snapshot-medium {
     height: 100% !important;
+    max-height: 50vh;
   }
 
   .strip {

@@ -132,5 +132,6 @@
 <style>
   .camera-medium {
     height: 100%;
+    max-height: 50vh;
   }
 </style>

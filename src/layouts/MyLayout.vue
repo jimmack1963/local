@@ -10,8 +10,9 @@
           flat
           dense
           round
-          @click="toggleLeftDrawer"
+          @click.stop="toggleLeftDrawer"
           aria-label="Menu"
+          v-if="access_token"
         >
           <q-icon name="menu" />
         </q-btn>
@@ -26,6 +27,7 @@
           dense
           round
           id="settings"
+          v-if="access_token"
           @click.native.stop="rightDrawerOpen = !rightDrawerOpen"
           icon="settings"/>
 
@@ -102,6 +104,12 @@
         link
         inset-delimiter
       >
+
+        <q-item @click.native="home">
+          <q-item-side icon="collections bookmark" />
+          <q-item-main label="List of Books" sublabel="Or click the top bar" />
+          <!--<q-item-side right icon="thumb_up" />-->
+        </q-item>
 
 <!-- $t('       <q-item to="/selfi')e" >
           <q-item-side icon="add a photo" />

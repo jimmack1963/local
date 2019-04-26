@@ -403,6 +403,8 @@ export const mixinGeneral = {
         })
     },
     home () {
+      this.leftDrawerOpen = false
+
       // this.$q.fullscreen.request()
       this.$store.commit('silence')
 

@@ -49,7 +49,7 @@ export function saveThumbnail (state, payload) {
 
     // Now link the cover images with the _TOC
     // there may be a few old images out there
-    if (which.name.toLowerCase() === 'book_cover.png' || which.name.toLowerCase() === 'book.cover.png') {
+    if (which.name.toLowerCase() === 'book_cover.png' || which.name.toLowerCase() === 'book_cover.jpg' || which.name.toLowerCase() === 'book.cover.png') {
       let key = which.dir
       let target = state._TOC[key]
       if (target) {

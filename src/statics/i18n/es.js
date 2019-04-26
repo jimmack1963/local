@@ -14,6 +14,7 @@ export default {
   'Continue to end of book': 'Continuar hasta el final del libro.',
   'Waits for you to advance': 'Espera a que avances',
   'Close this menu': 'Cerrar este menu',
+  'Close me': 'Cerrar',
   'manage sound and images for every page': 'Gestiona sonido e imágenes para cada página.',
   'Reload from DropBox': 'Recargar desde dropbox',
   'See your files': 'Mira tus archivos',
@@ -60,7 +61,10 @@ export default {
   'Replace Selfie': 'Reemplazar selfie',
   'No Image': 'Sin imágen',
   'intro_function': 'Le ayudamos a registrar libros para sus seres queridos, sin embargo, pueden estar comportándose actualmente. Esta versión utiliza DropBox para almacenar imágenes y grabaciones. Específicamente, usa <em> su </em> cuenta de DropBox, creando una carpeta llamada \\ Apps \\ PlayItAgainKid. Es su propio disco en la nube, fácil de copiar en cualquier lugar. Esto significa que siempre tendrá sus originales y que nunca veremos nada de lo que cree.',
-  'Authenticate with Dropbox': 'Autenticar con dropbox',
+  'whole idea': '<div><p> So, the next time you’re reading a favorite book to your child, you grab your cell phone' +
+    ' and go to <b>Play It Again Kid</b>. You can <b>take a selfie of both of you, plus the book</b>. Then <b>record' +
+    ' your reading</b>, page by page. </p><p> Now this can be <b>played back</b> on a tablet, phone or PC, any time they wish just by clicking on that selfie. It can play <b>straight through, or page by page</b> while the babysitter interacts over the illustrations. After your child plays it,<b> you can get an email</b> so you know they spent some time with your recording, and they can press a button to <b>record a message</b>, a picture of themselves, or a drawing by them, which is <b>sent to you</b> and <b>saved for posterity</b>. Maybe they wake up from a noise at night, and turn to the recording to <b>comfort themselves back to sleep</b> – now you’ll know. </p><p> And if they are learning to read, they can play it back word by word and <b>learn to sight read to your voice</b>, at their own speed. </p><p> On any page they want, you can prompt them to <b>draw what is happening</b>, retell you the story, or <b>take a picture of them</b> acting that page out in real life. <b>All saved permanently</b> so you can see their progress as they develop. Before you know it, your child’s favorite literature has become <b>a rich multi-media creative interaction</b> - fun to watch their own version of the book, saved for them to play to other family members. </p></div>',
+  'Login with Dropbox': 'Autenticar con dropbox',
   'intro_signin': 'Si no es un usuario actual, es posible que desee registrarse en <a href="https://www.dropbox.com/register" targt="_blank"> su sitio </a>. O bien, instale su aplicación.',
   'intro_disclaimer': 'Este sitio web o aplicación no está afiliado ni patrocinado por Dropbox, Inc.',
   'Make your first book': 'Haz tu primer libro',
