@@ -72,7 +72,7 @@ export default {
   'Page Numbering': 'Numeración de páginas',
   'Plan': 'Plan',
   'Page By Page': 'Por páginas',
-  'Take a selfie!  Show the book -- it helps find this recording.': '¡Toma una selfie! Muestra el libro - ayuda a encontrar esta grabación.',
+  'Touch image to take selfie': '¡Toma una selfie! Muestra el libro - ayuda a encontrar esta grabación.',
   'You can retake the cover': 'Puedes volver a tomar la portada.',
   'Retake': 'Volver a tomar',
   'Take': 'Tomar',

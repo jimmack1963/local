@@ -43,13 +43,20 @@ export const mixinDropbox = {
         cancel: 'Keep',
       })
         .then(function () {
+          // delete from store
+
+          self.$store.commit('dropbox/deleteBookInternal', {
+            path_lower: folder.path_lower,
+          })
+
           self.$dbx.filesDeleteV2({
             path: folder.path_lower,
           })
             .then(function () {
-              self.$root.$emit('reload')
-
               self.$router.push('/')
+              // reload is too fast
+              // self.$root.$emit('reload')
+              // self.$router.push('/')
             })
         })
     },

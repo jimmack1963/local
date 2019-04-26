@@ -99,8 +99,7 @@ export default {
   'Page Numbering': 'Page Numbering',
   'Plan': 'Plan',
   'Page By Page': 'Page By Page',
-  'Take a selfie!  Show the book -- it helps find this recording.': 'Take a selfie!  Show the book -- it helps find' +
-    ' this recording.',
+  'Touch image to take selfie': 'Touch image to take Selfie',
   'You can retake the cover': 'You can retake the cover',
   'Retake': 'Retake',
   'Take': 'Take',

@@ -1,7 +1,7 @@
 <template>
   <div  v-touch-swipe="swipeHandler">
     <!--v-model="cameraMode"-->
-    <q-tabs class="row"  v-if="active">
+    <q-tabs class="col-12 q-mb-sm"  v-if="active">
       <q-tab
         name="take"
         :label="$t(dataURL ? 'Retake' : 'Take') "
@@ -17,6 +17,7 @@
         @click="clickFile"
         icon="attachment"
         slot="title"
+        v-if="fileable"
       >
       </q-tab>
 
@@ -40,10 +41,13 @@
     </q-tabs>
     <slot></slot>
 
-    <div class="camera"   >
-      <video @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream not available.</video>
+    <div id="wrap-snap" class="snapshot-medium camera-medium row  "  v-show="!preview"   >
+      <video class="snapshot-medium col-10 offset-1" @click.stop="touchHandler8" ref="video" id="video">Video stream not available.</video>
     </div>
-    <canvas v-show="preview" ref="canvas" id="canvas"></canvas>
+    <div class="snapshot-medium camera-medium row col-6 " v-show="preview">
+      <canvas class="snapshot-medium camera-medium row col-10 offset-1" ref="canvas" v-show="preview"
+              id="canvas"></canvas>
+    </div>
 
   </div>
 </template>
@@ -56,7 +60,7 @@
   export default {
     name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
-    props: ['pageName', 'wholeFileName', 'active'],
+    props: ['pageName', 'wholeFileName', 'active', 'fileable'],
     data () {
       return {
 
@@ -125,4 +129,8 @@
   }
 </script>
 
-<style></style>
+<style>
+  .camera-medium {
+    height: 100%;
+  }
+</style>

@@ -80,7 +80,7 @@ export const mixinGeneral = {
   },
   methods: {
     sceneFromPage (pageName) {
-      debugger
+
       let possible = this.activeFolder.pageOrder.indexOf(pageName.toString())
       if (possible >= 0) {
         return possible

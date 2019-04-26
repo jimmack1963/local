@@ -1,6 +1,20 @@
 <template>
-  <q-page padding class="row">
-    <div class="strip">{{$t('Create a new book')}}</div>
+  <q-page id="newbook" padding class="row">
+    <!--<div class="strip">{{$t('Create a new book')}}</div>
+    -->
+
+      <div class="snapshot-medium col-12">
+        <RecordCamcord
+          ref="recordCamCord"
+          class="col-12 snapshot-medium"
+          pageName="book_cover.png"
+          :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
+          :active="currentStep === 'cover'"
+          v-on:completed="newBookIllustrated"
+          :fileable=false
+        >
+        </RecordCamcord>
+      </div>
 
     <q-stepper
       v-model="currentStep"
@@ -14,7 +28,7 @@
         :title="$t('Cover Selfie')"
         :order="10">
         <div v-if="!imageTaken">
-          {{$t('Take a selfie!  Show the book -- it helps find this recording.')}}
+          {{$t('Touch image to take selfie')}}
         </div>
         <div v-else>
           {{$t('You can retake the cover')}}
@@ -31,11 +45,11 @@
              @click="$refs.newBookCycle.previous()"
              label="Back"
            />-->
-      <!--    <q-btn
-            color="secondary"
-            @click="$router.push('/')"
-            :label="$t('Cancel')"
-          />-->
+          <!--    <q-btn
+                color="secondary"
+                @click="$router.push('/')"
+                :label="$t('Cancel')"
+              />-->
         </q-stepper-navigation>
       </q-step>
 
@@ -55,10 +69,10 @@
             :label="$t('Next')"
           />
           <q-btn
-             color="secondary"
-             @click="$refs.newBookCycle.previous()"
-             label="Back"
-           />
+            color="secondary"
+            @click="$refs.newBookCycle.previous()"
+            label="Back"
+          />
           <q-btn
             color="secondary"
             @click="$router.push('/')"
@@ -132,9 +146,9 @@
         :order="40"
       >
         <q-list>
-          <q-list-header>
+  <!--        <q-list-header>
             {{$t('You can start by')}}
-          </q-list-header>
+          </q-list-header>-->
           <q-item>
             <q-item-side icon="photo library"></q-item-side>
             <q-item-main :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-main>
@@ -151,21 +165,18 @@
           </q-item>-->
         </q-list>
 
-        ({{$t('At any time, you can stop what you are doing, and restart in any way you like')}}).
+        <!--({{$t('At any time, you can stop what you are doing, and restart in any way you like')}}).-->
 
         <q-stepper-navigation>
           <q-btn
-            color="secondary"
-            @click="$refs.newBookCycle.previous()"
-            label="Back"
-          />
-          <q-btn
+            class="q-mb-sm q-mr-sm"
             icon="photo library"
             color="primary"
             @click="illustrate"
             :label="$t('Illustrate')"
           />
           <q-btn
+            class="q-mb-sm q-mr-sm"
             icon="mic"
             color="primary"
             @click="narrate"
@@ -174,6 +185,7 @@
 
           <!--
           <q-btn
+          class=q-mb-sm
             icon="library books"
             color="primary"
             @click="pageByPage"
@@ -181,6 +193,13 @@
           />
 -->
           <q-btn
+            class="q-mb-sm q-mr-sm"
+            color="secondary"
+            @click="$refs.newBookCycle.previous()"
+            label="Back"
+          />
+          <q-btn
+            class="q-mb-sm q-mr-sm"
             color="secondary"
             @click="$router.push('/')"
             :label="$t('Cancel')"
@@ -188,86 +207,76 @@
         </q-stepper-navigation>
       </q-step>
 
-     <!-- <q-step
-        name="illustrating"
-        :title="$t('Illustrating')"
-        :order="120">
+      <!-- <q-step
+         name="illustrating"
+         :title="$t('Illustrating')"
+         :order="120">
 
-        <q-stepper-navigation>
-          <q-btn
-            color="primary"
-            @click="next"
-            :label="$t('Next')"
-          />
-          <q-btn
-            color="secondary"
-            :label="$t('Previous')"
-            label="Back"
-          />
-          <q-btn
-            color="secondary"
-            @click="$router.push('/')"
-            :label="$t('done')"
-          />
-        </q-stepper-navigation>
-      </q-step>
+         <q-stepper-navigation>
+           <q-btn
+             color="primary"
+             @click="next"
+             :label="$t('Next')"
+           />
+           <q-btn
+             color="secondary"
+             :label="$t('Previous')"
+             label="Back"
+           />
+           <q-btn
+             color="secondary"
+             @click="$router.push('/')"
+             :label="$t('done')"
+           />
+         </q-stepper-navigation>
+       </q-step>
 
-      <q-step
-        name="narrating"
-        :title="$t('Narrating')"
-        :order="120">
+       <q-step
+         name="narrating"
+         :title="$t('Narrating')"
+         :order="120">
 
-        <q-stepper-navigation>
-          <q-btn
-            color="primary"
-            @click="next"
-            :label="$t('Next')"
-          />
-          <q-btn
-            color="secondary"
-            :label="$t('Previous')"
-            label="Back"
-          />
-          <q-btn
-            color="secondary"
-            @click="$router.push('/')"
-            :label="$t('done')"
-          />
-        </q-stepper-navigation>
-      </q-step>
+         <q-stepper-navigation>
+           <q-btn
+             color="primary"
+             @click="next"
+             :label="$t('Next')"
+           />
+           <q-btn
+             color="secondary"
+             :label="$t('Previous')"
+             label="Back"
+           />
+           <q-btn
+             color="secondary"
+             @click="$router.push('/')"
+             :label="$t('done')"
+           />
+         </q-stepper-navigation>
+       </q-step>
 
 
-      <q-step
-        name="pageByPage"
-        :title="$t('Page By Page')"
-        :order="130">
+       <q-step
+         name="pageByPage"
+         :title="$t('Page By Page')"
+         :order="130">
 
-        <q-stepper-navigation>
-          <q-btn
-            color="secondary"
-            :label="$t('Previous')"
-            label="Back"
-          />
-          <q-btn
-            color="secondary"
-            @click="$router.push('/')"
-            :label="$t('done')"
-          />
-        </q-stepper-navigation>
-      </q-step>
-    -->
+         <q-stepper-navigation>
+           <q-btn
+             color="secondary"
+             :label="$t('Previous')"
+             label="Back"
+           />
+           <q-btn
+             color="secondary"
+             @click="$router.push('/')"
+             :label="$t('done')"
+           />
+         </q-stepper-navigation>
+       </q-step>
+     -->
     </q-stepper>
 
-    <RecordCamcord
-      ref="recordCamCord"
-      class="col-12"
-      pageName="book_cover.png"
-      :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
-      :active="currentStep === 'cover'"
-      v-on:completed="newBookIllustrated"
-    >
-
-    </RecordCamcord>
 
   </q-page>
 </template>
@@ -342,6 +351,10 @@
 </script>
 
 <style>
+  .snapshot-medium {
+    height: 100% !important;
+  }
+
   .strip {
     height: 1em;
   }

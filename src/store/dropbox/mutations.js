@@ -1,5 +1,16 @@
 import vue from 'vue'
 
+export function deleteBookInternal (state, payload) {
+
+  let pathLower = payload.path_lower
+  let contents = state.folders[pathLower]
+  if (contents) {
+    // TODO iterate everywhere to delete children, associated records
+    vue.delete(state.folders, pathLower)
+    vue.delete(state._TOC, pathLower)
+  }
+}
+
 export function saveTempLink (state, payload) {
   let which = state.ids[payload.entry.id]
   if (which) {
