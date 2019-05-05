@@ -92,7 +92,7 @@ export const mixinIllustrate = {
     },
     onResize (size) {
       console.log(JSON.stringify(size))
-      let canvas = this.$refs.canvas
+      let canvas = this.$refs.Pcanvas
       if (canvas) {
         let h = height(canvas.parentElement.parentElement)
         let w = width(canvas.parentElement.parentElement)
@@ -115,31 +115,22 @@ export const mixinIllustrate = {
           this.orientation = 'landscape'
           canvas.setAttribute('width', this.width)
           canvas.setAttribute('height', this.height)
-
-          /*
-                    this.height = h
-                    this.width = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.height)
-                    this.width = h
-                    this.height = w
-          */
         }
-
-        /*        if (window.jim_DEBUG_FULL_junk) {
-                  console.log(JSON.stringify({
-                    h,
-                    w,
-                    thisH: this.height,
-                    thisW: this.width,
-                    vH: this.videoRef.videoHeight,
-                    vW: this.videoRef.videoWidth,
-                  }))
-                } */
-
-        // this.videoRef.setAttribute('width', this.width)
-        // this.videoRef.setAttribute('height', this.height)
-        // canvas.setAttribute('width', this.width)
-        // canvas.setAttribute('this.height', this.height)
+      } else {
+        // this.$nextTick(() => { this.onResize() } )
       }
+
+      this.videoRef = this.orientation === 'portrait' ? this.$refs.Pvideo : this.$refs.Lvideo
+      if (this.videoRef) {
+        this.getUserMedia(this.videoRef)
+
+        this.clearPhoto()
+      } else {
+
+      }
+
+
+
     },
     inputElChanged (e) {
       if (e.cypress) {
@@ -188,21 +179,21 @@ export const mixinIllustrate = {
         if (window.jim_DEBUG_FULL) console.log('swipe: ' + obj.direction)
         switch (obj.direction) {
           case 'left': {
-            this.$store.commit('nextCamera')
+            // this.$store.commit('nextCamera')
             break
           }
           case 'right': {
-            this.$store.commit('nextCamera')
+            // this.$store.commit('nextCamera')
             break
           }
           case 'up': {
 
-            this.$router.push('/')
+            // this.$router.push('/')
             break
           }
           case 'down': {
 
-            this.$router.push('/')
+            // this.$router.push('/')
             break
           }
         }
@@ -213,6 +204,7 @@ export const mixinIllustrate = {
     },
     touchHandler8 (obj, count) {
       if (this.activeFolder) {
+        this.action = 'Saving... page'
         this.lockCameraImage()
 
         // TODO: make this settable preference #2hrs
@@ -266,6 +258,7 @@ export const mixinIllustrate = {
         await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
         console.log('useImage done')
         this.clearPhoto()
+        this.action = 'click to keep'
       }
       else {
         alert('Image not available')
@@ -287,7 +280,7 @@ export const mixinIllustrate = {
     clearPhoto () {
       this.preview = false
       this.dataURL = false
-      let canvas = this.$refs.canvas
+      let canvas = this.orientation === 'portrait' ? this.$refs.Pcanvas : this.$refs.Lcanvas
       if (canvas) {
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'
@@ -298,9 +291,9 @@ export const mixinIllustrate = {
 
     lockCameraImage () {
       this.preview = true
-      let canvas = this.$refs.canvas
+      let canvas = this.orientation === 'portrait' ? this.$refs.Pcanvas : this.$refs.Lcanvas
       let context = canvas.getContext('2d')
-      let video = this.$refs.video
+      let video = this.orientation === 'portrait' ? this.$refs.Pvideo : this.$refs.Lvideo
       if (this.width && this.height) {
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight

@@ -49,7 +49,7 @@
         <!--@click="narratePage(activeFolder, 'bulk', -1, 'bulk')"-->
         <q-btn
           :label="$t('Illustrate multiple new pages')"
-          @click="illustrate(activeFolder, 'bulk')"
+          @click="$router.push('/Illustrate')"
           flat
           icon="add a photo"
           color="primary"

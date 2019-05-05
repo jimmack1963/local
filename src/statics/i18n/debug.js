@@ -9,6 +9,7 @@ export default {
   'Take a selfie of you, the book, your kid': '¿Take a selfie of you, the book, your kid',
   'Done': '¿Done',
   'Selfie': '¿Selfie',
+  'click to keep': '¿Click to Keep',
   'Carousel': '¿Carousel',
   'Manage': '¿Manage',
   'Refresh': '¿Refresh',

@@ -60,7 +60,7 @@ export const mixinGeneral = {
     },
     appTitle () {
       if (this.activeFolder) {
-        return this.activeFolder.name + '(Click here for main menu)'
+        return this.activeFolder.name + ' (Click here for main menu)'
       } else {
         return this.title
       }
@@ -122,7 +122,8 @@ export const mixinGeneral = {
     },
     nextIllustration (folder) {
       if (this.pageName) { return this.pageName }
-      return Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1), 1)
+      let it = Math.max(this.lastPageWithFile(folder, 'png', 1), this.lastPageWithFile(folder, 'jpg', 1), 1)
+      return it
     },
     /*
     maxSound (folder) {

@@ -2,6 +2,7 @@ export default {
   'Take a selfie of you, the book, your kid': 'Hi, Nerdie!',
   'Done': 'Hecho',
   'Selfie': 'Selfie',
+  'click to keep': 'Click to Keep',
   'Carousel': 'Carrusel',
   'Manage': 'Gestionar',
   'Refresh': 'Refrescar',

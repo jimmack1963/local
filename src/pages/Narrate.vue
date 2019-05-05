@@ -41,7 +41,6 @@
           :label="activeRecorderOffset !== nextNarration.toString() ?  $t('narrate page') + ' ' + nextNarration : $t(likelyAction)"
           @click="narratePage(activeFolder, nextNarration.toString(), nextNarration)"
           v-if="!activeFolder.soundOrder[nextNarration]"
-          flat
           :icon="activeRecorderOffset !== nextNarration.toString() ?  'mic' : likelyIcon"
           color="primary"
         ></q-btn>
@@ -50,7 +49,6 @@
           :id="done"
           :label="$t('done')"
           @click="home()"
-          flat
           icon="stop"
           color="secondary"
         >

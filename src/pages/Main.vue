@@ -39,7 +39,7 @@
 
     </q-card>
 
-    <q-card class="card-itself col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id"
+    <q-card class="card-itself col-lg-2 col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id"
             v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
       <q-card-media
         class="media-on-card"
@@ -58,7 +58,7 @@
         </q-card-title>
       </q-card-media>
 
-      <q-card-title v-else>
+      <q-card-title v-else>cam
         {{folder.name}}
         <span slot="subtitle">Take a selfie!</span>
       </q-card-title>
@@ -268,7 +268,15 @@
 </template>
 
 <style>
+  .camera-landscape {
+    height: 60vh !important;
+    width: auto !important;
 
+  }
+  .camera-portrait {
+      height: auto !important;
+    width: 100vw !important;
+  }
 
   @media (orientation: portrait) {
     .media-on-card {
@@ -284,9 +292,15 @@ height: 60%;
       margin-bottom: 0.3em;
       height: 40vh !important;
     }
+    .camFeedback {
+      max-height: 60vh;
+    }
   }
 
   @media (orientation: landscape) {
+    .camFeedback {
+      max-height: 90vh;
+    }
     .media-on-card {
       height: 60vh;
     }

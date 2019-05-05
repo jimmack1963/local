@@ -17,10 +17,21 @@
           <q-icon name="menu" />
         </q-btn>
 
+        <q-btn
+          flat
+          dense
+          round
+          id="home"
+          v-if="activeFolder"
+          @click.native.stop="home()"
+          icon="home"/>
+
         <q-toolbar-title>
           {{appTitle}}
           <div slot="subtitle">Version {{version}}</div>
         </q-toolbar-title>
+
+
 
         <q-btn
           flat
