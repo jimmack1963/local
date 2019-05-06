@@ -58,6 +58,7 @@ module.exports = function (ctx) {
     framework: {
       cssAddon: true,
       components: [
+        'QParallax',
         'QCollapsible',
         'QStepper',
         'QStep',

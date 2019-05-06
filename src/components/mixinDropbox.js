@@ -109,7 +109,7 @@ export const mixinDropbox = {
         calc: true,
       })
 
-      v.$store.commit('setActiveFolder', {
+      v.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
       })
     },

@@ -1,5 +1,10 @@
 import vue from 'vue'
 
+export function childrenLoaded (state, payload) {
+  let entry = payload.activeFolder
+  vue.set(state._TOC[entry.path_lower], 'childrenLoaded', true)
+}
+
 export function deleteBookInternal (state, payload) {
 
   let pathLower = payload.path_lower

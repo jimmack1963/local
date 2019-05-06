@@ -26,6 +26,7 @@ export const mixinGeneral = {
       'subtitle',
       'dataPrefix',
       'authURL',
+      'locked',
       'playAfterRecord',
 
       'hostname']),
@@ -79,6 +80,12 @@ export const mixinGeneral = {
 
   },
   methods: {
+    lock () {
+      this.$store.commit('lock')
+    },
+    unlock () {
+      this.$store.commit('unlock')
+    },
     sceneFromPage (pageName) {
 
       let possible = this.activeFolder.pageOrder.indexOf(pageName.toString())
@@ -239,7 +246,7 @@ export const mixinGeneral = {
         calc: true,
       })
 
-      v.$store.commit('setActiveFolder', {
+      v.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
       })
 
@@ -410,27 +417,27 @@ export const mixinGeneral = {
       this.$store.commit('silence')
 
       this.$router.push('/')
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: false,
       })
     },
     selfie (entry) {
       // this.$q.fullscreen.request()
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
       })
       this.$router.push('/selfie')
     },
     manage (entry) {
       // this.$q.fullscreen.request()
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
       })
       this.$router.push('/manage')
     },
     carousel (entry) {
       // this.$q.fullscreen.request()
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
       })
       if (this.pageCount(entry) > 0) {

@@ -25,7 +25,7 @@ const guardActiveFolder = (to, from, next) => {
 
 const noActiveFolder = (to, from, next) => {
   if (store.state.groups.activeFolder) {
-    store.commit('setActiveFolder', {
+    store.dispatch('setActiveFolder', {
       activeFolder: false
     })
   }

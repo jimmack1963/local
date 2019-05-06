@@ -88,5 +88,6 @@ export default {
   subtitle,
   dataPrefix,
   authURL,
-  hostname
+  hostname,
+  locked: true
 }

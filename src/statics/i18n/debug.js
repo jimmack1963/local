@@ -103,6 +103,12 @@ export default {
   'Tags': '¿Tags',
   'Page Numbering': '¿Page Numbering',
   'Plan': '¿Plan',
+
+  'lock': '¿Lock',
+  'unlock': '¿Unlock',
+  'Enable Editing Books': '¿Enable Editing Books',
+  'Disable Editing Books': '¿Disable Editing Books',
+
   'Page By Page': '¿Page By Page',
 'Touch image to take selfie': '¿Take a selfie!  Show the book -- it helps find' +
   ' this recording.',

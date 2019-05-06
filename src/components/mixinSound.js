@@ -43,7 +43,7 @@ export const mixinSound = {
   },
   methods: {
     narrateBook (folder) {
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: folder
       })
       this.$router.push('/Narrate')
@@ -103,7 +103,7 @@ export const mixinSound = {
     },
     record (folder) {
       // this.$q.fullscreen.request()
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: folder
       })
       // I don't know why this is here, but it interferes with taking multiple images in a row
@@ -207,7 +207,7 @@ export const mixinSound = {
       }
       this.endHowlPlay()
       if (window.jim_DEBUG_FULL) console.log('playBookPageplayBookPageplayBookPageplayBookPage')
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: folder
       })
 
@@ -333,7 +333,7 @@ export const mixinSound = {
     },
     playBook (folder) {
       this.setDelayPlayNext(1)
-      this.$store.commit('setActiveFolder', {
+      this.$store.dispatch('setActiveFolder', {
         activeFolder: folder
       })
       this.setDelayPlayNext(1)

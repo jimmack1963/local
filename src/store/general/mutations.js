@@ -22,6 +22,14 @@ export function device (state, payload) {
   }
 }
 
+
+export function lock (state) {
+  state.locked = true
+}
+export function unlock (state) {
+  state.locked = false
+}
+
 export function setMicAvailable (state) {
   state.micStatus = micStatus.available
 }

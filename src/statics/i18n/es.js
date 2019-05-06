@@ -76,6 +76,12 @@ export default {
   'Tags': 'Etiquetas',
   'Page Numbering': 'Numeración de páginas',
   'Plan': 'Plan',
+
+  'lock': 'Lock',
+  'unlock': 'Unlock',
+  'Enable Editing Books': 'Enable Editing Books',
+  'Disable Editing Books': 'Disable Editing Books',
+
   'Page By Page': 'Por páginas',
   'Touch image to take selfie': '¡Toma una selfie! Muestra el libro - ayuda a encontrar esta grabación.',
   'You can retake the cover': 'Puedes volver a tomar la portada.',

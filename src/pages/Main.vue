@@ -58,11 +58,10 @@
         </q-card-title>
       </q-card-media>
 
-      <q-card-title v-else>cam
+      <q-card-title v-else>
         {{folder.name}}
         <span slot="subtitle">Take a selfie!</span>
       </q-card-title>
-
 
       <q-card-main v-show="playingPage">
         <div
@@ -72,197 +71,197 @@
           v-html="`<small>pg</small>&nbsp;<b><big>${playingPage}</big></b>`"
           animate-bounce></div>
       </q-card-main>
+      <div v-if="!locked">
+        <!--if book (folder)-->
+        <q-card-actions v-if="folder['.tag'] === 'folder'">
 
-      <!--if book (folder)-->
-      <q-card-actions v-if="folder['.tag'] === 'folder'">
+          <q-btn-dropdown color="primary" :label="$t('Playing')" class="q-mr-sm">
+            <q-list link>
+              <q-item
+                @click.native="selfie(folder)"
+                v-if="!folder.thumbnail"
+              >
+                <q-item-main>
+                  <q-item-tile label>
+                    Take Selfie
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item
+                @click.native="carousel(folder)"
+                v-if="pageCount(folder) > 0"
+              >
+                <q-item-main>
+                  <q-item-tile label>
+                    {{$t('Carousel')}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
 
-        <q-btn-dropdown color="primary" :label="$t('Playing')" class="q-mr-sm">
-          <q-list link>
-            <q-item
-              @click.native="selfie(folder)"
-              v-if="!folder.thumbnail"
-            >
-              <q-item-main>
-                <q-item-tile label>
-                  Take Selfie
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item
-              @click.native="carousel(folder)"
-              v-if="pageCount(folder) > 0"
-            >
-              <q-item-main>
-                <q-item-tile label>
-                  {{$t('Carousel')}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
+              <q-item
+                @click.native="playBook(folder)"
+                v-if="pageCount(folder) > 0"
+              >
+                <q-item-main>
+                  <q-item-tile label>
+                    {{$t('Play All')}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
 
-            <q-item
-              @click.native="playBook(folder)"
-              v-if="pageCount(folder) > 0"
-            >
-              <q-item-main>
-                <q-item-tile label>
-                  {{$t('Play All')}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
+              <q-item
+                v-for="p in pageOrder(folder)"
+                v-if="p"
+                v-bind:key="p"
+                @click.native="playBookPage(folder, p, true)"
+              >
+                <q-item-main>
+                  <q-item-tile label>
+                    {{$t('Page')}} {{p}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
 
-            <q-item
-              v-for="p in pageOrder(folder)"
-              v-if="p"
-              v-bind:key="p"
-              @click.native="playBookPage(folder, p, true)"
-            >
-              <q-item-main>
-                <q-item-tile label>
-                  {{$t('Page')}} {{p}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
+            </q-list>
 
-          </q-list>
+          </q-btn-dropdown>
 
-        </q-btn-dropdown>
+          <q-btn-dropdown color="primary" :label="$t('Creating')" class="q-mr-sm">
+            <q-list link>
+              <q-item
+                @click.native="record(folder)"
+              >
+                <q-item-side icon="add a photo">
 
-        <q-btn-dropdown color="primary" :label="$t('Creating')" class="q-mr-sm">
-          <q-list link>
-            <q-item
-              @click.native="record(folder)"
-            >
-              <q-item-side icon="add a photo">
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile  label>
+                    {{$t('Illustrate')}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item
+                @click.native="narrateBook(folder)"
+              >
+                <q-item-side icon="mic">
 
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile  label>
-                  {{$t('Illustrate')}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item
-              @click.native="narrateBook(folder)"
-            >
-              <q-item-side icon="mic">
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile  label>
+                    {{$t('Narrate')}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item
+                @click.native="manage(folder)"
+              >
+                <q-item-main>
+                  <q-item-tile label>
+                    {{$t('Manage')}}
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
 
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile  label>
-                  {{$t('Narrate')}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item
-              @click.native="manage(folder)"
-            >
-              <q-item-main>
-                <q-item-tile label>
-                  {{$t('Manage')}}
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
+          <q-btn
+            flat
+            color="secondary"
+            icon="stop"
+            :label="$t('Silence')"
+            @click="endHowlPlay(folder)"
+            v-if="(pageCount(folder) > 0) && (playing.length > 0)"
+          ></q-btn>
 
-        <q-btn
-          flat
-          color="secondary"
-          icon="stop"
-          :label="$t('Silence')"
-          @click="endHowlPlay(folder)"
-          v-if="(pageCount(folder) > 0) && (playing.length > 0)"
-        ></q-btn>
+          <!--
+                  <q-btn
+                    flat
+                    color="primary"
+                    label="Take Selfie"
+                    @click="selfie(folder)"
+                    v-if="!folder.thumbnail"
+                  ></q-btn>
 
-        <!--
-                <q-btn
-                  flat
-                  color="primary"
-                  label="Take Selfie"
-                  @click="selfie(folder)"
-                  v-if="!folder.thumbnail"
-                ></q-btn>
+                  <q-btn
+                    flat
+                    color="primary"
+                    label="carousel"
+                    @click="carousel(folder)"
+                    v-if="pageCount(folder) > 0"
+                  ></q-btn>
 
-                <q-btn
-                  flat
-                  color="primary"
-                  label="carousel"
-                  @click="carousel(folder)"
-                  v-if="pageCount(folder) > 0"
-                ></q-btn>
+          <q-btn
+            flat
+            color="primary"
+            label="play All"
+            @click="playBook(folder)"
+            v-if="pageCount(folder) > 0"
+          ></q-btn>
 
-        <q-btn
-          flat
-          color="primary"
-          label="play All"
-          @click="playBook(folder)"
-          v-if="pageCount(folder) > 0"
-        ></q-btn>
+  <q-btn
+            flat
+            color="primary"
+            :label="p"
+            v-for="p in pageOrder(folder)"
+            v-if="p"
+            v-bind:key="p"
+            @click="playBookPage(folder, p)"
+          ></q-btn>
 
-<q-btn
-          flat
-          color="primary"
-          :label="p"
-          v-for="p in pageOrder(folder)"
-          v-if="p"
-          v-bind:key="p"
-          @click="playBookPage(folder, p)"
-        ></q-btn>
+          <q-btn
+            flat
+            color="secondary"
+            label="Illustrate"
+            @click="record(folder)"
 
-        <q-btn
-          flat
-          color="secondary"
-          label="Illustrate"
-          @click="record(folder)"
+          ></q-btn>
+          <q-btn
+            flat
+            color="secondary"
+            label="Narrate"
+            @click="narrateBook(folder)"
 
-        ></q-btn>
-        <q-btn
-          flat
-          color="secondary"
-          label="Narrate"
-          @click="narrateBook(folder)"
+          ></q-btn>
+          <q-btn
+            flat
+            color="secondary"
+            label="Manage"
+            @click="manage(folder)"
 
-        ></q-btn>
-        <q-btn
-          flat
-          color="secondary"
-          label="Manage"
-          @click="manage(folder)"
-
-        ></q-btn>
+          ></q-btn>
 
 
 
-        <q-btn
-          flat
-          color="primary"
-          label="continue play"
-          @click="continuePlaying(folder)"
-          v-if="pageCount(folder) > 0"
-        ></q-btn>
+          <q-btn
+            flat
+            color="primary"
+            label="continue play"
+            @click="continuePlaying(folder)"
+            v-if="pageCount(folder) > 0"
+          ></q-btn>
 
-        -->
+          -->
 
-      </q-card-actions>
-
-      <!--if sound-->
-      <q-card-actions v-if="folder.ext === 'mp3'">
-        <q-btn
-          v-if="savedEntry(folder).howl"
-          flat
-          color="primary"
-          :label="$t('play')"
-          @click="play(folder)"
-        ></q-btn>
-      </q-card-actions>
-      <q-card-actions v-if="folder.ext === 'png' && !folder.thumbnail">
-        <q-btn
-          flat
-          color="primary"
-          :label="$t('view')"
-          @click="view(folder)"
-        ></q-btn>
-      </q-card-actions>
+        </q-card-actions>
+        <!--if sound-->
+        <q-card-actions v-if="folder.ext === 'mp3'">
+          <q-btns
+            v-if="savedEntry(folder).howl"
+            flat
+            color="primary"
+            :label="$t('play')"
+            @click="play(folder)"
+          ></q-btns>
+        </q-card-actions>
+        <q-card-actions v-if="folder.ext === 'png' && !folder.thumbnail">
+          <q-btn
+            flat
+            color="primary"
+            :label="$t('view')"
+            @click="view(folder)"
+          ></q-btn>
+        </q-card-actions>
+      </div>
     </q-card>
   </q-page>
 </template>
@@ -290,7 +289,7 @@ height: 60%;
     .card-itself {
       width: 100%;
       margin-bottom: 0.3em;
-      height: 40vh !important;
+      /*height: 40vh !important;*/
     }
     .camFeedback {
       max-height: 60vh;
@@ -313,7 +312,7 @@ height: 60%;
       width: 49%;
       margin-right: 0.3em;
       margin-bottom: 0.3em;
-      height: 80vh !important;
+      /*height: 80vh !important;*/
     }
   }
 

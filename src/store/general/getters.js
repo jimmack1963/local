@@ -13,6 +13,10 @@ export function micUninitialized (state) {
   return state.micStatus === micStatus.uninitialized
 }
 
+export function locked (state) {
+  return state.locked
+}
+
 export function title (state) {
   return state.title
 }
