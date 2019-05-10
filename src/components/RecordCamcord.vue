@@ -72,7 +72,7 @@
       window.jim = window.jim || {}
       window.jim.recordcamcord = this
 
-      vue.videoRef = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
+      vue.videoRef = vue.$refs.video
 
       function gotDevices (deviceInfos) {
         for (let i = 0; i !== deviceInfos.length; ++i) {

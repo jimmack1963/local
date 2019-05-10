@@ -115,22 +115,31 @@ export const mixinIllustrate = {
           this.orientation = 'landscape'
           canvas.setAttribute('width', this.width)
           canvas.setAttribute('height', this.height)
+
+          /*
+                    this.height = h
+                    this.width = this.videoRef.videoHeight / (this.videoRef.videoWidth / this.height)
+                    this.width = h
+                    this.height = w
+          */
         }
-      } else {
-        // this.$nextTick(() => { this.onResize() } )
+
+        /*        if (window.jim_DEBUG_FULL_junk) {
+                  console.log(JSON.stringify({
+                    h,
+                    w,
+                    thisH: this.height,
+                    thisW: this.width,
+                    vH: this.videoRef.videoHeight,
+                    vW: this.videoRef.videoWidth,
+                  }))
+                } */
+
+        // this.videoRef.setAttribute('width', this.width)
+        // this.videoRef.setAttribute('height', this.height)
+        // canvas.setAttribute('width', this.width)
+        // canvas.setAttribute('this.height', this.height)
       }
-
-      this.videoRef = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
-      if (this.videoRef) {
-        this.getUserMedia(this.videoRef)
-
-        this.clearPhoto()
-      } else {
-
-      }
-
-
-
     },
     inputElChanged (e) {
       if (e.cypress) {
@@ -204,7 +213,6 @@ export const mixinIllustrate = {
     },
     touchHandler8 (obj, count) {
       if (this.activeFolder) {
-        this.action = 'Saving... page'
         this.lockCameraImage()
 
         // TODO: make this settable preference #2hrs
@@ -258,7 +266,6 @@ export const mixinIllustrate = {
         await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
         console.log('useImage done')
         this.clearPhoto()
-        this.action = 'click to keep'
       }
       else {
         alert('Image not available')
@@ -280,7 +287,7 @@ export const mixinIllustrate = {
     clearPhoto () {
       this.preview = false
       this.dataURL = false
-      let canvas = this.orientation === 'portrait' ? this.$refs.canvas : this.$refs.canvas
+      let canvas = this.$refs.canvas
       if (canvas) {
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'
@@ -291,9 +298,9 @@ export const mixinIllustrate = {
 
     lockCameraImage () {
       this.preview = true
-      let canvas = this.orientation === 'portrait' ? this.$refs.canvas : this.$refs.canvas
+      let canvas = this.$refs.canvas
       let context = canvas.getContext('2d')
-      let video = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
+      let video = this.$refs.video
       if (this.width && this.height) {
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight
