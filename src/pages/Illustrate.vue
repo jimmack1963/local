@@ -4,74 +4,17 @@
     ref="background"
   >
     <q-window-resize-observable @resize="onResize" />
-    <q-card class="q-ma-sm col-12 orientation-portrait">
-      <q-card-media
-        class="camFeedback"
-        overlay-position="bottom"
-      >
-        <div class="camera camFeedback ">
-          <video :class="sizeClasses" @click.stop="touchHandler8" v-show="!preview" ref="Pvideo" id="video">Video stream
-            not available.
-          </video>
-          <canvas :class="sizeClasses" v-show="preview" ref="Pcanvas" id="canvas"></canvas>
-        </div>
-
-        <q-card-title slot="overlay">{{$t(action)}}</q-card-title>
-      </q-card-media>
-
-      <q-card-main>
-
-        <q-field
-          :label="$t('keep as page')"
-          orientation="horizontal"
-        >
-          <q-input
-            v-model="pageName"
-          >
-          </q-input>
-        </q-field>
-
-      </q-card-main>
-      <q-card-actions vertical align="center">
-        <q-btn
-          :id="`illustrate_${pageName}`"
-          :label=" $t('Take') "
-          @click="touchHandler8"
-          v-if="!activeFolder.soundOrder[pageName]"
-          icon="camera"
-          color="primary"
-        ></q-btn>
-
-        <q-btn
-          name="front"
-          :label="$t(modeCaption)"
-          @click="modeClick"
-          :icon="modeIcon"
-        >
-
-        </q-btn>
-
-        <q-btn
-          id="done"
-          :label="$t('done')"
-          @click="home()"
-
-          icon="stop"
-          color="secondary"
-        ></q-btn>
-      </q-card-actions>
-    </q-card>
-    <div class="orientation-landscape row">
-      <q-card class=" col-6 orientation-landscape">
+    <div class=" row">
+      <q-card class=" col-6 ">
         <q-card-media
           class="camFeedback"
           overlay-position="bottom"
         >
-          <div class="camera camFeedback orientation-landscape">
-            <video :class="sizeClasses" @click.stop="touchHandler8" v-show="!preview" ref="Lvideo" id="video">Video stream
+          <div class="camera camFeedback ">
+            <video :class="sizeClasses" @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream
               not available.
             </video>
-            <canvas :class="sizeClasses" v-show="preview" ref="Lcanvas" id="canvas"></canvas>
+            <canvas :class="sizeClasses" v-show="preview" ref="canvas" id="canvas"></canvas>
           </div>
 
           <q-card-title slot="overlay">{{$t(action)}}</q-card-title>
@@ -124,7 +67,6 @@
       </q-card>
     </div>
 
-
   </div>
 </template>
 
@@ -169,7 +111,7 @@
       window.jim = window.jim || {}
       window.jim.Illustrate = this
 
-      this.videoRef = this.orientation === 'portrait' ? this.$refs.Pvideo : this.$refs.Lvideo
+      this.videoRef = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
 
       this.getUserMedia(this.videoRef)
 

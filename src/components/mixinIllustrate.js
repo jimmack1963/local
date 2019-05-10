@@ -92,7 +92,7 @@ export const mixinIllustrate = {
     },
     onResize (size) {
       console.log(JSON.stringify(size))
-      let canvas = this.$refs.Pcanvas
+      let canvas = this.$refs.canvas
       if (canvas) {
         let h = height(canvas.parentElement.parentElement)
         let w = width(canvas.parentElement.parentElement)
@@ -120,7 +120,7 @@ export const mixinIllustrate = {
         // this.$nextTick(() => { this.onResize() } )
       }
 
-      this.videoRef = this.orientation === 'portrait' ? this.$refs.Pvideo : this.$refs.Lvideo
+      this.videoRef = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
       if (this.videoRef) {
         this.getUserMedia(this.videoRef)
 
@@ -280,7 +280,7 @@ export const mixinIllustrate = {
     clearPhoto () {
       this.preview = false
       this.dataURL = false
-      let canvas = this.orientation === 'portrait' ? this.$refs.Pcanvas : this.$refs.Lcanvas
+      let canvas = this.orientation === 'portrait' ? this.$refs.canvas : this.$refs.canvas
       if (canvas) {
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'
@@ -291,9 +291,9 @@ export const mixinIllustrate = {
 
     lockCameraImage () {
       this.preview = true
-      let canvas = this.orientation === 'portrait' ? this.$refs.Pcanvas : this.$refs.Lcanvas
+      let canvas = this.orientation === 'portrait' ? this.$refs.canvas : this.$refs.canvas
       let context = canvas.getContext('2d')
-      let video = this.orientation === 'portrait' ? this.$refs.Pvideo : this.$refs.Lvideo
+      let video = this.orientation === 'portrait' ? this.$refs.video : this.$refs.video
       if (this.width && this.height) {
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight
