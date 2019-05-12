@@ -116,9 +116,6 @@
         this.pushToDropbox()
       },
       async pushToDropbox () {
-
-
-
         this.$store.commit('setMicAvailable')
         let pageFileName
         if (/^[0-9]+$/.test(this.pageName)) {

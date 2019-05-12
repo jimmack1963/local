@@ -79,7 +79,7 @@
       <q-card-main>
 
         <RecordAudio
-          v-if="recording['bulk']"
+          v-if="activeNow['bulk']"
           v-on:completed="completedBulkNarration"
           :pageName="bulk.nextNarration"
         >
@@ -162,7 +162,7 @@
       <q-card-main>
         <RecordAudio
           :ref="`record_audio_${offset}`"
-          v-if="recording[pageName]"
+          v-if="activeNow[pageName]"
           :pageName="pageName"
           :start="true"
           :autoclose="true"
@@ -244,7 +244,7 @@
           this.activeRecorderOffset = offset.toString()
           // only one at a time
           let toggled = {}
-          if (!this.recording[pageName]) {
+          if (!this.activeNow[pageName]) {
             toggled[pageName] = !(toggled[pageName])
           }
           this.$set(this, 'recording', toggled)
@@ -279,6 +279,7 @@
     },
     data () {
       return {
+        activeNow: {},
         activeRecorderOffset: false,
         recording: {},
         illustrating: {},
