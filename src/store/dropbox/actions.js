@@ -219,7 +219,6 @@ export const registerFileSecondPass = async (context, payload) => {
               break
             }
             case 'object' : {
-
               context.commit('saveThumbnail', {
                 entry,
                 thumbnail: raw,
@@ -276,14 +275,15 @@ export const registerFileSecondPass = async (context, payload) => {
         break
       }
       case 'mp3': {
+
         let response
         try {
           /*
             For some reason, await is not returning the response, but returns undefined
            */
-          response = await dbx.filesGetTemporaryLink({path: entry.path_lower})
+          response = dbx.filesGetTemporaryLink({path: entry.path_lower})
             .then((response) => {
-
+              // Get temp link
               context.commit('saveTempLink', {
                 entry,
                 response,
@@ -298,6 +298,8 @@ export const registerFileSecondPass = async (context, payload) => {
                 },
                 {root: true})
             })
+          payload.response = response
+          context.commit('markRequested', payload)
         } catch (err) {
           if (window.jim_DEBUG_FULL) {
             console.log('err')

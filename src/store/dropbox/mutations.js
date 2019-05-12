@@ -12,7 +12,14 @@ export function deleteBookInternal (state, payload) {
   if (contents) {
     // TODO iterate everywhere to delete children, associated records
     vue.delete(state.folders, pathLower)
-    vue.delete(state._TOC, pathLower)
+  }
+  vue.delete(state._TOC, pathLower)
+}
+
+export function markRequested (state, payload) {
+  let which = state.ids[payload.entry.id]
+  if (which) {
+    vue.set(which, 'howlRequested', payload.response)
   }
 }
 

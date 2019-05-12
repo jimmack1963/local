@@ -16,6 +16,7 @@ export function clearData (state) {
 
 export function setActiveFolder (state, payload) {
   state.activeFolder = payload
+  state.activeScene = 0
 }
 
 export function setActivePage (state, payload) {

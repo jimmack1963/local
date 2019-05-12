@@ -316,6 +316,22 @@ export const mixinSound = {
 
             played = true
           }
+          else {
+            // why can't it play?
+            console.log('surprise howl fail')
+            if (target.howlRequested) {
+              let promises = [target.howlRequested]
+              Promise.all(promises).then(() => {
+                vue.$nextTick(() => {
+                    console.log('recursive wait for howl to be logged')
+                    vue.playBookPage(folder, pageNumber, stopAtOne)
+                  }
+                )
+                console.log('waiting?')
+              })
+              return
+            }
+          }
         }
       }
       if (!played && myFolder && myFolder.length > 0) {
@@ -327,6 +343,7 @@ export const mixinSound = {
     },
     setDelayPlayNext (seconds) {
       this.$store.commit('delayPlayNext', seconds * 1000)
+      this.rightDrawerOpen = false
     },
     endHowlPlay () {
       this.$store.commit('silence')

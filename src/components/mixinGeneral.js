@@ -48,7 +48,7 @@ export const mixinGeneral = {
       get: function () {
         if (window.jim_DEBUG_FULL) console.log('currentSlide??')
 
-        return this.activeScene
+        return this.activeScene || 0
       },
       set: function (value) {
         if (window.jim_DEBUG_FULL) console.log('currentSlide!!')
@@ -82,9 +82,11 @@ export const mixinGeneral = {
   methods: {
     lock () {
       this.$store.commit('lock')
+      this.rightDrawerOpen = false
     },
     unlock () {
       this.$store.commit('unlock')
+      this.rightDrawerOpen = false
     },
     sceneFromPage (pageName) {
 

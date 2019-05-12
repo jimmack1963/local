@@ -67,7 +67,7 @@
         </q-item>
 
 
-        <q-item @click.native="$store.commit('playAfterRecord')">
+        <q-item @click.native="$store.commit('playAfterRecord'); this.rightDrawerOpen = false">
           <q-item-side icon="replay"/>
           <q-item-main :label="$t(playAfterRecord ? 'Don\'t replay after recording' : 'Replay after recording')"
                        :sublabel="$t('Immediately hear your Narration')"/>

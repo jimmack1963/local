@@ -10,11 +10,11 @@ export const registerFile = async (context, payload) => {
 
 export function setActiveFolder (context, payload) {
   var activeFolder = payload.activeFolder
-  context.commit('setActiveFolder', activeFolder)
   context.commit('activeScene', payload.activeScene || 0)
+  context.commit('setActiveFolder', activeFolder)
 
   // load the children
-  if (activeFolder && !activeFolder.childrenLoaded) {
+  if (activeFolder && !activeFolder.childrenLoaded && activeFolder.contents && activeFolder.contents.pages) {
     Object.keys(activeFolder.contents.pages).forEach(key => {
       let kid = activeFolder.contents.pages[key]
       Object.keys(kid).forEach(type => {
