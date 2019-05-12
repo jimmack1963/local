@@ -91,7 +91,7 @@ export default {
   'first_book_intro': '<p>The menu at the left has an entry, "Make a new book." </p>\n' +
     '\n' +
     '        <p>You can open the menu, if it is closed, by hitting the icon\n' +
-    '          <q-icon name="menu"></q-icon>\n' +
+    '          <i aria-hidden="true" class="q-icon material-icons">menu</i>  in the top bar\n' +
     '        </p>\n' +
     '\n' +
     '        <p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting\n' +
@@ -105,6 +105,8 @@ export default {
   'Plan': 'Plan',
   'lock': 'Lock',
   'unlock': 'Unlock',
+    'List of Books': 'List of Books',
+  'Or click the top bar': 'Or click the top bar',
   'Enable Editing Books': 'Enable Editing Books',
   'Disable Editing Books': 'Disable Editing Books',
 

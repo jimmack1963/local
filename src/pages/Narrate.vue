@@ -46,7 +46,7 @@
         ></q-btn>
 
         <q-btn
-          :id="done"
+          id="done"
           :label="$t('done')"
           @click="home()"
           icon="stop"

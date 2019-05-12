@@ -37,11 +37,14 @@ export const registerFileFirstPass = async (context, payload) => {
   console.log('FILE:,' + JSON.stringify(entry))
   let dbx = payload.dbx
   entry.dbx = dbx
+  entry.source = 'dropbox/'
   entry.parts = pathParse(entry.path_lower)
   if (entry.parts.dir.length > 7 && entry.parts.dir.endsWith('/history')) {
     return false
   }
   entry.ext = entry.parts.ext.toLowerCase().replace('.', '')
+
+  // childrenLoaded probably not stored in correct structure
   entry.childrenLoaded = false
   context.commit('saveEntry', {
     folder,
@@ -189,7 +192,10 @@ export const registerFileFirstPass = async (context, payload) => {
 
 export const registerFileSecondPass = async (context, payload) => {
   let entry = payload.entry
-  if (entry.childrenLoaded) { return }
+  if (entry.childrenLoaded) {
+    console.log(entry.path_lower + ' ALREADY LOADED')
+    return
+  }
 
   console.log('FILE:,' + JSON.stringify(entry))
   let dbx = entry.dbx

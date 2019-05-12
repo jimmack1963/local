@@ -69,7 +69,8 @@ export default {
   'intro_signin': 'Si no es un usuario actual, es posible que desee registrarse en <a href="https://www.dropbox.com/register" targt="_blank"> su sitio </a>. O bien, instale su aplicación.',
   'intro_disclaimer': 'Este sitio web o aplicación no está afiliado ni patrocinado por Dropbox, Inc.',
   'Make your first book': 'Haz tu primer libro',
-  'first_book_intro': "<p> El menú de la izquierda tiene una entrada, 'Crear un nuevo libro', </p>\n\n <p> Puedes abrir el menú, si está cerrado, presionando el ícono\n         <q-icon name = \"menu\"> </q-icon>\n        </p>\n\n<p> Para tomar una foto, cuando puede ver la cámara activa en la pantalla, puede tomar una foto presionando\n En cualquier lugar de la pantalla. Siempre puedes reemplazarlo si quieres una segunda oportunidad. </p>",
+  'first_book_intro': "<p> El menú de la izquierda tiene una entrada, 'Crear un nuevo libro', </p>\n\n <p> Puedes" +
+    " abrir el menú, si está cerrado, presionando el ícono\n         <i aria-hidden=\"true\" class=\"q-icon material-icons\">menu</i>  in the top bar\n        </p>\n\n<p> Para tomar una foto, cuando puede ver la cámara activa en la pantalla, puede tomar una foto presionando\n En cualquier lugar de la pantalla. Siempre puedes reemplazarlo si quieres una segunda oportunidad. </p>",
   'Create a new book': 'Crear un nuevo libro',
   'Cover Selfie': 'Tapa Selfie',
   'Title': 'Título',
@@ -79,6 +80,8 @@ export default {
 
   'lock': 'Lock',
   'unlock': 'Unlock',
+  'List of Books': 'List of Books',
+  'Or click the top bar': 'Or click the top bar',
   'Enable Editing Books': 'Enable Editing Books',
   'Disable Editing Books': 'Disable Editing Books',
 

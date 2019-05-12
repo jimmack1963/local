@@ -291,6 +291,7 @@
     methods: {
       newBookIllustrated (completed) {
         this.imageTaken = completed
+        this.$store.commit('unlock')
         // run when image correctly taken in RecordCamcord
       },
       async narrate () {
@@ -315,7 +316,7 @@
         this.filename = 'book_cover.jpg'
         let newFolder = this.cleanFileNameForDropbox(this.bookTitle)
         await this.createActiveFolder(newFolder)
-        await this.$refs.recordCamCord.commit(newFolder, this.tags, this.pageStyle)
+        await this.$refs.recordCamCord.createNewBookCoverPage(this.filename, this.tags, this.pageStyle)
         // this.uploadFile()
       },
       next () {

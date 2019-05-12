@@ -233,6 +233,7 @@ export const mixinSound = {
             }
           },
           done () {
+
             if (vue.$refs.playingPage) {
               vue.$refs.playingPage.forEach(r => {
                 r.style.left = '-2000px'

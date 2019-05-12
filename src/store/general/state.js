@@ -89,5 +89,5 @@ export default {
   dataPrefix,
   authURL,
   hostname,
-  locked: true
+  locked: !process.env.DEV
 }

@@ -70,7 +70,7 @@
   "intro_signin": "If you are not a current user, you may want to sign up on <a href=\"https://www.dropbox.com/register\"     targt=\"_blank\">their site first</a>. Or, install their app.",
   "intro_disclaimer": "This website or app is not affiliated with or otherwise sponsored by Dropbox, Inc.",
   "Make your first book": "Make your first book",
-  "first_book_intro": "<p>The menu at the left has an entry, 'Make a new book.', </p>\n\n <p>You can open the menu, if it is closed, by hitting the icon\n         <q-icon name=\"menu\"></q-icon>\n        </p>\n\n<p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting\n anywhere on the screen. You can always replace it if you want a second chance.</p>",
+  "first_book_intro": "<p>The menu at the left has an entry, 'Make a new book.', </p>\n\n <p>You can open the menu, if it is closed, by hitting the icon\n         <i aria-hidden=\"true\" class=\"q-icon material-icons\">menu</i> in the top bar\n        </p>\n\n<p>To take a picture, when you can see the camera active on the screen, you can take a picture by hitting\n anywhere on the screen. You can always replace it if you want a second chance.</p>",
 
   "Create a new book": "Create a new book",
   "Cover Selfie": "Cover Selfie",

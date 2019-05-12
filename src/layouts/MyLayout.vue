@@ -127,11 +127,7 @@
         inset-delimiter
       >
 
-        <q-item @click.native="home">
-          <q-item-side icon="collections bookmark"/>
-          <q-item-main label="List of Books" sublabel="Or click the top bar"/>
-          <!--<q-item-side right icon="thumb_up" />-->
-        </q-item>
+
 
         <!-- $t('       <q-item to="/selfi')e" >
                   <q-item-side icon="add a photo" />
@@ -159,6 +155,12 @@
                   <q-item-side icon="add a photo" />
                   <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
                 </q-item>-->
+
+        <q-item @click.native="home">
+          <q-item-side icon="collections bookmark"/>
+          <q-item-main :label="$t('List of Books')" :sublabel="$t('Or click the top bar')"/>
+          <!--<q-item-side right icon="thumb_up" />-->
+        </q-item>
 
         <q-item @click.native="readDropboxFolder()">
           <q-item-side icon="refresh"/>

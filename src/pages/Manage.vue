@@ -107,7 +107,7 @@
           <!--<span slot="subtitle"></span>-->
         </q-card-title>
       </q-card-media>
-      <q-card-title v-show="!activeFolder.imageOrder[offset]">
+      <q-card-title v-if="!activeFolder.imageOrder[offset]">
         {{$t('Page')}} {{pageName}} ({{$t('No Image')}})
         <!--<span slot="subtitle"></span>-->
       </q-card-title>

@@ -214,6 +214,7 @@ export const mixinGeneral = {
       }
     }, */
     async startBook (bookTitle) {
+      this.$store.commit('unlock')
       this.$router.push('/book/new/step/0')
     },
     async startBookOld (bookTitle) {
@@ -359,20 +360,29 @@ export const mixinGeneral = {
 
       // let linkData = require('../statics/recordings/' + folder + '/' + name)
       let link = '../statics/recordings/' + folder + '/' + name
+      let entry = {
+        source: 'demos/',
+        link,
+        name,
+        id: 'demo: ' + name,
+        '.tag': tag,
+        pageNumber: index,
+        ext: tag,
+      }
+
+      if (name === 'book_cover.jpg') {
+        // childrenLoaded probably not stored in correct structure
+        entry.childrenLoaded = false
+      }
+      else {
+        entry.deferLoading = true
+      }
       this.$store.dispatch('demos/registerFile', {
         folder,
-        entry: {
-          link,
-          name,
-          id: 'demo: ' + name,
-          '.tag': tag,
-          pageNumber: index,
-          ext: tag,
-        },
+        entry
       })
     },
     readDemos () {
-
       let base = 'How To Use'
       this.readDemoFile(base, 'book_cover.jpg', 'png')
       for (let pageCtr = 1; pageCtr <= 6; pageCtr++) {
@@ -385,7 +395,7 @@ export const mixinGeneral = {
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
-      this.readDemos()
+      if (!process.env.DEV) this.readDemos()
 
       this.purgeLocalStorageFromDropbox()
       let self = this

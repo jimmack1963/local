@@ -60,7 +60,7 @@
   export default {
     name: 'recordcamcord',
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
-    props: ['pageName', 'wholeFileName', 'active', 'fileable'],
+    props: ['wholeFileName', 'active', 'fileable'],
     data () {
       return {
 
@@ -122,7 +122,7 @@
       vue.clearPhoto()
     },
     methods: {
-      async commit (bookTitle, tags, pageStyle) {
+      async createNewBookCoverPage (bookTitle, tags, pageStyle) {
         await this.useImage(bookTitle)
       }
     },

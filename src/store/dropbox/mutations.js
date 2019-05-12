@@ -2,6 +2,7 @@ import vue from 'vue'
 
 export function childrenLoaded (state, payload) {
   let entry = payload.activeFolder
+  // childrenLoaded probably not stored in correct structure
   vue.set(state._TOC[entry.path_lower], 'childrenLoaded', true)
 }
 
@@ -45,12 +46,11 @@ export function saveTempLink (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
+
   let targetId = payload.overloadThumbnailID || payload.entry.id
 
   if (targetId in state.thumbnails) {
-
     console.log('thumbnail' + targetId + ' already cached')
-    return
   } else {
     vue.set(state.thumbnails, targetId, payload.thumbnail)
   }
@@ -59,10 +59,14 @@ export function saveThumbnail (state, payload) {
   if (which) {
     vue.set(which, 'thumbnail', payload.thumbnail)
 
+
     // Now link the cover images with the _TOC
     // there may be a few old images out there
-    if (which.name.toLowerCase() === 'book_cover.png' || which.name.toLowerCase() === 'book_cover.jpg' || which.name.toLowerCase() === 'book.cover.png') {
-      let key = which.dir
+
+    let s = ((which.name || '') + (payload.overridePageName || '')).toLowerCase()
+
+    if (s.includes('book_cover')) {
+      let key = which.dir || which.path_lower || which.parts.dir
       let target = state._TOC[key]
       if (target) {
         vue.set(target, 'thumbnail', payload.thumbnail)
@@ -77,11 +81,14 @@ export function saveThumbnail (state, payload) {
 
   let entry = payload.entry
   let TOC = state._TOC[(entry.dir || entry.path_lower)]
+
   if (payload.overridePageName || !('pageNumber' in entry)) {
+    let myOffset = TOC.pageOrder.indexOf(payload.overridePageName) || 0
 
     if (payload.overridePageName) {
       if (TOC && TOC.imageOrder) {
-        vue.set(TOC.imageOrder, payload.overridePageName, payload.thumbnail)
+
+        vue.set(TOC.imageOrder, myOffset, payload.thumbnail)
       }
     } else {
 
@@ -90,7 +97,8 @@ export function saveThumbnail (state, payload) {
     }
     // how no page number inside entry?
   } else if (TOC && TOC.imageOrder) {
-    vue.set(TOC.imageOrder, entry.pageNumber, payload.thumbnail)
+    let myOffset2 = TOC.pageOrder.indexOf(entry.pageName || entry.pageNumber) || 0
+    vue.set(TOC.imageOrder, myOffset2, entry.thumbnail)
   } else {
     if (window.jim_DEBUG_FULL) console.log('Missing TOC or TOC.imageOrder for ' + entry.pageNumber)
     if (window.jim_DEBUG_FULL) console.dir([entry, TOC])
@@ -218,7 +226,6 @@ export function Credentials (state, payload) {
 }
 
 export function calc (state, payload) {
-
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/

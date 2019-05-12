@@ -246,6 +246,7 @@ export const mixinIllustrate = {
       }
     },
     async useImage (overridePage) {
+
       console.log('Dest page = ' + overridePage)
       this.$emit('completed', true)
 
@@ -257,7 +258,7 @@ export const mixinIllustrate = {
         thumbnail: this.dataURL,
       })
 
-      this.pageName = parseInt(this.pageName) + 1
+      this.pageName = (parseInt(this.pageName) + 1).toString()
 
       if (this.dataURL && this.dataURL !== 'data:,') {
         let wholeFileName = this.generateImageName(overridePage)

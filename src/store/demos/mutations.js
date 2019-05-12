@@ -85,21 +85,28 @@ export function saveEntry (state, payload) {
       json: [],
       NoExt: []
     }
+
+    TOCEntry.pageOrder = Object.keys(folderDestination.pages)
+    let myOffset = TOCEntry.pageOrder.indexOf(entry.pageNumber) || 0
     switch (entry.ext) {
       case 'png': {
         pageDestination.png.push(entry)
         entry.thumbnail = entry.link
-        // todo: imageOrder should be indexed by scene not page
-        TOCEntry.imageOrder[entry.pageNumber] = entry.link
+
+        TOCEntry.imageOrder[myOffset] = entry.link
         break
       }
       case 'mp3': {
         pageDestination.mp3.push(entry)
-        TOCEntry.soundOrder[entry.pageNumber] = entry.link
+        TOCEntry.soundOrder[myOffset] = entry.link
         break
       }
     }
-
-    TOCEntry.pageOrder = Object.keys(folderDestination.pages)
   }
+}
+
+export function childrenLoaded (state, payload) {
+  let entry = payload.activeFolder
+  // childrenLoaded probably not stored in correct structure
+  vue.set(state._TOC[entry.path_lower], 'childrenLoaded', true)
 }
