@@ -320,8 +320,8 @@ export const mixinSound = {
           else {
             // why can't it play?
             console.log('surprise howl fail')
-            if (target.howlRequested) {
-              let promises = [target.howlRequested]
+            if (target.promisePending) {
+              let promises = [target.promisePending]
               Promise.all(promises).then(() => {
                 vue.$nextTick(() => {
                     console.log('recursive wait for howl to be logged')

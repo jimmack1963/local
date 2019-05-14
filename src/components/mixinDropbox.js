@@ -246,7 +246,7 @@ export const mixinDropbox = {
 
             v.$store.commit('dropbox/saveThumbnail', {
               entry: response,
-              thumbnail: thumbnail,
+              thumbnail: dataURL,
             })
 
             // TODO: this has .id, .path_lower and should be used #2hr
@@ -328,6 +328,7 @@ export const mixinDropbox = {
               response.dir = response.parts.dir
               response.fname = response.parts.name
               response['.tag'] = 'file'
+              response.liveRecord = true
 
               v.$store.dispatch('dropbox/registerFile', {
                 folder: response.dir,

@@ -61,7 +61,8 @@
           flat
           icon="label"
         ></q-btn>
-
+<!--
+  // TODO: fix rename
         <q-btn
           :label="$t('Rename')"
           @click="renameFolder(activeFolder)"
@@ -69,6 +70,7 @@
           icon="label"
         ></q-btn>
 
+-->
         <q-btn
           :label="$t('Delete  Book')"
           @click="deleteFolder(activeFolder)"

@@ -17,10 +17,11 @@ export function deleteBookInternal (state, payload) {
   vue.delete(state._TOC, pathLower)
 }
 
-export function markRequested (state, payload) {
+export function promisePending (state, payload) {
+  console.log('promisePending: ' + payload.entry.path_lower)
   let which = state.ids[payload.entry.id]
   if (which) {
-    vue.set(which, 'howlRequested', payload.response)
+    vue.set(which, 'promisePending', payload.response)
   }
 }
 
@@ -46,7 +47,8 @@ export function saveTempLink (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-
+  console.log(`********************* saveThumbnail: payload.overridePageName: ${payload.overridePageName} payload.entry.id: ${payload.entry.id}` )
+  console.dir(payload)
   let targetId = payload.overloadThumbnailID || payload.entry.id
 
   if (targetId in state.thumbnails) {

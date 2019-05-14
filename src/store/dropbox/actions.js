@@ -52,7 +52,8 @@ export const registerFileFirstPass = async (context, payload) => {
   })
 
   // does nothing for .tag = folder
-  if (entry.parts.name.toLowerCase() === 'book_cover') {
+  // liveRecord means loading from user action in composing book, so must go in right away
+  if (entry.liveRecord || entry.parts.name.toLowerCase() === 'book_cover') {
     switch (entry.ext) {
       case 'jpg':
       case 'png': {
@@ -239,19 +240,18 @@ export const registerFileSecondPass = async (context, payload) => {
             path: entry.path_lower,
             format: 'jpeg',
             size: context.getters.thumbnailSize,
-          })
-
+          }).then((response2) => {
           try {
 
             // don't save thumbnail for pages, only covers
-            let useful = window.URL.createObjectURL(response.fileBlob)
+              let useful = window.URL.createObjectURL(response2.fileBlob)
 
             context.commit('saveThumbnail', {
               entry,
               thumbnail: useful,
             })
 
-            let blob = response.fileBlob
+              let blob = response2.fileBlob
             let size = blob.size
             let type = blob.type
             if (window.jim_DEBUG_FULL) console.log('Got: ', entry.id)
@@ -277,6 +277,11 @@ export const registerFileSecondPass = async (context, payload) => {
             if (window.jim_DEBUG_VUEX) console.log('ERROR:')
             console.log(error)
           }
+          })
+
+          payload.response = response
+          context.commit('promisePending', payload)
+
         }
         break
       }
@@ -305,7 +310,7 @@ export const registerFileSecondPass = async (context, payload) => {
                 {root: true})
             })
           payload.response = response
-          context.commit('markRequested', payload)
+          context.commit('promisePending', payload)
         } catch (err) {
           if (window.jim_DEBUG_FULL) {
             console.log('err')
