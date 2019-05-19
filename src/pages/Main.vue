@@ -1,5 +1,8 @@
 <template>
-  <q-page padding class="row items-start flex flex-start">
+  <q-page
+    padding
+    class="row items-start flex flex-start">
+
     <div class="row" v-if="!access_token">
       <h1>{{title}}</h1>
 
@@ -15,15 +18,6 @@
 
       <p v-html="$t('whole idea')"></p>
       <p v-html="$t('intro_function')"></p>
-<!--
-      <q-btn
-        class="col-8 offset-2 text-center"
-        color="primary"
-        id="authlink"
-        :label="$t('Login with Dropbox')"
-        @click="openURL(authURL)"
-      >
-      </q-btn>-->
 
       <br><br>
       <p v-html="$t('intro_signin')"></p>
@@ -39,17 +33,21 @@
 
     </q-card>
 
-    <q-card class="card-itself col-lg-2 col-5 q-mr-md" v-for="folder in TOCSorted" v-bind:key="folder.id"
+    <q-card class="card-itself col-lg-2 col-5 q-mr-md" v-for="(folder, offset) in TOCSorted" v-bind:key="folder.id"
+
             v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
       <q-card-media
         class="media-on-card"
         overlay-position="bottom"
         v-if="folder.thumbnail"
-        @click.native.stop="carousel(folder)"
+        @mousedown.native="mouseDown($event, folder)"
+        @mouseup.native="mouseUp($event, folder)"
+
       >
         <!--<q-parallax :height="100"   :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail" :alt="folder.name"></q-parallax>-->
         <img
           class="book-on-card"
+          :id="'folder_' + offset"
           :src="playing.length > 0 ? folder.imageOrder[activeScene] || folder.thumbnail : folder.thumbnail"
           :alt="folder.name">
         <q-card-title slot="overlay">
@@ -173,74 +171,6 @@
             v-if="(pageCount(folder) > 0) && (playing.length > 0)"
           ></q-btn>
 
-          <!--
-                  <q-btn
-                    flat
-                    color="primary"
-                    label="Take Selfie"
-                    @click="selfie(folder)"
-                    v-if="!folder.thumbnail"
-                  ></q-btn>
-
-                  <q-btn
-                    flat
-                    color="primary"
-                    label="carousel"
-                    @click="carousel(folder)"
-                    v-if="pageCount(folder) > 0"
-                  ></q-btn>
-
-          <q-btn
-            flat
-            color="primary"
-            label="play All"
-            @click="playBook(folder)"
-            v-if="pageCount(folder) > 0"
-          ></q-btn>
-
-  <q-btn
-            flat
-            color="primary"
-            :label="p"
-            v-for="p in pageOrder(folder)"
-            v-if="p"
-            v-bind:key="p"
-            @click="playBookPage(folder, p)"
-          ></q-btn>
-
-          <q-btn
-            flat
-            color="secondary"
-            label="Illustrate"
-            @click="record(folder)"
-
-          ></q-btn>
-          <q-btn
-            flat
-            color="secondary"
-            label="Narrate"
-            @click="narrateBook(folder)"
-
-          ></q-btn>
-          <q-btn
-            flat
-            color="secondary"
-            label="Manage"
-            @click="manage(folder)"
-
-          ></q-btn>
-
-
-
-          <q-btn
-            flat
-            color="primary"
-            label="continue play"
-            @click="continuePlaying(folder)"
-            v-if="pageCount(folder) > 0"
-          ></q-btn>
-
-          -->
 
         </q-card-actions>
         <!--if sound-->
@@ -267,6 +197,23 @@
 </template>
 
 <style>
+  img {
+    xxpointer-events: none;
+  }
+
+  .unselectable3 {
+
+  }
+
+  .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
   .camera-landscape {
     height: 60vh !important;
     width: auto !important;
@@ -338,6 +285,64 @@ height: 60%;
     components: {},
     mixins: [mixinGeneral, mixinSound],
     methods: {
+      mouseDown (event, folder) {
+
+        console.log('*********************** mouseDown')
+
+        // event.target.unselectable = true
+        let vue = this
+        vue.pendingFolder = folder
+        vue.pendingTimeMark = new Date()
+      },
+      mouseUp (event, folder) {
+        console.log('*********************** mouseUp')
+        let vue = this
+        let diff = new Date() - vue.pendingTimeMark
+        if (diff < 100) {
+          vue.$store.commit('delayPlayNext', 0)
+          console.log('********************************************** Started play one ' + diff)
+        } else {
+          vue.$store.commit('delayPlayNext', 2000)
+          console.log('********************************************** Changed to play after 2 seconds ' + diff)
+        }
+
+        vue.carousel(vue.pendingFolder)
+
+      },
+      handlePress (event, folder) {
+        let vue = this
+
+        if (event.duration < 100) {
+          vue.$store.commit('delayPlayNext', 0)
+          console.log(event.duration + ' ********************************************** Started play one')
+        } else {
+          vue.$store.commit('delayPlayNext', 2000)
+          console.log(event.duration + ' ********************************************** Changed to play after 2 seconds')
+        }
+
+      },
+      handlePress2 (folder) {
+        let vue = this
+        return function (event) {
+          vue.pendingFolder = folder
+
+          vue.pendingTimeMark = setTimeout(function () {
+            console.log('Timer went off')
+            // vue.carousel(vue.pendingFolder)
+            vue.pendingTimeMark = false
+          }, 1000)
+
+          if (event.duration < 100) {
+            vue.$store.commit('delayPlayNext', 0)
+            console.log('********************************************** Started play one')
+          } else {
+            vue.$store.commit('delayPlayNext', 2000)
+            console.log('********************************************** Changed to play after 2 seconds')
+          }
+
+          console.log(`********************************************** ${event.evt} @ ${event.duration}`)
+        }
+      },
       openURL (url) {
         openURL(url)
       },
@@ -381,13 +386,32 @@ height: 60%;
         folder: '',
         folder3: '',
         isLoading: true,
+        pendingFolder: false,
+        pendingTimeMark: false,
       }
     },
     mounted () {
+      let vue = this
       window.jim = window.jim || {}
       window.jim.main = this
       if (Object.keys(this.TOC).length < 1) {
         this.readDropboxFolder()
+      }
+      window.oncontextmenu = function (event) {
+        console.log('******** skipped onContextMenu')
+        event.preventDefault()
+        // event.stopPropagation()
+
+        vue.$store.commit('delayPlayNext', 2000)
+        console.log('********************************************** Changed to play all on context menu ')
+
+        let targetID = event.target.id
+        let parted = targetID.split('_')
+        let offset = parseInt(parted[1])
+        vue.pendingFolder = vue.TOCSorted[offset]
+
+        vue.carousel(vue.pendingFolder)
+
       }
     },
   }

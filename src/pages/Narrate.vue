@@ -47,8 +47,9 @@
 
         <q-btn
           id="done"
+          v-if="!activeRecorderOffset"
           :label="$t('done')"
-          @click="home()"
+          @click="doneAndClosed"
           icon="stop"
           color="secondary"
         >
@@ -81,6 +82,14 @@
       },
     },
     methods: {
+      async doneAndClosed () {
+
+        if (this.activeRecorderOffset) {
+          await this.narratePage(this.activeFolder, this.nextNarration.toString(), this.nextNarration)
+        }
+
+        this.home()
+      },
       nextitemplease () {
 
         let last = parseInt(this.nextNarration)

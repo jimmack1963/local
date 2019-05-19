@@ -24,6 +24,8 @@
             v-for="(p, n) in myPages" :key="`full-${n}`"
             class="flex flex-center"
             :class="`bg-${colors[n % 5]}`"
+            @mousedown.native="mouseDown($event)"
+            @mouseup.native="mouseUp($event)"
 
           >
             <img :alt="imageForPage(p)" class="fit"  :src="imageForPage(p)">
@@ -39,8 +41,8 @@
             <q-btn
               rounded push
               color="secondary"
-              icon="close"
-              :label="$t('Close me')"
+              icon="home"
+              :label="$t('List of Books')"
               @click="home()"
             />
           </q-carousel-control>
@@ -60,6 +62,8 @@
     mixins: [ mixinGeneral, mixinSound ],
     data () {
       return {
+        pendingTimeMark: false,
+        latestPage: false,
         autoplay: true,
         overshoot: easing.overshoot,
         colors: [
@@ -84,6 +88,32 @@
       this.currentBookThumbnails = this.myPages.map((p) => {
         return this.imageForPage(p)
       })
+    },
+    methods: {
+      mouseDown (event) {
+
+        console.log('*********************** mouseDown')
+
+        // event.target.unselectable = true
+        let vue = this
+        vue.pendingTimeMark = new Date()
+      },
+      mouseUp (event) {
+        console.log('*********************** mouseUp')
+        let vue = this
+        let diff = new Date() - vue.pendingTimeMark
+        if (diff < 100) {
+          vue.$store.commit('delayPlayNext', 0)
+          console.log('********************************************** Started play one ' + diff)
+        } else {
+          vue.$store.commit('delayPlayNext', 2000)
+          console.log('********************************************** Changed to play after 2 seconds ' + diff)
+        }
+
+        this.playCurrent()
+
+      },
+
     }
   }
 </script>

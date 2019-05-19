@@ -254,11 +254,13 @@ export const mixinIllustrate = {
 
       //        Problem: below sets the image on the folder holder, not the target page
 
+/*
       this.$store.commit('dropbox/saveThumbnail', {
         entry: this.activeFolder,
         overridePageName: overridePage,
         thumbnail: this.dataURL,
       })
+*/
 
 
       this.pageName = (parseInt(this.pageName) + 1).toString()

@@ -317,11 +317,19 @@ export const mixinGeneral = {
         return []
       }
     },
+    playCurrent () {
+      this.playBookPage(this.activeFolder, this.latestPage)
+    },
     slideTrigger (oldIndex, newIndex, direction) {
-      if (window.jim_DEBUG_FULL) console.log('slideTrigger: ', oldIndex, newIndex, direction)
+      if (oldIndex < newIndex) {
+        // was a slide back, so odds are good the autoplay isn't required
+        this.$store.commit('delayPlayNext', 0)
+        console.log('********** Started play one at time because backwards scroll')
+      }
+      if (window.jim_DEBUG_FULL) console.log('slideTrigger>> ', oldIndex, newIndex, direction)
 
-      let desiredPage = this.myPages[newIndex]
-      this.playBookPage(this.activeFolder, desiredPage)
+      this.latestPage = this.myPages[newIndex]
+      this.playBookPage(this.activeFolder, this.latestPage)
     },
     imageForPage (page) {
       let collection = this.sourcePages[page] || this.sourcePages.pages[page]
@@ -448,6 +456,7 @@ export const mixinGeneral = {
       this.$router.push('/manage')
     },
     carousel (entry) {
+
       // this.$q.fullscreen.request()
       this.$store.dispatch('setActiveFolder', {
         activeFolder: entry,
