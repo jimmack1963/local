@@ -1,6 +1,31 @@
 import { micStatus } from '../../helpers/enums.js'
 // import vue from 'vue'
 
+/*
+https://medium.com/js-dojo/why-all-my-vuex-stores-have-just-one-action-and-mutation-and-why-yours-should-too-80898e8c0646?fbclid=IwAR0IqahHpo0C1QTUmU_q1KRt3KUt3k6xx7eE2gkkE4KIuDwP2-NVnKq2svw
+const mutations = {
+    mutate(state, payload) {
+        state[payload.property] = payload.with;
+    }
+};
+If an action needs to store data in state, we call this mutation like this:
+
+commit('mutate', {
+    property: <propertyNameHere>,
+    with: <valueGoesHere>
+});
+
+commit('mutate', {
+    key: <propertyNameHere>,
+    to: <valueGoesHere>
+});
+
+ */
+
+export function mutate (state, payload) {
+  state[payload.property || payload.key] = payload.with || payload.to
+}
+
 export function device (state, payload) {
   if (payload) {
 
