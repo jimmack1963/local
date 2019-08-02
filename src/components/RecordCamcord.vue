@@ -33,7 +33,7 @@
       <q-tab
         name="done"
         :label="$t('Cancel')"
-        @click="home"
+        @click="home_UI"
         icon="stop"
         slot="title"
       >

@@ -34,7 +34,7 @@
         <q-tab
           name="done"
           :label="$t('done')"
-          @click="home"
+          @click="home_UI"
           icon="stop"
           slot="title"
         >
@@ -93,7 +93,7 @@
         if (this.bookTitle) {
           // this.$q.dialog
           // for now, make this the book
-          await this.startBook(this.bookTitle)
+          await this.startBook_UI(this.bookTitle)
         }
         else {
           alert('no title, huh?')

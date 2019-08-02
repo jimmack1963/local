@@ -80,11 +80,11 @@ export const mixinGeneral = {
 
   },
   methods: {
-    lock () {
+    lock_UI () {
       this.$store.commit('lock')
       this.rightDrawerOpen = false
     },
-    unlock () {
+    unlock_UI () {
       this.$store.commit('unlock')
       this.rightDrawerOpen = false
     },
@@ -213,7 +213,8 @@ export const mixinGeneral = {
         return possibleKey + '.1'
       }
     }, */
-    async startBook (bookTitle) {
+    async startBook_UI (bookTitle) {
+      this.$gtm.logEvent('book', 'start', 'x', false)
       this.$store.commit('unlock')
       this.$router.push('/book/new/step/0')
     },
@@ -430,7 +431,7 @@ export const mixinGeneral = {
           console.error(error)
         })
     },
-    home () {
+    home_UI () {
       this.leftDrawerOpen = false
 
       // this.$q.fullscreen.request()
@@ -448,7 +449,7 @@ export const mixinGeneral = {
       })
       this.$router.push('/selfie')
     },
-    manage (entry) {
+    manage_UI (entry) {
       // this.$q.fullscreen.request()
       this.$store.dispatch('setActiveFolder', {
         activeFolder: entry,

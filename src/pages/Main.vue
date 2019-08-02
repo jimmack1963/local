@@ -151,7 +151,7 @@
                 </q-item-main>
               </q-item>
               <q-item
-                @click.native="manage(folder)"
+                @click.native="manage_UI(folder)"
               >
                 <q-item-main>
                   <q-item-tile label>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import gtm from 'src/components/gtm'
 
 import routes from './routes'
 
@@ -20,6 +21,10 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.afterEach((to, from) => {
+    gtm.logPage(to.path)
   })
 
   return Router

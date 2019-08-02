@@ -43,7 +43,7 @@
               color="secondary"
               icon="home"
               :label="$t('List of Books')"
-              @click="home()"
+              @click="home_UI"
             />
           </q-carousel-control>
         </q-carousel>

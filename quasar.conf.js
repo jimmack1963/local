@@ -7,7 +7,8 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'dropbox',
-      'device'
+      'device',
+      'gtm-plugin'
     ],
     css: [
       'app.styl'

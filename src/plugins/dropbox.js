@@ -1,4 +1,5 @@
 /* eslint-disable camelcase,no-extra-boolean-cast */
+import gtm from 'src/components/gtm'
 import Dropbox from 'dropbox'
 import Store from '../store'
 import { LocalStorage } from 'quasar'
@@ -124,6 +125,7 @@ export default ({app, router, Vue}) => {
   let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
   console.log('authUrl')
   console.dir(authUrl)
+  gtm.logEvent('website', store.state.general.authURL, '', false)
   Vue.prototype.$authURL = authUrl
 
   /*

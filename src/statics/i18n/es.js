@@ -78,8 +78,8 @@ export default {
   'Page Numbering': 'Numeración de páginas',
   'Plan': 'Plan',
 
-  'lock': 'Lock',
-  'unlock': 'Unlock',
+  'lock_UI': 'Lock',
+  'unlock_UI': 'Unlock',
   'List of Books': 'List of Books',
   'Or click the top bar': 'Or click the top bar',
   'Enable Editing Books': 'Enable Editing Books',

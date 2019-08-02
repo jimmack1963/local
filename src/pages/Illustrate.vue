@@ -56,7 +56,7 @@
           <q-btn
             id="done"
             :label="$t('done')"
-            @click="home()"
+            @click="home_UI"
 
             icon="stop"
             color="secondary"
@@ -102,7 +102,7 @@
           <q-btn
             id="done"
             :label="$t('done')"
-            @click="home()"
+            @click="home_UI"
 
             icon="stop"
             color="secondary"

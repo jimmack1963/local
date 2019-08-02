@@ -1,3 +1,4 @@
+import gtm from 'src/components/gtm'
 import vue from 'vue'
 
 export function setsomething (state, payload) {
@@ -15,12 +16,13 @@ export function clearData (state) {
 }
 
 export function setActiveFolder (state, payload) {
+  if (payload) gtm.logEvent('book', 'activeFolder', payload.name, false)
   state.activeFolder = payload
   state.activeScene = 0
 }
 
 export function setActivePage (state, payload) {
-
+  if (payload.activePage) gtm.logEvent('book', 'page', payload.activePage, false)
   if (state.activeFolder && state.activeFolder.pageOrder) {
     let index = state.activeFolder.pageOrder.indexOf(payload.activePage)
     state.activeScene = index

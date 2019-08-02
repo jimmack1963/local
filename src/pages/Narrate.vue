@@ -88,7 +88,7 @@
           await this.narratePage(this.activeFolder, this.nextNarration.toString(), this.nextNarration)
         }
 
-        this.home()
+        this.home_UI()
       },
       nextitemplease () {
 

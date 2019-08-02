@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header @click.native.stop="home">
+    <q-layout-header @click.native.stop="home_UI">
       <q-toolbar
         color="primary"
         :glossy="$q.theme === 'mat'"
@@ -23,7 +23,7 @@
           round
           id="home"
           v-if="activeFolder"
-          @click.native.stop="home()"
+          @click.native.stop="home_UI"
           icon="home"/>
 
         <q-toolbar-title>
@@ -56,12 +56,12 @@
         <q-list-header>{{$t('Settings')}}</q-list-header>
 
 
-        <q-item @click.native="unlock" v-if="locked">
+        <q-item @click.native="unlock_UI" v-if="locked">
           <q-item-side icon="lock_open"/>
           <q-item-main :label="$t('unlock')" :sublabel="$t('Enable Editing Books')"/>
         </q-item>
 
-        <q-item @click.native="lock" v-else >
+        <q-item @click.native="lock_UI" v-else >
           <q-item-side icon="lock" />
           <q-item-main :label="$t('lock')" :sublabel="$t('Disable Editing Books')" />
         </q-item>
@@ -139,11 +139,11 @@
                   <q-item-main :label="$t('Carousel')" :sublabel="See the pages" />
                 </q-item>-->
 
-        <q-item @click.native="startBook(false)">
+        <q-item @click.native="startBook_UI(false)">
           <q-item-side icon="add a photo"/>
           <q-item-main :label="$t('message.menu.newBook')" :sublabel="$t('Take a selfie of you, the book, your kid')"/>
         </q-item>
-        <q-item v-if="activeFolder" @click.native="manage(activeFolder)">
+        <q-item v-if="activeFolder" @click.native="manage_UI(activeFolder)">
           <q-item-side icon="add a photo"/>
           <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')"/>
         </q-item>
@@ -156,7 +156,7 @@
                   <q-item-main :label="$t('Manage')" :sublabel="$t('manage sound and images for every page')" />
                 </q-item>-->
 
-        <q-item @click.native="home">
+        <q-item @click.native="home_UI">
           <q-item-side icon="collections bookmark"/>
           <q-item-main :label="$t('List of Books')" :sublabel="$t('Or click the top bar')"/>
           <!--<q-item-side right icon="thumb_up" />-->
