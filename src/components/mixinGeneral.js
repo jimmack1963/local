@@ -321,7 +321,18 @@ export const mixinGeneral = {
     playCurrent () {
       this.playBookPage(this.activeFolder, this.latestPage)
     },
-    slideTrigger (oldIndex, newIndex, direction) {
+    beforeTransition (newIndex, oldIndex) {
+      if (oldIndex < newIndex) {
+        // was a slide back, so odds are good the autoplay isn't required
+        this.$store.commit('delayPlayNext', 0)
+        console.log('********** Started play one at time because backwards scroll')
+      }
+      this.latestPage = this.myPages[newIndex]
+      this.playBookPage(this.activeFolder, this.latestPage)
+    },
+    afterTransition (newIndex, oldIndex) {
+    },
+    slideTriggerDEAD (oldIndex, newIndex, direction) {
       if (oldIndex < newIndex) {
         // was a slide back, so odds are good the autoplay isn't required
         this.$store.commit('delayPlayNext', 0)
@@ -349,14 +360,14 @@ export const mixinGeneral = {
     },
 
     purgeLocalStorageFromDropbox () {
-      let all = this.$q.localStorage.get.all()
+      let all = this.$q.localStorage.getAll()
       Object.keys(all).forEach(key => {
         if (key.startsWith('id:')) {
           this.$q.localStorage.remove(key)
         }
       })
 
-      all = this.$q.localStorage.get.all()
+      all = this.$q.localStorage.getAll()
       if (window.jim_DEBUG_FULL) {
         console.log('all')
         console.dir(all)

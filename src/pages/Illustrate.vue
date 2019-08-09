@@ -4,10 +4,10 @@
     class="row fit"
     ref="background"
   >
-    <q-window-resize-observable @resize="onResize" />
+<!--    <q-window-resize-observable @resize="onResize" />-->
     <div class=" row">
       <q-card id="image" :class="imageCardClass">
-        <q-card-media
+        <q-card-section
           class="camFeedback"
           overlay-position="bottom"
         >
@@ -18,10 +18,10 @@
             <canvas :class="sizeClasses" v-show="preview" ref="canvas" id="canvas"></canvas>
           </div>
 
-          <q-card-title slot="overlay">{{$t(action)}}</q-card-title>
-        </q-card-media>
+          <q-card-section slot="overlay">{{$t(action)}}</q-card-section>
+        </q-card-section>
 
-        <q-card-main class="orientation-portrait">
+        <q-card-section class="orientation-portrait">
 
           <q-field
             :label="$t('keep as page')"
@@ -33,7 +33,7 @@
             </q-input>
           </q-field>
 
-        </q-card-main>
+        </q-card-section>
         <q-card-actions vertical align="center" class="orientation-portrait">
           <q-btn
             :id="`illustrate_${pageName}`"
@@ -67,7 +67,7 @@
       </q-card>
       <q-card id="buttons" class=" col-6 orientation-landscape">
 
-        <q-card-main>
+        <q-card-section>
 
           <q-field
             :label="$t('keep as page')"
@@ -79,7 +79,7 @@
             </q-input>
           </q-field>
 
-        </q-card-main>
+        </q-card-section>
         <q-card-actions vertical align="center">
           <q-btn
             :id="`illustrate_${pageName}`"
@@ -125,7 +125,7 @@
     mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
     data () {
       return {
-        pageName: false,
+        pageName: '',
         action: 'click to keep'
       }
     },

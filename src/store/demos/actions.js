@@ -26,11 +26,10 @@ export const registerFile = async (context, payload) => {
 export const registerFileSecondPass = async (context, payload) => {
   let entry = payload.entry
   if (entry.childrenLoaded) {
-    console.log(entry.path_lower + ' ALREADY LOADED')
     return
   }
 
-  console.log('FILE:,' + JSON.stringify(entry))
+
   if ((entry.ext === 'mp3' || entry.ext === 'm4a')) {
     context.commit('createHowl', {
         entry,

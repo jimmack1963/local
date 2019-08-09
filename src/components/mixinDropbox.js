@@ -410,5 +410,12 @@ export const mixinDropbox = {
          */
       }
     },
+    getUserInfo () {
+      let v = this
+      v.$dbx.usersGetCurrentAccount().then(acct => {
+        console.dir(acct)
+
+      })
+    }
   },
 }

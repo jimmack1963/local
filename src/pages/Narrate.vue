@@ -1,18 +1,18 @@
 <template>
   <q-page padding class="row">
     <q-card class="q-ma-sm">
-      <q-card-media
+      <q-card-section
         overlay-position="bottom"
         v-if="activeFolder.thumbnail"
       >
         <img :src="activeFolder.imageOrder[sceneFromPage(nextNarration)] || activeFolder.thumbnail" :alt="activeFolder.name">
-        <q-card-title slot="overlay">
+        <q-card-section slot="overlay">
           {{activeFolder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
-        </q-card-title>
-      </q-card-media>
+        </q-card-section>
+      </q-card-section>
 
-      <q-card-main>
+      <q-card-section>
 
         <q-field
           :label="$t('Next Page to Narrate')"
@@ -34,7 +34,7 @@
         >
         </RecordAudio>
 
-      </q-card-main>
+      </q-card-section>
       <q-card-actions vertical align="center">
         <q-btn
           :id="`narrate_${nextNarration}`"
@@ -56,10 +56,10 @@
 
         </q-btn>
       </q-card-actions>
-      <q-card-main>
+      <q-card-section>
 
 
-      </q-card-main>
+      </q-card-section>
     </q-card>
 
   </q-page>

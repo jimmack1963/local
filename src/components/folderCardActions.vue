@@ -1,30 +1,30 @@
 <template>
   <q-card v-model="folder" v-bind:key="folder.id">
-    <q-card-media
+    <q-card-section
       overlay-position="bottom"
       v-if="folder.thumbnail"
       @click.native.stop="carousel(folder)"
     >
       <img    :src="folder.thumbnail" :alt="folder.name">
-      <q-card-title slot="overlay" >
+      <q-card-section slot="overlay" >
         {{folder.name}}&nbsp;
         <!--<span slot="subtitle">{{folder.size}}</span>-->
-      </q-card-title>
-    </q-card-media>
-    <q-card-title v-else>
+      </q-card-section>
+    </q-card-section>
+    <q-card-section v-else>
       {{folder.name}}
       <span slot="subtitle">Take a selfie!</span>
-    </q-card-title>
+    </q-card-section>
 
 
-    <q-card-main>
+    <q-card-section>
       <div
         v-show="playingPage"
         ref="playingPage"
         class="pageIndicatorStart text-center"
         v-html="`<small>pg</small>&nbsp;<b><big>${playingPage}</big></b>`"
         animate-bounce></div>
-    </q-card-main>
+    </q-card-section>
 
     <!--if book (folder)-->
     <q-card-actions v-if="folder['.tag'] === 'folder'" >

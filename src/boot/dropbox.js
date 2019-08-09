@@ -48,6 +48,7 @@ const parseQueryString = function (str) {
 // leave the export, even if you don't use it
 export default ({app, router, Vue}) => {
   let store = false
+
   window.jim_DEBUG = true // devprod !!!!!
   window.jim_DEBUG_FULL = true // devprod !!!!!
   window.jim_DEBUG_VUEX = true // devprod !!!!!
@@ -67,7 +68,7 @@ export default ({app, router, Vue}) => {
   // in the DOM and uses this function to show/hide the correct section.
   let queryString = parseQueryString(window.location.hash)
 
-  let saved = LocalStorage.get.item('dropbox/access_token')
+  let saved = LocalStorage.getItem('dropbox/access_token')
   let access_token = queryString.access_token
   if (access_token) {
     if (!saved || saved !== access_token) {

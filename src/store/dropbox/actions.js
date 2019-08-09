@@ -34,7 +34,6 @@ export const registerFileFirstPass = async (context, payload) => {
 
   let folder = payload.folder // folder is like a root base of operations more than a location
   let entry = payload.entry
-  console.log('FILE:,' + JSON.stringify(entry))
   let dbx = payload.dbx
   entry.dbx = dbx
   entry.source = 'dropbox/'
@@ -61,7 +60,7 @@ export const registerFileFirstPass = async (context, payload) => {
           if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
           let thumb = false
-          let raw = LocalStorage.get.item(entry.id)
+          let raw = LocalStorage.getItem(entry.id)
           let rawType = typeof raw
           switch (rawType) {
             case 'string': {
@@ -198,7 +197,6 @@ export const registerFileSecondPass = async (context, payload) => {
     return
   }
 
-  console.log('FILE:,' + JSON.stringify(entry))
   let dbx = entry.dbx
 
   // does nothing for .tag = folder
@@ -210,7 +208,7 @@ export const registerFileSecondPass = async (context, payload) => {
           if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
           let thumb = false
-          let raw = LocalStorage.get.item(entry.id)
+          let raw = LocalStorage.getItem(entry.id)
           let rawType = typeof raw
           switch (rawType) {
             case 'string': {
@@ -350,7 +348,6 @@ export const registerFileOriginal = async (context, payload) => {
   // copy of registerFile... hoping to re-use
   let folder = payload.folder // folder is like a root base of operations more than a location
   let entry = payload.entry
-  console.log('FILE:,' + JSON.stringify(entry))
   let dbx = payload.dbx
   entry.parts = pathParse(entry.path_lower)
   if (entry.parts.dir.length > 7 && entry.parts.dir.endsWith('/history')) {
@@ -370,7 +367,7 @@ export const registerFileOriginal = async (context, payload) => {
         if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
         let thumb = false
-        let raw = LocalStorage.get.item(entry.id)
+        let raw = LocalStorage.getItem(entry.id)
         let rawType = typeof raw
         switch (rawType) {
           case 'string': {

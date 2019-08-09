@@ -2,7 +2,7 @@
   <q-page
 
   >
-    <q-window-resize-observable @resize="onResize" />
+<!--    <q-window-resize-observable @resize="onResize" />-->
       <q-tabs class="row" v-model="cameraMode">
         <q-tab
           name="take"

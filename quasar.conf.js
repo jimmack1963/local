@@ -3,7 +3,7 @@
 module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
-    plugins: [
+    boot: [
       'i18n',
       'axios',
       'dropbox',
@@ -14,11 +14,12 @@ module.exports = function (ctx) {
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      // ctx.theme.mat ? 'roboto-font' : null,
+      'roboto-font',
       'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome'
+      // 'ionicons-v4',
+      // 'mdi-v3',
+      // 'fontawesome-v5'
     ],
     supportIE: false,
     build: {
@@ -60,40 +61,47 @@ module.exports = function (ctx) {
       cssAddon: true,
       components: [
         'QParallax',
-        'QCollapsible',
+        // 'QCollapsible', 'QExpansionItem',
         'QStepper',
         'QStep',
         'QStepperNavigation',
         'QRadio',
 
-        'QItemTile',
+        // 'QItemTile',
         'QBtnDropdown',
 
         'QTabs',
         'QTab',
-        'QTabPane',
+        // 'QTabPane',
 
-        'QWindowResizeObservable',
+        // 'QWindowResizeObservable',
 
         'QCheckbox',
         'QSlider',
 
         'QField',
 
-        'QModal',
+        // 'QModal',
+        'QImg',
         'QCarousel',
         'QCarouselSlide',
         'QCarouselControl',
         'QCard',
-        'QCardTitle',
-        'QCardMain',
-        'QCardMedia',
-        'QCardSeparator',
+        // 'QCardTitle',
+        // 'QCardMain',
+        // 'QCardMedia',
+        // 'QCardSeparator',
         'QCardActions',
         'QInput',
+        'QDialog',
         'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
+        'QHeader',
+        'QDrawer',
+        'QItemLabel',
+        'QItemSection',
+        'QCardSection',
+        // 'QLayoutHeader',
+        // 'QLayoutDrawer',
         'QPageContainer',
         'QPage',
         'QToolbar',
@@ -101,10 +109,10 @@ module.exports = function (ctx) {
         'QBtn',
         'QIcon',
         'QList',
-        'QListHeader',
+        // 'QListHeader',
         'QItem',
-        'QItemMain',
-        'QItemSide'
+        // 'QItemMain',
+        // 'QItemSide'
       ],
       directives: [
         'Ripple',
@@ -120,7 +128,7 @@ module.exports = function (ctx) {
         'Notify'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
+      // lang: 'de' // Quasar language
     },
     // animations: 'all', // includes all animations
     animations: [],

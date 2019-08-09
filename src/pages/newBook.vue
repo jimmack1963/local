@@ -150,18 +150,18 @@
             {{$t('You can start by')}}
           </q-list-header>-->
           <q-item>
-            <q-item-side icon="photo library"></q-item-side>
-            <q-item-main :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-main>
+            <q-item-section icon="photo library"></q-item-section>
+            <q-item-label :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-label>
           </q-item>
           <q-item>
-            <q-item-side icon="mic"></q-item-side>
-            <q-item-main :label="$t('Narrating the whole book (Read each page)')"></q-item-main>
+            <q-item-section icon="mic"></q-item-section>
+            <q-item-label :label="$t('Narrating the whole book (Read each page)')"></q-item-label>
           </q-item>
 
           <!--
           <q-item>
-            <q-item-side icon="library books"></q-item-side>
-            <q-item-main :label="$t('Work page-by-page (Narrate and Illustrate a page at a time)')"></q-item-main>
+            <q-item-section icon="library books"></q-item-section>
+            <q-item-label :label="$t('Work page-by-page (Narrate and Illustrate a page at a time)')"></q-item-label>
           </q-item>-->
         </q-list>
 

@@ -6,18 +6,18 @@
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
     <q-card class="q-ma-sm">
-      <q-card-media
+      <q-card-section
         overlay-position="bottom"
         v-if="activeFolder.thumbnail"
       >
         <img :src="activeFolder.thumbnail" :alt="activeFolder.name">
-        <q-card-title slot="overlay">
+        <q-card-section slot="overlay">
           {{activeFolder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
-        </q-card-title>
-      </q-card-media>
+        </q-card-section>
+      </q-card-section>
 
-      <q-card-main><!--
+      <q-card-section><!--
         <q-field
           label="Next Illustration:"
         >
@@ -37,7 +37,7 @@
         </q-field>
 
 
-      --></q-card-main>
+      --></q-card-section>
       <q-card-actions vertical align="center">
         <q-btn
           :label="$t('narrate multiple new pages')"
@@ -78,7 +78,7 @@
           icon="delete"
         ></q-btn>
       </q-card-actions>
-      <q-card-main>
+      <q-card-section>
 
         <RecordAudio
           v-if="activeNow['bulk']"
@@ -95,24 +95,24 @@
           Page {{bulk.nextIllustration}}
         </RecordCamcord>
 
-      </q-card-main>
+      </q-card-section>
     </q-card>
 
     <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
-      <q-card-media
+      <q-card-section
         overlay-position="bottom"
         v-show="activeFolder.imageOrder[offset]"
       >
         <img :src="activeFolder.imageOrder[offset]" :alt="'Image #' + offset">
-        <q-card-title slot="overlay">
+        <q-card-section slot="overlay">
           {{pageName}}
           <!--<span slot="subtitle"></span>-->
-        </q-card-title>
-      </q-card-media>
-      <q-card-title v-if="!activeFolder.imageOrder[offset]">
+        </q-card-section>
+      </q-card-section>
+      <q-card-section v-if="!activeFolder.imageOrder[offset]">
         {{$t('Page')}} {{pageName}} ({{$t('No Image')}})
         <!--<span slot="subtitle"></span>-->
-      </q-card-title>
+      </q-card-section>
 
       <q-card-actions vertical align="center">
         <q-btn
@@ -161,7 +161,7 @@
         ></q-btn>
       </q-card-actions>
 
-      <q-card-main>
+      <q-card-section>
         <RecordAudio
           :ref="`record_audio_${offset}`"
           v-if="activeNow[pageName]"
@@ -179,7 +179,7 @@
         >
           Page {{pageName}}
         </RecordCamcord>
-      </q-card-main>
+      </q-card-section>
     </q-card>
 
 
