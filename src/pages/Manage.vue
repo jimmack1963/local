@@ -51,7 +51,7 @@
           :label="$t('Illustrate multiple new pages')"
           @click="$router.push('/Illustrate')"
           flat
-          icon="add a photo"
+          icon="add_a_photo"
           color="primary"
         ></q-btn>
 
@@ -130,7 +130,7 @@
           @click="playOnePage(activeFolder, pageName)"
           v-if="activeFolder.soundOrder[offset]"
           flat
-          icon="play arrow"
+          icon="play_arrow"
           color="primary"
         ></q-btn>
 
@@ -148,7 +148,7 @@
           @click="illustrate(activeFolder, pageName)"
           v-if="!activeFolder.imageOrder[offset]"
           flat
-          icon="add a photo"
+          icon="add_a_photo"
           color="primary"
         ></q-btn>
         <q-btn

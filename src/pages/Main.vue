@@ -83,7 +83,7 @@
         <q-card-actions v-if="folder['.tag'] === 'folder'">
 
           <q-btn-dropdown :label="$t('Playing')" class="q-mr-sm" color="primary">
-            <q-list link>
+            <q-list dense>
               <q-item
                 @click.native="selfie(folder)"
                 v-if="!folder.thumbnail"
@@ -96,11 +96,7 @@
                 @click.native="carousel(folder)"
                 v-if="pageCount(folder) > 0"
               >
-                <q-item-label header>
-
-                  {{$t('Carousel')}}
-
-                </q-item-label>
+                <q-item-label header>{{$t('Carousel')}}</q-item-label>
               </q-item>
 
               <q-item
@@ -113,15 +109,12 @@
               </q-item>
 
               <q-item
+                dense
                 @click.native="playBookPage(folder, p, true)"
                 v-bind:key="p"
                 v-for="p in pageOrder(folder)"
                 v-if="p"
-              >
-                <q-item-label header>
-                  {{$t('Page')}} {{p}}
-                </q-item-label>
-              </q-item>
+              ><q-item-label header>{{$t('Page')}} {{p}}</q-item-label></q-item>
 
             </q-list>
 
@@ -132,9 +125,11 @@
               <q-item
                 @click.native="record(folder)"
               >
-                <q-item-section icon="add a photo">
 
-                </q-item-section>
+                  <q-item-section avatar>
+                    <q-icon name="add_a_photo" />
+                  </q-item-section>
+
                 <q-item-label header>
                   {{$t('Illustrate')}}
                 </q-item-label>
@@ -142,9 +137,10 @@
               <q-item
                 @click.native="narrateBook(folder)"
               >
-                <q-item-section icon="mic">
-
+                <q-item-section avatar>
+                  <q-icon name="mic" />
                 </q-item-section>
+
                 <q-item-label header>
                   {{$t('Narrate')}}
                 </q-item-label>
@@ -152,6 +148,10 @@
               <q-item
                 @click.native="manage_UI(folder)"
               >
+                <q-item-section avatar>
+                  <q-icon name="dashboard" />
+                </q-item-section>
+
                 <q-item-label header>
                   {{$t('Manage')}}
                 </q-item-label>

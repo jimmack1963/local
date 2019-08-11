@@ -40,13 +40,15 @@
 
           :key="`full-${n}`"
           :name="n"
-          @mousedown.native="mouseDown($event)"
           :img-src="imageForPage(p)"
+
+          @mousedown.native="mouseDown($event)"
+          :style="backgroundStyle(imageForPage(p))"
           @mouseup.native="mouseUp($event)"
           v-for="(p, n) in myPages"
         >
-
           <!--
+          :img-src="imageForPage(p)"
           navigation
           thumbnails
 
@@ -152,6 +154,9 @@
       })
     },
     methods: {
+      backgroundStyle (url) {
+        return `background-image: url('${url}'); background-size: contain; background-position: 50% center;background-repeat: no-repeat;`
+      },
       mouseDown (event) {
 
         console.log('*********************** mouseDown')
