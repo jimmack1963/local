@@ -176,7 +176,9 @@ module.exports = function (ctx) {
       }
     },
     cordova: {
-      // id: 'org.cordova.quasar.app'
+      id: 'com.PlayItAgainKid.Android',
+      description: ''
+
     },
     electron: {
       // bundler: 'builder', // or 'packager'

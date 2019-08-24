@@ -69,7 +69,7 @@
             <q-icon name="lock" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ $t("lock") }}</q-item-label>
+            <q-item-label>{{ $t("lock_UI") }}</q-item-label>
             <q-item-label caption>{{
               $t("Disable Editing Books")
             }}</q-item-label>
