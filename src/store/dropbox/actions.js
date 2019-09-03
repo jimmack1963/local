@@ -1,5 +1,5 @@
 const pathParse = require('path-parse')
-import { LocalStorage } from 'quasar'
+import {LocalStorage} from 'quasar'
 
 export const clearAll = (context) => {
 
@@ -53,9 +53,11 @@ export const registerFileFirstPass = async (context, payload) => {
   // does nothing for .tag = folder
   // liveRecord means loading from user action in composing book, so must go in right away
   if (entry.liveRecord || entry.parts.name.toLowerCase() === 'book_cover') {
+
     switch (entry.ext) {
       case 'jpg':
       case 'png': {
+
         if (LocalStorage.has(entry.id)) {
           if (window.jim_DEBUG_VUEX) console.log('found thumbnail: ' + entry.id)
 
@@ -84,7 +86,9 @@ export const registerFileFirstPass = async (context, payload) => {
               break
             }
           }
-        } else {
+        }
+        else {
+
           if (window.jim_DEBUG_FULL) console.log('Get Thumbnail for ', entry.id)
 
           let response = await dbx.filesGetThumbnail({
@@ -96,7 +100,7 @@ export const registerFileFirstPass = async (context, payload) => {
           try {
 
             // don't save thumbnail when not a cover
-            let useful = window.URL.createObjectURL(response.fileBlob)
+            let useful = await window.URL.createObjectURL(response.fileBlob)
             context.commit('saveThumbnail', {
               entry,
               thumbnail: useful,
@@ -125,6 +129,7 @@ export const registerFileFirstPass = async (context, payload) => {
             })
 
             reader.readAsDataURL(blob)
+
           } catch (error) {
             if (window.jim_DEBUG_VUEX) console.log('ERROR:')
             console.log(error)
@@ -182,6 +187,9 @@ export const registerFileFirstPass = async (context, payload) => {
       }
     }
   }
+  else {
+    // make fake entries
+  }
   if (payload.calc) {
 
     context.commit('calc', {
@@ -191,6 +199,7 @@ export const registerFileFirstPass = async (context, payload) => {
 }
 
 export const registerFileSecondPass = async (context, payload) => {
+
   let entry = payload.entry
   if (entry.childrenLoaded) {
     console.log(entry.path_lower + ' ALREADY LOADED')
@@ -231,50 +240,50 @@ export const registerFileSecondPass = async (context, payload) => {
               break
             }
           }
-        } else {
+        }
+        else {
           if (window.jim_DEBUG_FULL) console.log('Get Thumbnail for ', entry.id)
-
           let response = await dbx.filesGetThumbnail({
             path: entry.path_lower,
             format: 'jpeg',
             size: context.getters.thumbnailSize,
           }).then((response2) => {
-          try {
-
-            // don't save thumbnail for pages, only covers
+            try {
+              // TOO LATE?
+              // don't save thumbnail for pages, only covers
               let useful = window.URL.createObjectURL(response2.fileBlob)
-
-            context.commit('saveThumbnail', {
-              entry,
-              thumbnail: useful,
-            })
-
+              context.commit('saveThumbnail', {
+                entry,
+                thumbnail: useful,
+              })
               let blob = response2.fileBlob
-            let size = blob.size
-            let type = blob.type
-            if (window.jim_DEBUG_FULL) console.log('Got: ', entry.id)
+              let size = blob.size
+              let type = blob.type
+              if (window.jim_DEBUG_FULL) console.log('Got: ', entry.id)
 
-            let reader = new FileReader()
-            reader.addEventListener('loadend', function () {
-              if (window.jim_DEBUG_FULL) console.log('Reader: ', entry.id)
-              let base64FileData = reader.result.toString()
+              let reader = new FileReader()
+              reader.addEventListener('loadend', function () {
+                if (window.jim_DEBUG_FULL) console.log('Reader: ', entry.id)
+                let base64FileData = reader.result.toString()
 
-              let mediaFile = {
-                id: entry.id,
-                size: size,
-                type: type,
-                src: base64FileData,
-              }
+                let mediaFile = {
+                  id: entry.id,
+                  size: size,
+                  type: type,
+                  src: base64FileData,
+                }
 
-              LocalStorage.set(entry.id, JSON.stringify(mediaFile))
+                LocalStorage.set(entry.id, JSON.stringify(mediaFile))
 
-            })
+              })
 
-            reader.readAsDataURL(blob)
-          } catch (error) {
-            if (window.jim_DEBUG_VUEX) console.log('ERROR:')
-            console.log(error)
-          }
+              reader.readAsDataURL(blob)
+
+
+            } catch (error) {
+              if (window.jim_DEBUG_VUEX) console.log('ERROR:')
+              console.log(error)
+            }
           })
 
           payload.response = response
@@ -290,8 +299,9 @@ export const registerFileSecondPass = async (context, payload) => {
           /*
             For some reason, await is not returning the response, but returns undefined
            */
-          response = dbx.filesGetTemporaryLink({path: entry.path_lower})
+          response = await dbx.filesGetTemporaryLink({path: entry.path_lower})
             .then((response) => {
+
               // Get temp link
               context.commit('saveTempLink', {
                 entry,
@@ -391,7 +401,8 @@ export const registerFileOriginal = async (context, payload) => {
             break
           }
         }
-      } else {
+      }
+      else {
         if (window.jim_DEBUG_FULL) console.log('Get Thumbnail for ', entry.id)
 
         let response = await dbx.filesGetThumbnail({
@@ -531,7 +542,8 @@ export const removeEntry = async (context, payload) => {
   if (contents) {
     if (pageNumber in contents) {
       base = contents[pageNumber]
-    } else {
+    }
+    else {
       base = contents.pages[pageNumber]
     }
 
@@ -547,7 +559,8 @@ export const removeEntry = async (context, payload) => {
         offset = 0
         entry = base[family][0]
         // familyEmpty = true
-      } else {
+      }
+      else {
         // familyEmpty = false
         for (let ctr = 0; ctr < familyLength; ctr++) {
           if (base[family][ctr].pageNumber === pageNumber) {
@@ -582,7 +595,8 @@ export const removeEntry = async (context, payload) => {
             // remember TOC.ids
           // remove all links to this entry
       */
-    } else {
+    }
+    else {
       if (window.jim_DEBUG_FULL) console.log(`${pageNumber} Not found in TOC ${TOC.path_lower}`)
     }
   }

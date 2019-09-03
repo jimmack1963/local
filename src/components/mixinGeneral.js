@@ -5,7 +5,7 @@ export const mixinGeneral = {
     return {
       bookTitle: '',
       myPages: [],
-      currentBookThumbnails: [],
+      // currentBookThumbnails: [],
       sourcePages: {},
     }
   },
@@ -35,15 +35,15 @@ export const mixinGeneral = {
       'thumbnailSize',
       'thumbnailSizes',
     ]),
-    thumbnailSizeIndex: {
-      get: function () {
-        return this.thumbnailSizes.indexOf(this.thumbnailSize)
-      },
-      set: function (index) {
-        this.$store.commit('thumbnailSize', {thumbnailSize: this.thumbnailSizes[index]})
-        this.readDropboxFolder()
-      },
-    },
+    // thumbnailSizeIndex: {
+    //   get: function () {
+    //     return this.thumbnailSizes.indexOf(this.thumbnailSize)
+    //   },
+    //   set: function (index) {
+    //     this.$store.commit('thumbnailSize', {thumbnailSize: this.thumbnailSizes[index]})
+    //     this.readDropboxFolder()
+    //   },
+    // },
     currentSlide: {
       get: function () {
         if (window.jim_DEBUG_FULL) console.log('currentSlide??')
@@ -327,8 +327,10 @@ export const mixinGeneral = {
         this.$store.commit('delayPlayNext', 0)
         console.log('********** Started play one at time because backwards scroll')
       }
-      this.latestPage = this.myPages[newIndex]
-      this.playBookPage(this.activeFolder, this.latestPage)
+      if (newIndex >= 0) {
+        this.latestPage = this.myPages[newIndex]
+        if (this.latestPage) this.playBookPage(this.activeFolder, this.latestPage)
+      }
     },
     afterTransition (newIndex, oldIndex) {
     },
@@ -344,6 +346,7 @@ export const mixinGeneral = {
       this.playBookPage(this.activeFolder, this.latestPage)
     },
     imageForPage (page) {
+
       let collection = this.sourcePages[page] || this.sourcePages.pages[page]
       let possible = false
       if (collection) {
@@ -354,8 +357,11 @@ export const mixinGeneral = {
         }
       }
       if (!possible) {
+
+        console.log('using cover page')
         possible = this.activeFolder.thumbnail
       }
+      console.log('imageForPage ' + page + ' ' + possible)
       return possible
     },
 

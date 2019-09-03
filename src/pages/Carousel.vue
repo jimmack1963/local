@@ -36,14 +36,14 @@
         v-model="currentSlide"
       >
         <q-carousel-slide
-          v-if="thumbnails"
+          v-if="thumbnails && activeFolder.imageOrder[n]"
 
           :key="`full-${n}`"
           :name="n"
-          :img-src="imageForPage(p)"
+          :img-src="activeFolder.imageOrder[n]"
 
           @mousedown.native="mouseDown($event)"
-          :style="backgroundStyle(imageForPage(p))"
+          :style="backgroundStyle(activeFolder.imageOrder[n])"
           @mouseup.native="mouseUp($event)"
           v-for="(p, n) in myPages"
         >
@@ -64,7 +64,7 @@
            -->
         </q-carousel-slide>
         <q-carousel-slide
-          v-if="!thumbnails"
+          v-if="!thumbnails && activeFolder.imageOrder[n]"
 
           :key="`full-${n}`"
           :name="n"
@@ -73,7 +73,7 @@
           @mouseup.native="mouseUp($event)"
           v-for="(p, n) in myPages"
         >
-          <q-img :alt="imageForPage(p)" :src="imageForPage(p)" contain/>
+          <q-img :alt="imageForPage(p)" :src="activeFolder.imageOrder[n]" contain/>
           <!--
           navigation
           thumbnails
@@ -148,12 +148,29 @@
 
       this.myPages = this.pageOrder(this.activeFolder)
       this.sourcePages = this.folders[this.activeFolder.path_lower]
-      this.slide = 0
-      this.currentBookThumbnails = this.myPages.map((p) => {
-        return this.imageForPage(p)
-      })
+      // this.currentBookThumbnails = this.myPages.map((p) => {
+      //   return this.imageForPage(p)
+      // })
+      this.currentSlide = 0
+      debugger
+      this.waitAndStart(0)
+
     },
     methods: {
+      waitAndStart (attempts) {
+        console.log('waitAndStart ' + attempts)
+        if (attempts < 10) {
+          if (this.activeFolder.soundOrder[0]) {
+            this.playBookPage(this.activeFolder, this.myPages[0])
+          }
+          else {
+            // wait a second and try again
+            setTimeout( () => {
+              this.waitAndStart(attempts + 1)
+            }, 1000)
+          }
+        }
+      },
       backgroundStyle (url) {
         return `background-image: url('${url}'); background-size: contain; background-position: 50% center;background-repeat: no-repeat;`
       },

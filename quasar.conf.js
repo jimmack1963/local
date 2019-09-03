@@ -1,4 +1,5 @@
 // Configuration for your app
+const fs = require('fs')
 
 module.exports = function (ctx) {
   return {
@@ -52,8 +53,11 @@ module.exports = function (ctx) {
       }
     },
     devServer: {
-      https: true,
-      port: 8080,
+      https: {
+        key: fs.readFileSync('/Users/jim/localhost-key.pem'),
+        cert: fs.readFileSync('/Users/jim/localhost.pem'),
+        ca: fs.readFileSync('/Users/jim/Library/Application Support/mkcert/rootCA.pem'),
+      },
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!

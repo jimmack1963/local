@@ -260,7 +260,7 @@ export const mixinSound = {
           currentPageProperties = myFolder.pages[pageNumber.toString()]
         }
 
-        let offset = pagesOrdered.indexOf(pageNumber)
+        let offset = pagesOrdered.indexOf(pageNumber.toString())
         let nextPageNumber = false
         if (offset < pagesOrdered.length) {
           nextPageNumber = pagesOrdered[offset + 1]
