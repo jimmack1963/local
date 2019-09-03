@@ -322,7 +322,7 @@ export const mixinGeneral = {
       this.playBookPage(this.activeFolder, this.latestPage)
     },
     beforeTransition (newIndex, oldIndex) {
-      if (oldIndex < newIndex) {
+      if (oldIndex > newIndex) {
         // was a slide back, so odds are good the autoplay isn't required
         this.$store.commit('delayPlayNext', 0)
         console.log('********** Started play one at time because backwards scroll')

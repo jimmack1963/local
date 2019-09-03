@@ -152,7 +152,7 @@
       //   return this.imageForPage(p)
       // })
       this.currentSlide = 0
-      debugger
+
       this.waitAndStart(0)
 
     },
@@ -186,7 +186,7 @@
         console.log('*********************** mouseUp')
         let vue = this
         let diff = new Date() - vue.pendingTimeMark
-        if (diff < 100) {
+        if (diff < 1000) {
           vue.$store.commit('delayPlayNext', 0)
           console.log('********************************************** Started play one ' + diff)
         } else {

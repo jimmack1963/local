@@ -300,7 +300,7 @@
         console.log('*********************** mouseUp')
         let vue = this
         let diff = new Date() - vue.pendingTimeMark
-        if (diff < 100) {
+        if (diff < 1000) {
           vue.$store.commit('delayPlayNext', 0)
           console.log('********************************************** Started play one ' + diff)
         } else {
@@ -314,7 +314,7 @@
       handlePress (event, folder) {
         let vue = this
 
-        if (event.duration < 100) {
+        if (event.duration < 1000) {
           vue.$store.commit('delayPlayNext', 0)
           console.log(event.duration + ' ********************************************** Started play one')
         } else {
@@ -335,7 +335,7 @@
             vue.pendingTimeMark = false
           }, 1000)
 
-          if (event.duration < 100) {
+          if (event.duration < 1000) {
             vue.$store.commit('delayPlayNext', 0)
             console.log('********************************************** Started play one')
           } else {

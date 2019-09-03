@@ -202,6 +202,7 @@ export const mixinSound = {
         })
     },
     playBookPage (folder, pageNumber, stopAtOne) {
+
       if (stopAtOne) {
         this.setDelayPlayNext(0)
       }
@@ -248,6 +249,7 @@ export const mixinSound = {
       let myFolder = this.folders[folder.path_lower]
       let pagesOrdered = this.pageOrder(folder)
 
+
       if (myFolder && pagesOrdered.length > 0) {
         if (pageNumber === -1) {
           pageNumber = pagesOrdered[0]
@@ -266,8 +268,10 @@ export const mixinSound = {
           nextPageNumber = pagesOrdered[offset + 1]
         }
 
+
         if (currentPageProperties.mp3.length > 0) {
           let target = currentPageProperties.mp3[0]
+
           if (target.howl) {
 
             // the function to play the next sound
@@ -286,6 +290,7 @@ export const mixinSound = {
                 // })
 
                 let nextTargetProperties = myFolder.pages[nextPageNumber]
+
                 if (vue.delayPlayNext && nextTargetProperties.mp3.length > 0 && nextTargetProperties.mp3[0].howl) {
                   // cue up next page
                   // TODO: generally, this should be kept so it can be cancelled #2hrs
@@ -295,6 +300,7 @@ export const mixinSound = {
                   }, vue.delayPlayNext)
                 }
                 else {
+
                   vue.$store.commit('silence')
                   if (window.jim_DEBUG_FULL) {
                     console.log(vue.delayPlayNext
@@ -318,6 +324,7 @@ export const mixinSound = {
             played = true
           }
           else {
+
             // why can't it play?
             console.log('surprise howl fail')
             if (target.promisePending) {
