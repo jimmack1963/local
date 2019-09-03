@@ -215,6 +215,7 @@ export const mixinSound = {
       this.$store.commit('setActivePage', {
         activePage: pageNumber
       })
+      this.latestPage = pageNumber
 
       let vue = this
 
@@ -269,7 +270,7 @@ export const mixinSound = {
         }
 
 
-        if (currentPageProperties.mp3.length > 0) {
+        if (currentPageProperties && currentPageProperties.mp3.length > 0) {
           let target = currentPageProperties.mp3[0]
 
           if (target.howl) {

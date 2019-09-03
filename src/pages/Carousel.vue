@@ -127,7 +127,6 @@
         thumbnails: true,
         jim: 0,
         pendingTimeMark: false,
-        latestPage: false,
         autoplay: true,
 
         colors: [

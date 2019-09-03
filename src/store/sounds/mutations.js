@@ -21,11 +21,9 @@ export function playHowlAlso (state, payload) {
 }
 
 export function silence (state) {
-debugger
   let killing = state.playing.pop()
   while (killing) {
     killing.next = function () {
-      debugger
       console.log('SILENCE killing: ' + killing.fname)
     }
     killing.howl.stop()

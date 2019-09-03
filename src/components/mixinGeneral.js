@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex'
 export const mixinGeneral = {
   data () {
     return {
+      latestPage: false,
       bookTitle: '',
       myPages: [],
       // currentBookThumbnails: [],
