@@ -54,7 +54,7 @@ export default {
     'Previous': '¿Previous',
   'Cancel': '¿Cancel',
 
-  'Illustrating the whole book (Take a snapshot of each page)': '¿Illustrating the whole book (Take a snapshot of' +
+  'Illustrating the whole book (Take a snapshot of each page)': '¿Illustrating the whole book <br>(Take a snapshot of' +
     ' each page)',
 
   'Narrating the whole book (Read each page)': '¿Narrating the whole book (Read each page)',
@@ -115,7 +115,7 @@ export default {
   'Page By Page': '¿Page By Page',
 'Touch image to take selfie': '¿Take a selfie!  Show the book -- it helps find' +
   ' this recording.',
-'You can retake the cover': '¿You can retake the cover',
+'You can retake the cover': '¿Touch screen to retake the cover',
   'Retake': '¿Retake',
   'Take': '¿Take',
 'You can start by': '¿You can start by',

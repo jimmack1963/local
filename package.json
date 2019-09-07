@@ -14,7 +14,7 @@
     "co": "cypress open",
     "dv": "dview src",
     "e": "quasar dev -m electron",
-    "icons": "opn \"https://material.io/tools/icons/?search=&style=baseline\"",
+    "icons": "open \"https://material.io/tools/icons/?search=&style=baseline\"",
     "ip": "ipconfig",
     "latest": "node latest.js",
     "now": "now dist/src-mat",

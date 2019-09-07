@@ -212,7 +212,10 @@ export const mixinIllustrate = {
       }
     },
     touchHandler8 (obj, count) {
-      if (this.activeFolder) {
+      if (this.preview) {
+        this.clearPhoto()
+      }
+      else if (this.activeFolder) {
         this.lockCameraImage()
 
         // TODO: make this settable preference #2hrs

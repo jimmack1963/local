@@ -170,7 +170,7 @@ export const mixinSound = {
         message: 'Remove dialog for Page ' + pageNumber,
         ok: 'Delete',
         cancel: 'Keep',
-      }).then(async function () {
+      }).onOk(async function () {
 
         self.$store.dispatch('dropbox/removeEntry', {
           TOC,
@@ -187,7 +187,7 @@ export const mixinSound = {
         message: 'Remove illustration for Page ' + pageNumber,
         ok: 'Delete',
         cancel: 'Keep',
-      }).then(async function () {
+      }).onOk(async function () {
 
         v.$store.dispatch('dropbox/removeEntry', {
           TOC,
@@ -196,7 +196,7 @@ export const mixinSound = {
           dbx: v.$dbx
         })
       })
-        .catch(() => {
+        .onCancel(() => {
            if (window.jim_DEBUG_FULL) console.log('Page Image not deleted: ' + pageNumber)
 
         })

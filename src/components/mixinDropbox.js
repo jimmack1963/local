@@ -42,7 +42,7 @@ export const mixinDropbox = {
         ok: 'Delete',
         cancel: 'Keep',
       })
-        .then(function () {
+        .onOk(function () {
           // delete from store
 
           self.$store.commit('dropbox/deleteBookInternal', {

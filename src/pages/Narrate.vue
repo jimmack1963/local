@@ -70,11 +70,11 @@
   import { mixinGeneral } from '../components/mixinGeneral'
   import { mixinSound } from '../components/mixinSound'
   import RecordAudio from '../components/RecordAudio'
-  import RecordCamcord from '../components/RecordCamcord'
+  // import RecordCamcord from '../components/RecordCamcord'
   import folderCardDisplay from '../components/folderCardDisplay'
 
   export default {
-    components: {RecordCamcord, RecordAudio, folderCardDisplay},
+    components: {RecordAudio, folderCardDisplay},
     mixins: [mixinSound, mixinGeneral, mixinDropbox],
     computed: {
       myFolder () {

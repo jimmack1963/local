@@ -1,12 +1,12 @@
 <template>
-  <q-page id="newbook" padding class="row">
+  <q-page id="newbook" class="row">
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
 
-      <div class="snapshot-medium col-12">
+      <div class="col-12">
         <RecordCamcord
           ref="recordCamCord"
-          class="col-12 snapshot-medium"
+          class="col-12 "
           pageName="book_cover.png"
           :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
           :active="currentStep === 'cover'"
@@ -18,8 +18,8 @@
 
     <q-stepper
       v-model="currentStep"
-      class="col-12"
-      :vertical="false"
+      class="q-mb-sm col-12"
+      :vertical="true"
       contractable
       ref="newBookCycle">
 
@@ -144,44 +144,34 @@
         name="plan"
         :title="$t('Plan')"
         :order="40"
+        class="row"
       >
-        <q-list>
-  <!--        <q-list-header>
-            {{$t('You can start by')}}
-          </q-list-header>-->
-          <q-item>
-            <q-item-section icon="photo library"></q-item-section>
-            <q-item-label :label="$t('Illustrating the whole book (Take a snapshot of each page)')"></q-item-label>
-          </q-item>
-          <q-item>
-            <q-item-section icon="mic"></q-item-section>
-            <q-item-label :label="$t('Narrating the whole book (Read each page)')"></q-item-label>
-          </q-item>
 
-          <!--
-          <q-item>
-            <q-item-section icon="library books"></q-item-section>
-            <q-item-label :label="$t('Work page-by-page (Narrate and Illustrate a page at a time)')"></q-item-label>
-          </q-item>-->
-        </q-list>
 
-        <!--({{$t('At any time, you can stop what you are doing, and restart in any way you like')}}).-->
-
-        <q-stepper-navigation>
           <q-btn
-            class="q-mb-sm q-mr-sm"
-            icon="photo library"
+            class="col-12 col-xs-6 q-mb-sm full-width"
+            no-caps
+            icon="photo_library"
             color="primary"
             @click="illustrate"
-            :label="$t('Illustrate')"
-          />
+
+          >
+            &nbsp;{{beforeParen('Illustrating the whole book (Take a snapshot of each page)')}}
+            <br>
+            &nbsp;{{afterParen('Illustrating the whole book (Take a snapshot of each page)')}}
+          </q-btn>
           <q-btn
-            class="q-mb-sm q-mr-sm"
+            class="col-12 col-xs-6  q-mb-sm full-width"
+            no-caps
             icon="mic"
             color="primary"
             @click="narrate"
-            label="Narrate"
-          />
+          >
+            &nbsp;{{beforeParen('Narrating the whole book (Read each page)')}}
+            <br>
+            &nbsp;{{afterParen('Narrating the whole book (Read each page)')}}
+
+          </q-btn>
 
           <!--
           <q-btn
@@ -192,6 +182,7 @@
             label="Page by Page"
           />
 -->
+        <q-stepper-navigation>
           <q-btn
             class="q-mb-sm q-mr-sm"
             color="secondary"
@@ -289,6 +280,16 @@
 
   export default {
     methods: {
+        beforeParen (key) {
+            let phrase = this.$t(key)
+            let parts = phrase.split('(')
+            return parts[0]
+        },
+        afterParen (key) {
+            let phrase = this.$t(key)
+            let parts = phrase.split('(')
+            return '(' + parts[1]
+        },
       newBookIllustrated (completed) {
         this.imageTaken = completed
         this.$store.commit('unlock')
@@ -354,7 +355,7 @@
 <style>
   .snapshot-medium {
     height: 100% !important;
-    max-height: 50vh;
+    max-height: 60vh;
   }
 
   .strip {

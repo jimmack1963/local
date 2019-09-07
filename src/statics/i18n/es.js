@@ -87,7 +87,7 @@ export default {
 
   'Page By Page': 'Por páginas',
   'Touch image to take selfie': '¡Toma una selfie! Muestra el libro - ayuda a encontrar esta grabación.',
-  'You can retake the cover': 'Puedes volver a tomar la portada.',
+  'You can retake the cover': 'Pantalla táctil para volver a tomar la tapa.',
   'Retake': 'Volver a tomar',
   'Take': 'Tomar',
   'You can start by': 'Puedes empezar por',

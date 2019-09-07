@@ -86,6 +86,8 @@
           :pageName="bulk.nextNarration"
         >
         </RecordAudio>
+
+<!--
         <RecordCamcord
           v-if="illustrating['bulk']"
           v-on:completed="completedBulkIllustration"
@@ -94,6 +96,7 @@
         >
           Page {{bulk.nextIllustration}}
         </RecordCamcord>
+-->
 
       </q-card-section>
     </q-card>
@@ -172,13 +175,13 @@
         >
         </RecordAudio>
         <!--v-on:autoclose="narrate(activeFolder, pageName, offset)"-->
-        <RecordCamcord
+        <!--<RecordCamcord
           v-if="illustrating[pageName]"
           :pageName="pageName"
           :quality="quality"
         >
           Page {{pageName}}
-        </RecordCamcord>
+        </RecordCamcord>-->
       </q-card-section>
     </q-card>
 

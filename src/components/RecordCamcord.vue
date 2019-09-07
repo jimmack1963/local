@@ -1,5 +1,5 @@
 <template>
-  <div  v-touch-swipe="swipeHandler">
+  <div>
     <!--v-model="cameraMode"-->
     <q-tabs class="col-12 q-mb-sm"  v-if="active">
       <q-tab
@@ -41,12 +41,21 @@
     </q-tabs>
     <slot></slot>
 
-    <div id="wrap-snap" class="snapshot-medium camera-medium row  "  v-show="!preview"   >
-      <video class="snapshot-medium col-10 offset-1" @click.stop="touchHandler8" ref="video" id="video">Video stream not available.</video>
+    <div
+      @click.stop="touchHandler8"
+      class="snapshot-medium camera-medium row "
+      v-show="preview"
+    >
+      <canvas class="snapshot-medium camera-medium col-12 " ref="canvas" id="canvas"></canvas>
     </div>
-    <div class="snapshot-medium camera-medium row col-6 " v-show="preview">
-      <canvas class="snapshot-medium camera-medium row col-10 offset-1" ref="canvas" v-show="preview"
-              id="canvas"></canvas>
+
+    <div
+      id="wrap-snap"
+      class="snapshot-medium camera-medium row  "
+      v-show="!preview"
+      @click.stop="touchHandler8"
+    >
+      <video class=" col-12 " ref="video" id="video">Video stream not available.</video>
     </div>
 
   </div>
