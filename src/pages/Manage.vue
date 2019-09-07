@@ -1,16 +1,27 @@
 <template>
-  <q-page padding class="row">
+  <q-page padding class="row justify-center">
     <!--
         <folderCardDisplay :folder="activeFolder">
         </folderCardDisplay>
     -->
     <h3 class="col-12">{{activeFolder.name}}</h3>
-    <q-card class="q-ma-sm">
+    <q-card
+      bordered
+      class="col-12"
+    >
       <q-card-section
         overlay-position="bottom"
         v-if="activeFolder.thumbnail"
       >
-        <img :src="activeFolder.thumbnail" :alt="activeFolder.name">
+        <q-img
+          contain
+          :src="activeFolder.thumbnail"
+          :alt="activeFolder.name"
+        >
+          <div class="absolute-top text-center q-pa-xs">
+            {{pageName || "Cover"}}
+          </div>
+        </q-img>
         <q-card-section slot="overlay">
           {{activeFolder.name}}&nbsp;
           <!--<span slot="subtitle">{{folder.size}}</span>-->
@@ -101,20 +112,30 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="q-ma-sm" v-for="(pageName, offset) in activeFolder.pageOrder" v-bind:key="pageName">
+    <q-card
+      bordered
+      class="col-12"
+      v-for="(pageName, offset) in activeFolder.pageOrder"
+      v-bind:key="pageName">
       <q-card-section
         overlay-position="bottom"
         v-show="activeFolder.imageOrder[offset]"
       >
-        <img :src="activeFolder.imageOrder[offset]" :alt="'Image #' + offset">
+        <q-img
+          contain
+          :src="activeFolder.imageOrder[offset]"
+          :alt="'Image #' + offset"
+        >
+          <div class="absolute-top text-center q-pa-xs">
+            {{pageName}}
+          </div>
+        </q-img>
         <q-card-section slot="overlay">
           {{pageName}}
-          <!--<span slot="subtitle"></span>-->
         </q-card-section>
       </q-card-section>
       <q-card-section v-if="!activeFolder.imageOrder[offset]">
         {{$t('Page')}} {{pageName}} ({{$t('No Image')}})
-        <!--<span slot="subtitle"></span>-->
       </q-card-section>
 
       <q-card-actions vertical align="center">
