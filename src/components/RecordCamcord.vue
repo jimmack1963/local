@@ -46,7 +46,7 @@
       class="snapshot-medium camera-medium row "
       v-show="preview"
     >
-      <canvas class="snapshot-medium camera-medium col-12 " ref="canvas" id="canvas"></canvas>
+      <canvas ref="canvas" id="canvas"></canvas>
     </div>
 
     <div
@@ -55,7 +55,7 @@
       v-show="!preview"
       @click.stop="touchHandler8"
     >
-      <video class=" col-12 " ref="video" id="video">Video stream not available.</video>
+      <video ref="video" id="video">Video stream not available.</video>
     </div>
 
   </div>
@@ -130,6 +130,7 @@
 
       vue.clearPhoto()
     },
+
     methods: {
       async createNewBookCoverPage (bookTitle, tags, pageStyle) {
         await this.useImage(bookTitle)
@@ -142,5 +143,21 @@
   .camera-medium {
     height: 100%;
     max-height: 50vh;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+  video2 {
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>

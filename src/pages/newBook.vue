@@ -3,10 +3,10 @@
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
 
-      <div class="col-12">
+      <div :class="pOrL">
         <RecordCamcord
           ref="recordCamCord"
-          class="col-12 "
+          :class="pOrL"
           pageName="book_cover.png"
           :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
           :active="currentStep === 'cover'"
@@ -18,7 +18,7 @@
 
     <q-stepper
       v-model="currentStep"
-      class="q-mb-sm col-12"
+      :class="rest"
       :vertical="true"
       contractable
       ref="newBookCycle">
@@ -268,7 +268,6 @@
      -->
     </q-stepper>
 
-
   </q-page>
 </template>
 
@@ -278,7 +277,28 @@
   // import { mixinCamera } from '../components/mixinCamera'
   import RecordCamcord from '../components/RecordCamcord'
 
+
   export default {
+      computed: {
+          pOrL () {
+              if (this.$q.screen.height > this.$q.screen.width) {
+                  console.log('orientation: Portrait')
+                  return 'col-12'
+              }
+              else {
+                  console.log('orientation: landscape')
+                  return 'col-8'
+              }
+          },
+          rest () {
+              if (this.$q.screen.height > this.$q.screen.width) {
+                  return 'col-12'
+              }
+              else {
+                  return 'col-4'
+              }
+          }
+      },
     methods: {
         beforeParen (key) {
             let phrase = this.$t(key)
