@@ -7,7 +7,7 @@
     <h3 class="col-12">{{activeFolder.name}}</h3>
     <q-card
       bordered
-      class="col-12"
+      class="col-xs-12 col-sm-6 col-md-4 col-lg-2 "
     >
       <q-card-section
         overlay-position="bottom"
@@ -19,7 +19,7 @@
           :alt="activeFolder.name"
         >
           <div class="absolute-top text-center q-pa-xs">
-            {{pageName || "Cover"}}
+            {{activeFolder.name || "Cover"}}
           </div>
         </q-img>
         <q-card-section slot="overlay">
@@ -28,27 +28,6 @@
         </q-card-section>
       </q-card-section>
 
-      <q-card-section><!--
-        <q-field
-          label="Next Illustration:"
-        >
-          <q-input
-            v-model="bulk.nextIllustration"
-          >
-
-          </q-input>
-        </q-field>
-        <q-field
-          label="Next Narration:"
-        >
-          <q-input
-            v-model="bulk.nextNarration"
-          >
-          </q-input>
-        </q-field>
-
-
-      --></q-card-section>
       <q-card-actions vertical align="center">
         <q-btn
           :label="$t('narrate multiple new pages')"
@@ -98,23 +77,12 @@
         >
         </RecordAudio>
 
-<!--
-        <RecordCamcord
-          v-if="illustrating['bulk']"
-          v-on:completed="completedBulkIllustration"
-          :pageName="bulk.nextIllustration"
-          :quality="quality"
-        >
-          Page {{bulk.nextIllustration}}
-        </RecordCamcord>
--->
-
       </q-card-section>
     </q-card>
 
     <q-card
       bordered
-      class="col-12"
+      class="col-xs-12 col-sm-6 col-md-4 col-lg-2 "
       v-for="(pageName, offset) in activeFolder.pageOrder"
       v-bind:key="pageName">
       <q-card-section
@@ -195,14 +163,6 @@
           :showButtons="false"
         >
         </RecordAudio>
-        <!--v-on:autoclose="narrate(activeFolder, pageName, offset)"-->
-        <!--<RecordCamcord
-          v-if="illustrating[pageName]"
-          :pageName="pageName"
-          :quality="quality"
-        >
-          Page {{pageName}}
-        </RecordCamcord>-->
       </q-card-section>
     </q-card>
 

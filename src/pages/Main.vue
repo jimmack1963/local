@@ -1,6 +1,6 @@
 <template>
   <q-page
-    class="row items-start flex flex-start"
+    class="row items-start flex flex-start justify-center"
     padding>
 
     <div class="row" v-if="!access_token">
@@ -25,7 +25,7 @@
       {{$t('intro_disclaimer')}}
     </div>
 
-    <q-card class="card-itself col-lg-4 col-xs-12" id="new-card" v-if="access_token && TOCSorted.length === 0">
+    <q-card class="card-itself col-xs-12 col-sm-6 col-md-4 col-lg-2 " id="new-card" v-if="access_token && TOCSorted.length === 0">
       <q-card-section>{{$t('Make your first book')}}</q-card-section>
       <q-card-section v-html="$t('first_book_intro')">
 
@@ -33,8 +33,12 @@
 
     </q-card>
 
-    <q-card class="card-itself col-lg-2 col-5 q-mr-md" v-bind:key="folder.id" v-for="(folder, offset) in TOCSorted"
-            v-if="access_token && (!activeFolder || activeFolder.id === folder.id )">
+    <q-card
+      class="col-xs-12 col-sm-6 col-md-4 col-lg-2 "
+      v-bind:key="folder.id"
+      v-for="(folder, offset) in TOCSorted"
+      v-if="access_token && (!activeFolder || activeFolder.id === folder.id )"
+    >
       <q-card-section
         @mousedown.native="mouseDown($event, folder)"
         @mouseup.native="mouseUp($event, folder)"

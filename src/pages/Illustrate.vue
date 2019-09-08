@@ -1,176 +1,131 @@
 <template>
-  <div
-    v-touch-swipe="swipeHandler"
-    class="row fit"
-    ref="background"
-  >
-<!--    <q-window-resize-observable @resize="onResize" />-->
-    <div class=" row">
-      <q-card id="image" :class="imageCardClass">
-        <q-card-section
-          class="camFeedback"
-          overlay-position="bottom"
-        >
-          <div class="camera camFeedback ">
-            <video :class="sizeClasses" @click.stop="touchHandler8" v-show="!preview" ref="video" id="video">Video stream
-              not available.
-            </video>
-            <canvas :class="sizeClasses" v-show="preview" ref="canvas" id="canvas"></canvas>
-          </div>
+  <q-page class="row">
 
-          <q-card-section slot="overlay">{{$t(action)}}</q-card-section>
-        </q-card-section>
+    <div :class="pOrL">
+      <RecordCamcord
+        :showLocalMenu="false"
+        :class="pOrL"
+        :fileable=false
+        :pageName="pageName"
 
-        <q-card-section class="orientation-portrait">
+        ref="recordCamCord"
+      >
+      </RecordCamcord>
 
-          <q-field
-            :label="$t('keep as page')"
-            orientation="horizontal"
-          >
-            <q-input
-              v-model="pageName"
-            >
-            </q-input>
-          </q-field>
-
-        </q-card-section>
-        <q-card-actions vertical align="center" class="orientation-portrait">
-          <q-btn
-            :id="`illustrate_${pageName}`"
-            :label=" $t('Take') "
-            @click="touchHandler8"
-            v-if="!activeFolder.soundOrder[pageName]"
-            icon="camera"
-            color="primary"
-          ></q-btn>
-
-          <q-btn
-            name="front"
-            :label="$t(modeCaption)"
-            @click="modeClick"
-            :icon="modeIcon"
-          >
-
-          </q-btn>
-
-          <q-btn
-            id="done"
-            :label="$t('done')"
-            @click="home_UI"
-
-            icon="stop"
-            color="secondary"
-          ></q-btn>
-        </q-card-actions>
-
-
-      </q-card>
-      <q-card id="buttons" class=" col-6 orientation-landscape">
-
-        <q-card-section>
-
-          <q-field
-            :label="$t('keep as page')"
-            orientation="horizontal"
-          >
-            <q-input
-              v-model="pageName"
-            >
-            </q-input>
-          </q-field>
-
-        </q-card-section>
-        <q-card-actions vertical align="center">
-          <q-btn
-            :id="`illustrate_${pageName}`"
-            :label=" $t('Take') "
-            @click="touchHandler8"
-            v-if="!activeFolder.soundOrder[pageName]"
-            icon="camera"
-            color="primary"
-          ></q-btn>
-
-          <q-btn
-            name="front"
-            :label="$t(modeCaption)"
-            @click="modeClick"
-            :icon="modeIcon"
-          >
-
-          </q-btn>
-
-          <q-btn
-            id="done"
-            :label="$t('done')"
-            @click="home_UI"
-
-            icon="stop"
-            color="secondary"
-          ></q-btn>
-        </q-card-actions>
-      </q-card>
+      <!--
+         :touchHandler8Prop="touchHandler8"
+        :clearPhotoProp="clearPhoto"
+      v-on:completed="newBookIllustrated"
+      :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
+      -->
     </div>
+    <div
+      :class="rest"
+      class="q-pa-sm"
+    >
+      <div v-if="!imageTaken">
+        {{$t('Touch image to take selfie')}}
+      </div>
+      <div v-else>
+        {{$t('You can retake the cover')}}
+      </div>
 
-  </div>
+      <q-field
+        :label="$t('keep as page')"
+        orientation="horizontal"
+      >
+        <q-input
+          v-model="pageName"
+        >
+        </q-input>
+      </q-field>
+
+
+      <q-btn
+        :id="`illustrate_${pageName}`"
+        :label=" $t('Take') "
+        @click="touchHandler8"
+        v-if="!activeFolder.soundOrder[pageName]"
+        icon="camera"
+        color="primary"
+      ></q-btn>
+
+      <q-btn
+        name="front"
+        :label="$t(modeCaption)"
+        @click="modeClick"
+        :icon="modeIcon"
+      >
+
+      </q-btn>
+
+      <q-btn
+        id="done"
+        :label="$t('done')"
+        @click="home_UI"
+
+        icon="stop"
+        color="secondary"
+      ></q-btn>
+
+    </div>
+  </q-page>
 </template>
 
 <script>
-  import { mixinGeneral } from '../components/mixinGeneral'
-  import { mixinDropbox } from '../components/mixinDropbox'
-  import { mixinIllustrate } from '../components/mixinIllustrate'
+    import {mixinGeneral} from '../components/mixinGeneral'
+    import {mixinDropbox} from '../components/mixinDropbox'
+    import {mixinIllustrate} from '../components/mixinIllustrate'
+    import RecordCamcord from '../components/RecordCamcord'
 
-  export default {
-    name: 'Illustrate',
-    /* props: ['pageName'], */
-    mixins: [ mixinGeneral, mixinDropbox, mixinIllustrate ],
-    data () {
-      return {
-        pageName: '',
-        action: 'click to keep'
-      }
-    },
-    computed: {
-      imageCardClass () {
-        return this.orientation === 'portrait' ? 'col-12' : 'col-6'
-  }
-      /*
-            pageNameOld () {
-              if (this.$route.params.pageName) {
+    export default {
+        name: 'Illustrate',
+        /* props: ['pageName'], */
+        components: {RecordCamcord},
+        mixins: [mixinGeneral, mixinDropbox, mixinIllustrate],
+        // mixins: [mixinGeneral, mixinDropbox],
 
-                return this.$route.params.pageName
-              }
-              // else if (this.activeFolder.pageOrder.length > 0) {
-              //   let po = this.activeFolder.pageOrder
-              //   return parseInt(po[po.length - 1]) + 1
-              // }
-              else {
-                return false
-              }
+        data () {
+            return {
+                pageName: '',
+                action: 'click to keep',
+                imageTaken: false,
             }
-      */
-    },
-    mounted () {
-      window.jim = window.jim || {}
-      window.jim.Illustrate = this
+        },
+        computed: {
+            pOrL () {
+                if (this.$q.screen.height > this.$q.screen.width) {
+                    console.log('orientation: Portrait')
+                    return 'col-12'
+                }
+                else {
+                    console.log('orientation: landscape')
+                    return 'col-8'
+                }
+            },
+            rest () {
+                if (this.$q.screen.height > this.$q.screen.width) {
+                    return 'col-12'
+                }
+                else {
+                    return 'col-4'
+                }
+            },
+        },
+        mounted () {
+            window.jim = window.jim || {}
+            window.jim.Illustrate = this
 
-      this.videoRef = this.$refs.video
+            if (this.$route.params.pageName) {
+                this.pageName = this.$route.params.pageName
+            }
+            else {
+                this.pageName = this.nextIllustration(this.activeFolder)
+            }
 
-      this.getUserMedia(this.videoRef)
-
-      this.clearPhoto()
-
-      if (this.$route.params.pageName) {
-        this.pageName = this.$route.params.pageName
-      }
-      else {
-        this.pageName = this.nextIllustration(this.activeFolder)
-      }
-
-    },
-    methods: {
-
-    },
-  }
+        },
+        methods: {},
+    }
 </script>
 
 <style>

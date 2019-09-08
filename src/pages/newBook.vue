@@ -1,32 +1,32 @@
 <template>
-  <q-page id="newbook" class="row">
+  <q-page class="row" id="newbook">
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
 
       <div :class="pOrL">
         <RecordCamcord
-          ref="recordCamCord"
+          :showLocalMenu="currentStep === 'coverXXX'"
           :class="pOrL"
-          pageName="book_cover.png"
-          :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
-          :active="currentStep === 'cover'"
-          v-on:completed="newBookIllustrated"
           :fileable=false
+          :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
+          pageName="book_cover.png"
+          ref="recordCamCord"
+          v-on:completed="newBookIllustrated"
         >
         </RecordCamcord>
       </div>
 
     <q-stepper
-      v-model="currentStep"
       :class="rest"
       :vertical="true"
       contractable
-      ref="newBookCycle">
+      ref="newBookCycle"
+      v-model="currentStep">
 
       <q-step
-        name="cover"
+        :order="10"
         :title="$t('Cover Selfie')"
-        :order="10">
+        name="cover">
         <div v-if="!imageTaken">
           {{$t('Touch image to take selfie')}}
         </div>
@@ -35,9 +35,9 @@
         </div>
         <q-stepper-navigation>
           <q-btn
-            color="primary"
-            @click="next"
             :label="$t('Next')"
+            @click="next"
+            color="primary"
             v-if="imageTaken"
           />
           <!-- <q-btn
@@ -54,29 +54,29 @@
       </q-step>
 
       <q-step
-        name="title"
+        :order="20"
         :title="$t('Title')"
-        :order="20">
+        name="title">
         <q-field
-          class="col-xs-12 q-mx-sm"
-          :label="$t('Book Title')">
+          :label="$t('Book Title')"
+          class="col-xs-12 q-mx-sm">
           <q-input @keyup.enter="$refs.newBookCycle.next()" autofocus id="bookTitle" v-model.lazy="bookTitle"></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
-            color="primary"
-            @click="next"
             :label="$t('Next')"
+            @click="next"
+            color="primary"
           />
           <q-btn
-            color="secondary"
             @click="$refs.newBookCycle.previous()"
+            color="secondary"
             label="Back"
           />
           <q-btn
-            color="secondary"
-            @click="$router.push('/')"
             :label="$t('Cancel')"
+            @click="$router.push('/')"
+            color="secondary"
           />
         </q-stepper-navigation>
       </q-step>
@@ -141,19 +141,19 @@
       </q-step>-->
 
       <q-step
-        name="plan"
-        :title="$t('Plan')"
         :order="40"
+        :title="$t('Plan')"
         class="row"
+        name="plan"
       >
 
 
           <q-btn
-            class="col-12 col-xs-6 q-mb-sm full-width"
-            no-caps
-            icon="photo_library"
-            color="primary"
             @click="illustrate"
+            class="col-12 col-xs-6 q-mb-sm full-width"
+            color="primary"
+            icon="photo_library"
+            no-caps
 
           >
             &nbsp;{{beforeParen('Illustrating the whole book (Take a snapshot of each page)')}}
@@ -161,11 +161,11 @@
             &nbsp;{{afterParen('Illustrating the whole book (Take a snapshot of each page)')}}
           </q-btn>
           <q-btn
-            class="col-12 col-xs-6  q-mb-sm full-width"
-            no-caps
-            icon="mic"
-            color="primary"
             @click="narrate"
+            class="col-12 col-xs-6  q-mb-sm full-width"
+            color="primary"
+            icon="mic"
+            no-caps
           >
             &nbsp;{{beforeParen('Narrating the whole book (Read each page)')}}
             <br>
@@ -184,16 +184,16 @@
 -->
         <q-stepper-navigation>
           <q-btn
+            @click="$refs.newBookCycle.previous()"
             class="q-mb-sm q-mr-sm"
             color="secondary"
-            @click="$refs.newBookCycle.previous()"
             label="Back"
           />
           <q-btn
+            :label="$t('Cancel')"
+            @click="$router.push('/')"
             class="q-mb-sm q-mr-sm"
             color="secondary"
-            @click="$router.push('/')"
-            :label="$t('Cancel')"
           />
         </q-stepper-navigation>
       </q-step>
@@ -311,6 +311,7 @@
             return '(' + parts[1]
         },
       newBookIllustrated (completed) {
+            debugger
         this.imageTaken = completed
         this.$store.commit('unlock')
         // run when image correctly taken in RecordCamcord

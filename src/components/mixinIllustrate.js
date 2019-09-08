@@ -85,14 +85,10 @@ export const mixinIllustrate = {
 
       }
     },
-    clickFile () {
-      this.$store.commit('facingMode', {facingMode: 'file'})
-      this.$refs.hiddenInput.click()
-      console.log('clickFile')
-    },
+
     onResize (size) {
       console.log(JSON.stringify(size))
-      let canvas = this.$refs.canvas
+      let canvas = this.refCanvas || this.$refs.canvas
       if (canvas) {
         let h = height(canvas.parentElement.parentElement)
         let w = width(canvas.parentElement.parentElement)
@@ -227,7 +223,7 @@ export const mixinIllustrate = {
         // Brand new image taken, book does not yet exist...
         // where to save?
         this.lockCameraImage()
-        this.saveImage()
+        this.recordImageURL()
       }
     },
     captureCanvas (ev) {
@@ -236,20 +232,16 @@ export const mixinIllustrate = {
         this.streaming = true
       }
     },
-    async saveImage () {
+    async recordImageURL () {
       this.$emit('completed', true)
       if (this.dataURL && this.dataURL !== 'data:,') {
-        // let wholeFileName = this.generateImageName()
         window.savedImage = this.dataURL
-        // await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
-        // this.clearPhoto()
       }
       else {
         alert('Image not available')
       }
     },
     async useImage (overridePage) {
-
       console.log('Dest page = ' + overridePage)
       this.$emit('completed', true)
 
@@ -271,7 +263,6 @@ export const mixinIllustrate = {
       if (this.dataURL && this.dataURL !== 'data:,') {
         let wholeFileName = this.generateImageName(overridePage)
         console.log('filename in useImage: ' + wholeFileName)
-
         await this.uploadFileBlobImage(this.dataURL, wholeFileName, this.width * this.height)
         console.log('useImage done')
         this.clearPhoto()
@@ -296,7 +287,7 @@ export const mixinIllustrate = {
     clearPhoto () {
       this.preview = false
       this.dataURL = false
-      let canvas = this.$refs.canvas
+      let canvas = this.refCanvas || this.$refs.canvas
       if (canvas) {
         let context = canvas.getContext('2d')
         context.fillStyle = '#AAA'
@@ -307,9 +298,9 @@ export const mixinIllustrate = {
 
     lockCameraImage () {
       this.preview = true
-      let canvas = this.$refs.canvas
+      let canvas = this.refCanvas || this.$refs.canvas
       let context = canvas.getContext('2d')
-      let video = this.$refs.video
+      let video = this.refVideo || this.$refs.video
       if (this.width && this.height) {
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight

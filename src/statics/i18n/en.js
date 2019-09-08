@@ -111,7 +111,7 @@ export default {
   'Disable Editing Books': 'Disable Editing Books',
 
   'Page By Page': 'Page By Page',
-  'Touch image to take selfie': 'Touch image to take Selfie',
+  'Touch image to take selfie': 'Touch image to take',
   'You can retake the cover': 'Touch screen to retake the cover',
   'Retake': 'Retake',
   'Take': 'Take',
