@@ -7,13 +7,12 @@
         :class="pOrL"
         :fileable=false
         :pageName="pageName"
-
+        v-on:completed="onImage"
         ref="recordCamCord"
       >
       </RecordCamcord>
 
       <!--
-         :touchHandler8Prop="touchHandler8"
         :clearPhotoProp="clearPhoto"
       v-on:completed="newBookIllustrated"
       :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
@@ -44,8 +43,8 @@
       <q-btn
         :id="`illustrate_${pageName}`"
         :label=" $t('Take') "
-        @click="touchHandler8"
-        v-if="!activeFolder.soundOrder[pageName]"
+        @click="triggerRecordCamcord"
+
         icon="camera"
         color="primary"
       ></q-btn>
@@ -55,6 +54,7 @@
         :label="$t(modeCaption)"
         @click="modeClick"
         :icon="modeIcon"
+        v-if="multipleCameras"
       >
 
       </q-btn>
@@ -68,7 +68,37 @@
         color="secondary"
       ></q-btn>
 
+      <q-btn
+        id="manage"
+        :label="$t('manage')"
+        @click="manage_UI(activeFolder)"
+        icon="dashboard"
+
+      />
+
+
     </div>
+
+        <div
+          v-for="(blob, index) in activeFolder.imageOrder"
+          v-bind:key="index"
+            class="col-xs-3"
+        >
+          <q-img
+            :src="blob"
+            v-if="blob"
+          >
+
+            <q-badge
+              floating
+            >
+              {{activeFolder.pageOrder[index]}}
+
+            </q-badge>
+          </q-img>
+        </div>
+
+
   </q-page>
 </template>
 
@@ -90,27 +120,11 @@
                 pageName: '',
                 action: 'click to keep',
                 imageTaken: false,
+
             }
         },
         computed: {
-            pOrL () {
-                if (this.$q.screen.height > this.$q.screen.width) {
-                    console.log('orientation: Portrait')
-                    return 'col-12'
-                }
-                else {
-                    console.log('orientation: landscape')
-                    return 'col-8'
-                }
-            },
-            rest () {
-                if (this.$q.screen.height > this.$q.screen.width) {
-                    return 'col-12'
-                }
-                else {
-                    return 'col-4'
-                }
-            },
+
         },
         mounted () {
             window.jim = window.jim || {}
@@ -124,7 +138,16 @@
             }
 
         },
-        methods: {},
+        methods: {
+            triggerRecordCamcord () {
+
+                this.$refs.recordCamCord.touchImageFeedback()
+            },
+            onImage () {
+                console.log('Image was taken')
+                this.pageName = (parseInt(this.pageName) + 1).toString()
+            },
+        },
     }
 </script>
 

@@ -41,6 +41,7 @@ export default {
   'Silence': 'Silence',
   'play': 'play',
   'view': 'view',
+  'images': 'Images',
 
   'narrate multiple new pages': 'narrate multiple new pages',
   'Illustrate multiple new pages': 'Illustrate multiple new pages',

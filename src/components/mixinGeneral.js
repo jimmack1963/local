@@ -11,6 +11,24 @@ export const mixinGeneral = {
     }
   },
   computed: {
+    pOrL () {
+      if (this.$q.screen.height > this.$q.screen.width) {
+        console.log('orientation: Portrait')
+        return 'col-12'
+      }
+      else {
+        console.log('orientation: landscape')
+        return 'col-8'
+      }
+    },
+    rest () {
+      if (this.$q.screen.height > this.$q.screen.width) {
+        return 'col-12'
+      }
+      else {
+        return 'col-4'
+      }
+    },
     ...mapGetters([
       'showDemos',
       'facingMode',

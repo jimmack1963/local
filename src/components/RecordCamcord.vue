@@ -62,6 +62,7 @@
       <video ref="video" id="video">Video stream not available.</video>
     </div>
 
+
   </div>
 </template>
 
@@ -84,7 +85,33 @@
                     audioInputSelect: [],
                     audioOutputSelect: [],
                     videoSelect: [],
-                }
+                },
+                sampleInputs: {
+                    'audioInputSelect': [{
+                        'value': 'default',
+                        'text': 'Microphone 1',
+                    }, {
+                        'value': 'c63b1da98766b55f1f2ff9c279060c5ffd483c764af508f36fadb94f9247adde',
+                        'text': 'Microphone 2',
+                    }],
+                    'audioOutputSelect': [{
+                        'value': 'default',
+                        'text': 'Speaker 1',
+                    }, {
+                        'value': 'e07fceb52c376384ecddc5f91060ee19eea44d8888e9184f69310d4eba8fb493',
+                        'text': 'Speaker 2',
+                    }, {
+                        'value': '2118f27e6416fae3739670fbb892d2b24fda70c54fe3f01afdd783c4980d2c41',
+                        'text': 'Speaker 3',
+                    }, {
+                        'value': '1b7823ddc9b4ff3921ba83fe8148596fb6ef22c2e519bcda5056a41b30184704',
+                        'text': 'Speaker 4',
+                    }],
+                    'videoSelect': [{
+                        'value': 'bbae8e61cc44d5025f3470f1d0ad1e6693fa17212eaeeff120b43ffa97315599',
+                        'text': 'HD Pro Webcam C920 (046d:082d)',
+                    }],
+                },
             }
         },
         mounted () {
@@ -168,7 +195,7 @@
         },
         methods: {
             touchImageFeedback (obj) {
-                debugger
+
                 if (this.preview) {
                     this.clearPhoto()
                 }
@@ -214,8 +241,8 @@
                 //     this.clearPhoto()
                 // }
             },
-            async saveImage () {
-                debugger
+            async recordImageURL () {
+
                 this.$emit('completed', true)
                 if (this.dataURL && this.dataURL !== 'data:,') {
                     window.savedImage = this.dataURL
@@ -239,7 +266,7 @@
                 return `${this.activeFolder.path_display}/${pageFileName}.png`
             },
             async useImage (overridePage) {
-                debugger
+
                 console.log('Dest page = ' + overridePage)
 
                 // let v = this

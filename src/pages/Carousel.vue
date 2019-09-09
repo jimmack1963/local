@@ -158,8 +158,8 @@
     methods: {
       waitAndStart (attempts) {
         console.log('waitAndStart ' + attempts)
-        if (attempts < 10) {
-          if (this.activeFolder.soundOrder[0]) {
+        if (attempts < 20) {
+          if (this.activeFolder && this.activeFolder.soundOrder[0]) {
             this.playBookPage(this.activeFolder, this.myPages[0])
           }
           else {

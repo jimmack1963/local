@@ -64,6 +64,8 @@ module.exports = function (ctx) {
     framework: {
       cssAddon: true,
       components: [
+        'QExpansionItem',
+        'QBadge',
         'QParallax',
         // 'QCollapsible', 'QExpansionItem',
         'QStepper',

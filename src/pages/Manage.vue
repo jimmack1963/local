@@ -16,6 +16,7 @@
         <q-img
           contain
           :src="activeFolder.thumbnail"
+          v-if="activeFolder.thumbnail"
           :alt="activeFolder.name"
         >
           <div class="absolute-top text-center q-pa-xs">
@@ -92,6 +93,7 @@
         <q-img
           contain
           :src="activeFolder.imageOrder[offset]"
+          v-if="activeFolder.imageOrder[offset]"
           :alt="'Image #' + offset"
         >
           <div class="absolute-top text-center q-pa-xs">
@@ -212,10 +214,7 @@
           this.bulk.nextNarration = last + 1
         }
       },
-      playOnePage (activeFolder, pageName) {
-        this.setDelayPlayNext(0)
-        this.playBookPage(activeFolder, pageName)
-      },
+
       completedBulkIllustration () {
         let last = parseInt(this.bulk.nextIllustration)
         if (isNaN(last)) {

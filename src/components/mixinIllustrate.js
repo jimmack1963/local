@@ -38,6 +38,13 @@ export const mixinIllustrate = {
           return 'file'
       }
     },
+    multipleCameras () {
+      if (this.$refs.recordCamCord)
+      {
+        return this.$refs.recordCamCord.selections.videoSelect.length > 1
+      }
+      else return false
+    },
     modeCaption () {
       switch (this.facingMode) {
         case 'user':

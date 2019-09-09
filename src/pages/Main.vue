@@ -412,10 +412,10 @@
         vue.$store.commit('delayPlayNext', 2000)
         console.log('********************************************** Changed to play all on context menu ')
 
-        let targetID = event.target.id
+        let targetID = event.target.id || event.target.parentElement.id || event.target.parentElement.parentElement.id
         let parted = targetID.split('_')
         let offset = parseInt(parted[1])
-        vue.pendingFolder = vue.TOCSorted[offset]
+        vue.pendingFolder = vue.pendingFolder || vue.TOCSorted[offset]
 
         vue.carousel(vue.pendingFolder)
 

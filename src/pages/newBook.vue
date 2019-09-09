@@ -311,7 +311,7 @@
             return '(' + parts[1]
         },
       newBookIllustrated (completed) {
-            debugger
+
         this.imageTaken = completed
         this.$store.commit('unlock')
         // run when image correctly taken in RecordCamcord

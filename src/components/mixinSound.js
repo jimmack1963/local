@@ -201,6 +201,10 @@ export const mixinSound = {
 
         })
     },
+    playOnePage (activeFolder, pageName) {
+      this.setDelayPlayNext(0)
+      this.playBookPage(activeFolder, pageName)
+    },
     playBookPage (folder, pageNumber, stopAtOne) {
 
       if (stopAtOne) {
