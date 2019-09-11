@@ -1,15 +1,16 @@
 node touch.js
 quasar clean
 quasar build -d -m spa -t mat
+cp now.json dist\spa\now.json
+now deploy "dist/spa" -n "dropAndroid"
+
+read -p "Press [Enter] key"
+
 quasar build -d -m spa -t ios
+cp now.json dist\spa\now.json
+now deploy "dist/spa" -n "dropIOS"
 
-cp now.json dist\spa-mat\now.json
-cp now.json dist\spa-ios\now.json
-
-now deploy "dist/spa-mat" -n "dropAndroid"
-now deploy "dist/spa-ios" -n "dropIOS"
-
-pause
+read -p "Press [Enter] key"
 
 now ls dropAndroid > pub-mat.txt
 now ls dropIOS > pub-ios.txt
@@ -17,7 +18,7 @@ now ls dropIOS > pub-ios.txt
 cat pub-mat.txt
 cat pub-ios.txt
 
-pause
+read -p "Press [Enter] key"
 now alias ls
 
 echo node latestIOS
