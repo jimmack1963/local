@@ -153,6 +153,12 @@ export const mixinSound = {
       }
       return nextPageNumber
     },
+    playNext () {
+      let nextPage = this.pageAfter(this.activeFolder, this.mostRecentPage)
+      if (nextPage) {
+        this.playBookPage(this.activeFolder, nextPage)
+      }
+    },
     continuePlaying (folder) {
       this.setDelayPlayNext(1)
       let nextPage = this.pageAfter(folder, this.mostRecentPage)

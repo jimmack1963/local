@@ -70,6 +70,7 @@ export function saveEntry (state, payload) {
       name: folder,
       path_lower: folder,
       thumbnail: entry.thumbnail,
+      source: entry.source,
     }
     vue.set(state['_TOC'], contents.dir, contents)
   }

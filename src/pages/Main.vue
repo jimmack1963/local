@@ -135,6 +135,7 @@
             auto-close
             no-caps
             dense
+            v-if="folder.source !== 'demos/'"
             :label="$t('Creating')"
             class="q-mr-sm"
 
