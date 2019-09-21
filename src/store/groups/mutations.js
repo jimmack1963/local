@@ -38,7 +38,6 @@ export function activeScene (state, payload) {
 }
 
 export function saveEntry (state, payload) {
-
   let folder = payload.folder
   let entry = payload.entry
   vue.set(state.ids, entry.id || entry.fname, entry)

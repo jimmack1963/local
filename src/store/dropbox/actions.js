@@ -199,7 +199,6 @@ export const registerFileFirstPass = async (context, payload) => {
 }
 
 export const registerFileSecondPass = async (context, payload) => {
-
   let entry = payload.entry
   if (entry.childrenLoaded) {
     console.log(entry.path_lower + ' ALREADY LOADED')

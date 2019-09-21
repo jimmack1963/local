@@ -36,7 +36,6 @@ export function activeScene (state, payload) {
 }
 
 export function saveEntry (state, payload) {
-
   // first entry must be the cover image
   let folder = payload.folder
   let entry = payload.entry
@@ -112,4 +111,73 @@ export function childrenLoaded (state, payload) {
   let entry = payload.activeFolder
   // childrenLoaded probably not stored in correct structure
   vue.set(state._TOC[entry.path_lower], 'childrenLoaded', true)
+}
+export function calc (state, payload) {
+  let pageOrderProc = function (folder, sourceFolder) {
+    // TODO: this should be a property on the TOC
+    let numberTest = /^\d|$/
+    let assemble = []
+    // let sourceFolder = this.folders[folder.path_lower]
+
+    if (sourceFolder && sourceFolder.pages) {
+
+      Object.keys(sourceFolder.pages).forEach((key) => {
+        if (numberTest.test(key)) {
+          let index = parseInt(key)
+          assemble[index] = key
+        } else {
+          if (key === 'cover') {
+            assemble[0] = key
+          } else {
+            // TODO: handle multiple string keys better
+            let index = assemble.length + 10000
+            assemble[index] = key
+          }
+        }
+      })
+
+      if (sourceFolder.cover) {
+        assemble[0] = 'cover'
+      }
+    }
+
+    return assemble.filter(function (x) {
+      return (x !== (undefined || null || ''))
+    })
+  }
+
+  let folderName = payload.TOC.path_lower
+  let contents = state.folders[folderName]
+  if (contents) {
+
+    let pageOrder = pageOrderProc(payload.TOC, contents)
+    vue.set(state._TOC[payload.TOC.path_lower], 'pageOrder', pageOrder)
+    if (window.jim_DEBUG_FULL) console.log('Reactive: updated pageOrder for TOC', payload.TOC.path_lower)
+
+    let soundOrder = []
+    let imageOrder = []
+    let coverImage = contents.book_cover.png.length > 0 ? contents.book_cover.png[0].thumbnail : false
+
+    for (let scene = 0; scene < pageOrder.length; scene++) {
+      let thisPageNumber = pageOrder[scene]
+      let entries = contents[thisPageNumber] || contents.pages[thisPageNumber]
+      soundOrder[scene] = entries.mp3.length > 0 ? entries.mp3[0].link : false
+      imageOrder[scene] = entries.png.length > 0 ? entries.png[0].thumbnail : coverImage
+      if (!imageOrder[scene]) {
+        imageOrder[scene] = entries.jpg.length > 0 ? entries.jpg[0].thumbnail : coverImage
+      }
+    }
+
+    vue.set(state._TOC[payload.TOC.path_lower], 'soundOrder', soundOrder)
+    vue.set(state._TOC[payload.TOC.path_lower], 'imageOrder', imageOrder)
+    vue.set(state._TOC[payload.TOC.path_lower], 'contents', contents)
+
+    /*
+    Temporarily, only one sound + image per page
+    scene order contiguous zero based
+    page # any based
+    sound & image based on scene
+     */
+
+  }
 }

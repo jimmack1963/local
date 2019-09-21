@@ -29,6 +29,9 @@ export function setActiveFolder (context, payload) {
     })
 
     if (sourced) {
+      context.commit(sourced + 'calc', {
+        TOC: activeFolder
+      })
       context.commit(sourced + 'childrenLoaded', {activeFolder})
     }
 
