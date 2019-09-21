@@ -88,12 +88,12 @@
       v-bind:key="pageName">
       <q-card-section
         overlay-position="bottom"
-        v-show="activeFolder.imageOrder[offset]"
+        v-show="imageForPage(offset)"
       >
         <q-img
           contain
-          :src="activeFolder.imageOrder[offset]"
-          v-if="activeFolder.imageOrder[offset]"
+          :src="imageForPage(offset)"
+          v-if="imageForPage(offset)"
           :alt="'Image #' + offset"
         >
           <div class="absolute-top text-center q-pa-xs">
@@ -104,7 +104,7 @@
           {{pageName}}
         </q-card-section>
       </q-card-section>
-      <q-card-section v-if="!activeFolder.imageOrder[offset]">
+      <q-card-section v-if="!imageForPage(offset)">
         {{$t('Page')}} {{pageName}} ({{$t('No Image')}})
       </q-card-section>
 
@@ -140,7 +140,7 @@
         <q-btn
           :label="$t('Illustrate')"
           @click="illustrate(activeFolder, pageName)"
-          v-if="!activeFolder.imageOrder[offset]"
+          v-if="!imageForPage(offset)"
           flat
           icon="add_a_photo"
           color="primary"
@@ -148,7 +148,7 @@
         <q-btn
           :label="$t('erase image')"
           @click="deleteBookImage(activeFolder, pageName)"
-          v-if="activeFolder.imageOrder[offset]"
+          v-if="imageForPage(offset)"
           flat
           icon="delete"
           color="primary"
@@ -206,6 +206,8 @@
                  if (window.jim_DEBUG_FULL) console.log('illustrate.page: PageName not found: ' + pageName)
               }
             }, */
+
+
       completedBulkNarration () {
         let last = parseInt(this.bulk.nextNarration)
         if (isNaN(last)) {

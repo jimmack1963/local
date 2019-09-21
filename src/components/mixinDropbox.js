@@ -12,6 +12,11 @@ export const mixinDropbox = {
     ...mapGetters('dropbox', ['quality']),
   },
   methods: {
+    imageForPage (offset) {
+      let possible = this.activeFolder.imageOrder[offset]
+      if (possible !== this.activeFolder.thumbnail) return possible
+      return false
+    },
     async replaceSelfie () {
       await this.$store.dispatch('removeEntry', {
         TOC: this.activeFolder,

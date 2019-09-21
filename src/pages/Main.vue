@@ -88,6 +88,8 @@
 
           <q-btn-dropdown
             auto-close
+            no-caps
+            dense
             :label="$t('Playing')"
             class="q-mr-sm"
             color="primary"
@@ -129,7 +131,14 @@
 
           </q-btn-dropdown>
 
-          <q-btn-dropdown :label="$t('Creating')" class="q-mr-sm" color="primary">
+          <q-btn-dropdown
+            auto-close
+            no-caps
+            dense
+            :label="$t('Creating')"
+            class="q-mr-sm"
+
+            color="secondary">
             <q-list link>
               <q-item
                 @click.native="record(folder)"
