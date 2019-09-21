@@ -143,7 +143,11 @@ export function saveEntry (state, payload) {
       let base = state.folders[entry.dir]
 
       if (entry['.tag'] === 'file') {
-        let pageParts = entry.fname.match(/([pP]+)(\d*)/)
+        let pageParts = entry.fname.match(/^([pP]+)(\d*)/)
+        if (!pageParts) {
+          pageParts = entry.fname.match(/(\d+)\.(\d+)\.(.*)\.(\d+).(\d+)/)
+        }
+
         if (!pageParts) {
           base[entry.fname] = base[entry.fname] || {
             mp3: [],
@@ -168,6 +172,10 @@ export function saveEntry (state, payload) {
             }
             case 2: {
               pageNumber = parseInt(pageParts[0]).toString()
+              break
+            }
+            case 6: {
+              pageNumber = parseInt(pageParts[5]).toString()
               break
             }
             default: {

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <q-header @click.native.stop="home_UI">
       <q-toolbar
         :glossy="$q.theme === 'mat'"
