@@ -47,7 +47,6 @@ export function saveTempLink (state, payload) {
 }
 
 export function saveThumbnail (state, payload) {
-  debugger
   console.log(`********************* saveThumbnail: payload.overridePageName: ${payload.overridePageName} payload.entry.id: ${payload.entry.id}` )
   console.dir(payload)
   let targetId = payload.overloadThumbnailID || payload.entry.id
@@ -240,7 +239,6 @@ export function Credentials (state, payload) {
 }
 
 export function calc (state, payload) {
-  debugger
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/
@@ -290,7 +288,6 @@ export function calc (state, payload) {
       let thisPageNumber = pageOrder[scene]
       let entries = contents[thisPageNumber] || contents.pages[thisPageNumber]
       soundOrder[scene] = entries.mp3.length > 0 ? entries.mp3[0].link : false
-      debugger
       imageOrder[scene] = entries.png.length > 0 ? entries.png[0].thumbnail : coverImage
       if (!imageOrder[scene]) {
         imageOrder[scene] = entries.jpg.length > 0 ? entries.jpg[0].thumbnail : coverImage

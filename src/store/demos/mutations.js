@@ -97,7 +97,6 @@ export function saveEntry (state, payload) {
         break
       }
       case 'mp3': {
-        debugger
         pageDestination.mp3.push(entry)
         TOCEntry.soundOrder[myOffset] = entry.link
 

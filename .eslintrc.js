@@ -51,7 +51,6 @@ module.exports = {
     'space-in-parens': 'off',
     'no-trailing-spaces': 'off',
 
-
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
 

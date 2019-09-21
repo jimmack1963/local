@@ -86,7 +86,12 @@
         <!--if book (folder)-->
         <q-card-actions v-if="folder['.tag'] === 'folder'">
 
-          <q-btn-dropdown :label="$t('Playing')" class="q-mr-sm" color="primary">
+          <q-btn-dropdown
+            auto-close
+            :label="$t('Playing')"
+            class="q-mr-sm"
+            color="primary"
+          >
             <q-list dense>
               <q-item
                 @click.native="selfie(folder)"
