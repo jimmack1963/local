@@ -97,8 +97,12 @@ export function saveEntry (state, payload) {
         break
       }
       case 'mp3': {
+        debugger
         pageDestination.mp3.push(entry)
         TOCEntry.soundOrder[myOffset] = entry.link
+
+        // have a default to cover page if not yet loaded
+        TOCEntry.imageOrder[myOffset] = TOCEntry.imageOrder[myOffset] || TOCEntry.thumbnail
         break
       }
     }

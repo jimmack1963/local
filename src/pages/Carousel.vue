@@ -40,7 +40,7 @@
 
           :key="`full-${n}`"
           :name="n"
-          :img-src="activeFolder.imageOrder[n]"
+          :img-src="activeFolder.imageOrder[n] || activeFolder.thumbnail"
 
           @mousedown.native="mouseDown($event)"
           :style="backgroundStyle(activeFolder.imageOrder[n])"
@@ -73,7 +73,7 @@
           @mouseup.native="mouseUp($event)"
           v-for="(p, n) in myPages"
         >
-          <q-img :alt="imageForPage(p)" :src="activeFolder.imageOrder[n]" contain/>
+          <q-img :alt="imageForPage(p)" :src="activeFolder.imageOrder[n] || activeFolder.thumbnail" contain/>
           <!--
           navigation
           thumbnails
