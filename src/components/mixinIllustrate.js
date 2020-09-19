@@ -39,11 +39,14 @@ export const mixinIllustrate = {
       }
     },
     multipleCameras () {
+      return true
+/*
       if (this.$refs.recordCamCord)
       {
         return this.$refs.recordCamCord.selections.videoSelect.length > 1
       }
       else return false
+*/
     },
     modeCaption () {
       switch (this.facingMode) {
@@ -168,7 +171,16 @@ export const mixinIllustrate = {
         this.stopMediaTracks(this.theStream)
       }
       // note:  VUE instance must have videoRef defined
-      navigator.mediaDevices.getUserMedia({video: {facingMode: this.facingMode}, audio: false})
+      // navigator.mediaDevices.getUserMedia({video: {facingMode: this.facingMode}, audio: false})
+      navigator.mediaDevices.getUserMedia(
+        {
+          video: {
+            facingMode: {
+              exact: this.facingMode,
+            },
+          },
+          audio: false,
+        })
         .then(function (stream) {
 
           console.log('assigned th')

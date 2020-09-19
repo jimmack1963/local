@@ -254,6 +254,10 @@
           </q-item-section>
 
         </q-item>
+        <q-item>
+          <a href='https://ko-fi.com/D1D31W2QH' target='_blank'><img alt='Buy Me a Coffee at ko-fi.com' border='0' height='36' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=2' style='border:0px;height:36px;' /></a>
+        </q-item>
+        <MenuTutorials></MenuTutorials>
       </q-list>
     </q-drawer>
 
@@ -268,6 +272,7 @@ import { mixinGeneral } from '../components/mixinGeneral'
 import { mixinSound } from '../components/mixinSound'
 import { openURL } from 'quasar'
 import v from '../statics/version.json'
+import MenuTutorials from 'src/components/MenuTutorials'
 
 export default {
   name: 'MyLayout',
@@ -287,6 +292,9 @@ export default {
         this.leftDrawerOpen = value
       }
     }
+  },
+  components: {
+    MenuTutorials,
   },
   data () {
     return {

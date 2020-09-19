@@ -3,7 +3,10 @@
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
 
-      <div :class="pOrL">
+      <div
+        :class="pOrL"
+        v-if="currentStep !== 'title'"
+      >
         <RecordCamcord
           :showLocalMenu="currentStep === 'coverXXX'"
           :class="pOrL"
@@ -25,36 +28,6 @@
 
       <q-step
         :order="10"
-        :title="$t('Cover Selfie')"
-        name="cover">
-        <div v-if="!imageTaken">
-          {{$t('Touch image to take selfie')}}
-        </div>
-        <div v-else>
-          {{$t('You can retake the cover')}}
-        </div>
-        <q-stepper-navigation>
-          <q-btn
-            :label="$t('Next')"
-            @click="next"
-            color="primary"
-            v-if="imageTaken"
-          />
-          <!-- <q-btn
-             color="secondary"
-             @click="$refs.newBookCycle.previous()"
-             label="Back"
-           />-->
-          <!--    <q-btn
-                color="secondary"
-                @click="$router.push('/')"
-                :label="$t('Cancel')"
-              />-->
-        </q-stepper-navigation>
-      </q-step>
-
-      <q-step
-        :order="20"
         :title="$t('Title')"
         name="title">
         <q-field
@@ -69,6 +42,31 @@
             color="primary"
           />
           <q-btn
+            :label="$t('Cancel')"
+            @click="$router.push('/')"
+            color="secondary"
+          />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step
+        :order="20"
+        :title="$t('Cover ')"
+        name="cover">
+        <div v-if="!imageTaken">
+          {{$t('Touch image to take selfie')}}
+        </div>
+        <div v-else>
+          {{$t('You can retake the cover')}}
+        </div>
+        <q-stepper-navigation>
+          <q-btn
+            :label="$t('Next')"
+            @click="next"
+            color="primary"
+            v-if="imageTaken"
+          />
+          <q-btn
             @click="$refs.newBookCycle.previous()"
             color="secondary"
             label="Back"
@@ -78,6 +76,16 @@
             @click="$router.push('/')"
             color="secondary"
           />
+          <!-- <q-btn
+             color="secondary"
+             @click="$refs.newBookCycle.previous()"
+             label="Back"
+           />-->
+          <!--    <q-btn
+                color="secondary"
+                @click="$router.push('/')"
+                :label="$t('Cancel')"
+              />-->
         </q-stepper-navigation>
       </q-step>
 
@@ -354,7 +362,7 @@
     props: ['step'],
     data () {
       return {
-        currentStep: 'cover',
+        currentStep: 'title',
 
         bookTitle: '',
         tags: '',

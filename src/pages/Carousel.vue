@@ -124,7 +124,6 @@
 </template>
 
 <script>
-    // import { easing } from 'quasar'
     import {mixinSound} from '../components/mixinSound'
     import {mixinGeneral} from '../components/mixinGeneral'
 

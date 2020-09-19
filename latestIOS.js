@@ -14,7 +14,7 @@ try {
     offRow += 1
     mat_likely = mat_rows[offRow]
   }
-  while (!mat_likely.includes('.now.sh') )
+  while (!mat_likely.includes('.vercel.app') )
 
   console.log('accepted: ' + mat_likely)
 
@@ -34,7 +34,7 @@ try {
     offRow += 1
     ios_likely = ios_rows[offRow]
   }
-  while (!ios_likely.includes('.now.sh') )
+  while (!ios_likely.includes('.vercel.app') )
 
   console.log('accepted: ' + ios_likely)
 
@@ -45,7 +45,7 @@ try {
   let full = 'memoRead.me,playitagainkid.com,readingTogether.works,myFamiliarVoices.com,letsReadAStoryTogether.com'
   let test = 'playitagainkid.com'
   let destinations =
-    test
+    full
     .toLowerCase()
     .split(',')
   let cmds = []

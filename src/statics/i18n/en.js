@@ -103,7 +103,7 @@ export default {
   'Title': 'Title',
   'Tags': 'Tags',
   'Page Numbering': 'Page Numbering',
-  'Plan': 'Plan',
+  'Plan': 'Next',
   'lock_UI': 'Lock',
   'unlock_UI': 'Unlock',
     'List of Books': 'List of Books',

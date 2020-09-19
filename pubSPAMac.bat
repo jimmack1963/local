@@ -16,6 +16,7 @@ now ls dropAndroid > pub-mat.txt
 now ls dropIOS > pub-ios.txt
 
 cat pub-mat.txt
+
 cat pub-ios.txt
 
 read -p "Press [Enter] key"

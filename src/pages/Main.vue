@@ -16,7 +16,7 @@
         <img alt="" class="col-12" src="/statics/Dropbox.svg">
       </q-btn>
 
-      <p v-html="$t('whole idea')"></p>
+      <p v-html="$t('whole idea').replace('Play It Again Kid', title)"></p>
       <p v-html="$t('intro_function')"></p>
 
       <br><br>

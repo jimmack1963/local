@@ -1,5 +1,4 @@
 import { mapGetters } from 'vuex'
-// import { animate } from 'quasar'
 
 export const mixinSound = {
   data () {
@@ -229,33 +228,6 @@ export const mixinSound = {
 
       let vue = this
 
-      // if (!folder.imageOrder[this.activeScene]) {
-      //   animate.start({
-      //     name: 'page-for-attention',
-      //     from: 30,
-      //     to: 100,
-      //     duration: 1000,
-      //     apply (pos) {
-      //       if (vue.$refs.playingPage) {
-      //         vue.$refs.playingPage.forEach(r => {
-      //           r.style.left = `${100 - pos}%`
-      //           // r.style.fontsize = `${pos}px`
-      //           // r.style.top = `${pos}px`
-      //         })
-      //       }
-      //     },
-      //     done () {
-      //
-      //       if (vue.$refs.playingPage) {
-      //         vue.$refs.playingPage.forEach(r => {
-      //           r.style.left = '-2000px'
-      //           // r.style.fontsize = `${pos}px`
-      //           // r.style.top = `${pos}px`
-      //         })
-      //       }
-      //     }
-      //   })
-      // }
       let played = false
       let myFolder = this.folders[folder.path_lower]
       let pagesOrdered = this.pageOrder(folder)

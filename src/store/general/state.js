@@ -10,7 +10,9 @@ let dataPrefix = 'dev'
 const commonSubtitle = 'Get on your kid\'s infinite playlist'
 
 switch (hostname) {
-  default: { // devprod !!
+  case 'saved':
+
+    { // devprod !!
     authURL = window.location.origin
     title = 'Play It Again, Kid'
     verb = 'record'
@@ -52,6 +54,8 @@ switch (hostname) {
     dataPrefix = 'prod'
     break
   }
+  default:
+  case 'localhost':
   case 'myfamiliarvoices.com': { // devprod !!
     authURL = 'https://myfamiliarvoices.com'
     title = 'My Familiar Voices'
@@ -60,7 +64,6 @@ switch (hostname) {
     dataPrefix = 'prod'
     break
   }
-  case 'localhost':
   case 'dev' : { // devprod !!
     authURL = window.location.origin
     title = 'Play It Again, Kid'
@@ -74,8 +77,8 @@ export default {
   showDemos: true, // #day0
   playAfterRecord: true,
   micStatus: micStatus.uninitialized,
-  // facingMode: 'environment', // 'user'
-  facingMode: 'user',
+  facingMode: 'environment', // 'user'
+  // facingMode: 'user',
   cameraPreference: 'touch', // pick
   device: false,
   mic: false,

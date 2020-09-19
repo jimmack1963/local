@@ -400,7 +400,6 @@ export const mixinGeneral = {
     },
 
     readDemoFile (folder, name, tag, index) {
-
       // let link = require('.statics/recordings' + folder + name)
 
       // let linkData = require('../statics/recordings/' + folder + '/' + name)
@@ -440,7 +439,8 @@ export const mixinGeneral = {
     readDropboxFolder () {
       this.leftDrawerOpen = false
       this.$store.commit('clearData')
-      if (!process.env.DEV) this.readDemos()
+      // if (!process.env.DEV)
+        this.readDemos()
 
       this.purgeLocalStorageFromDropbox()
       let self = this
