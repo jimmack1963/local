@@ -47,6 +47,8 @@
     <q-drawer
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
       side="right"
+      :show-if-above="devFeedback"
+      bordered
       v-model="rightDrawerOpen"
     >
       <q-list inset-delimiter no-border>
@@ -299,8 +301,8 @@ export default {
   data () {
     return {
       leftDrawerOpen: false, // this.TOCSorted.length === 0,
-      rightDrawerOpen: true,
-
+      rightDrawerOpen: false,
+      devFeedback: false, // process.env.DEV,
       version: v.version
     }
   },
