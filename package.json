@@ -26,7 +26,7 @@
     "dbg": "adb start-server"
   },
   "dependencies": {
-    "@quasar/extras": "^1.2.0",
+    "@quasar/extras": "^1.9.5",
     "assert": "^1.4.1",
     "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
@@ -38,7 +38,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "opn": "^5.4.0",
     "path-parse": "^1.0.6",
-    "quasar": "^1.0.5",
+    "quasar": "^1.14.0",
     "vue-i18n": "^8.6.0",
     "vue-router-multiguard": "^1.0.3",
     "vue-tour": "^1.1.0"

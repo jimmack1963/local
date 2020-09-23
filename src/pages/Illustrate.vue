@@ -47,17 +47,7 @@
 
         icon="camera"
         color="primary"
-      ></q-btn>
-
-      <q-btn
-        name="front"
-        :label="$t(modeCaption)"
-        @click="modeClick"
-        :icon="modeIcon"
-        v-if="multipleCameras"
-      >
-
-      </q-btn>
+      />
 
       <q-btn
         id="done"
@@ -66,16 +56,20 @@
 
         icon="stop"
         color="secondary"
-      ></q-btn>
+      />
 
       <q-btn
         id="manage"
         :label="$t('manage')"
         @click="manage_UI(activeFolder)"
         icon="dashboard"
-
       />
 
+      <q-option-group
+        v-model="activeDevice"
+        v-if="videoDevicesAsOptions.length > 1"
+        :options="videoDevicesAsOptions"
+      />
 
     </div>
 
@@ -107,6 +101,7 @@
     import {mixinDropbox} from '../components/mixinDropbox'
     import {mixinIllustrate} from '../components/mixinIllustrate'
     import RecordCamcord from '../components/RecordCamcord'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'Illustrate',
@@ -124,7 +119,15 @@
             }
         },
         computed: {
-
+          ...mapGetters(['videoDevicesAsOptions', 'currentVideo']),
+          activeDevice: {
+            get: function () {
+              return this.currentVideo
+            },
+            set: function (val) {
+              this.$store.commit('setCurrentVideo', val)
+            }
+          },
         },
         mounted () {
             window.jim = window.jim || {}

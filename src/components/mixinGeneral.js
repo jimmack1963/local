@@ -4,6 +4,7 @@ export const mixinGeneral = {
   data () {
     return {
       latestPage: false,
+      devFeedback: process.env.DEV,
       bookTitle: '',
       myPages: [],
       // currentBookThumbnails: [],

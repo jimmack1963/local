@@ -55,7 +55,14 @@ switch (hostname) {
     break
   }
   default:
-  case 'localhost':
+  case 'localhost': { // devprod !!
+    authURL = 'https://localhost:8080'
+    title = 'My Familiar Voices'
+    verb = 'record'
+    subtitle = commonSubtitle
+    dataPrefix = 'prod'
+    break
+  }
   case 'myfamiliarvoices.com': { // devprod !!
     authURL = 'https://myfamiliarvoices.com'
     title = 'My Familiar Voices'

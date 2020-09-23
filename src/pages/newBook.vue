@@ -1,30 +1,30 @@
 <template>
-  <q-page class="row" id="newbook">
+  <q-page id="newbook" class="row">
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
 
-      <div
+    <div
+      v-if="currentStep !== 'title'"
+      :class="pOrL"
+    >
+      <RecordCamcord
+        ref="recordCamCord"
         :class="pOrL"
-        v-if="currentStep !== 'title'"
+        :fileable=false
+        :showLocalMenu="currentStep === 'coverXXX'"
+        :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
+        pageName="book_cover.png"
+        v-on:completed="newBookIllustrated"
       >
-        <RecordCamcord
-          :showLocalMenu="currentStep === 'coverXXX'"
-          :class="pOrL"
-          :fileable=false
-          :wholeFileName="'/' + cleanFileNameForDropbox(bookTitle) + '/book_cover.png'"
-          pageName="book_cover.png"
-          ref="recordCamCord"
-          v-on:completed="newBookIllustrated"
-        >
-        </RecordCamcord>
-      </div>
+      </RecordCamcord>
+    </div>
 
     <q-stepper
+      ref="newBookCycle"
+      v-model="currentStep"
       :class="rest"
       :vertical="true"
-      contractable
-      ref="newBookCycle"
-      v-model="currentStep">
+      contractable>
 
       <q-step
         :order="10"
@@ -33,18 +33,18 @@
         <q-field
           :label="$t('Book Title')"
           class="col-xs-12 q-mx-sm">
-          <q-input @keyup.enter="$refs.newBookCycle.next()" autofocus id="bookTitle" v-model.lazy="bookTitle"></q-input>
+          <q-input id="bookTitle" v-model.lazy="bookTitle" autofocus @keyup.enter="$refs.newBookCycle.next()"></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
             :label="$t('Next')"
-            @click="next"
             color="primary"
+            @click="next"
           />
           <q-btn
             :label="$t('Cancel')"
-            @click="$router.push('/')"
             color="secondary"
+            @click="$router.push('/')"
           />
         </q-stepper-navigation>
       </q-step>
@@ -54,27 +54,35 @@
         :title="$t('Cover ')"
         name="cover">
         <div v-if="!imageTaken">
-          {{$t('Touch image to take selfie')}}
+          {{ $t('Touch image to take selfie') }}
+          <q-option-group
+            v-model="activeDevice"
+            v-if="videoDevicesAsOptions.length > 1"
+            :options="videoDevicesAsOptions"
+          />
+
         </div>
+
+
         <div v-else>
-          {{$t('You can retake the cover')}}
+          {{ $t('You can retake the cover') }}
         </div>
         <q-stepper-navigation>
           <q-btn
-            :label="$t('Next')"
-            @click="next"
-            color="primary"
             v-if="imageTaken"
+            :label="$t('Next')"
+            color="primary"
+            @click="next"
           />
           <q-btn
-            @click="$refs.newBookCycle.previous()"
             color="secondary"
             label="Back"
+            @click="$refs.newBookCycle.previous()"
           />
           <q-btn
             :label="$t('Cancel')"
-            @click="$router.push('/')"
             color="secondary"
+            @click="$router.push('/')"
           />
           <!-- <q-btn
              color="secondary"
@@ -156,52 +164,52 @@
       >
 
 
-          <q-btn
-            @click="illustrate"
-            class="col-12 col-xs-6 q-mb-sm full-width"
-            color="primary"
-            icon="photo_library"
-            no-caps
+        <q-btn
+          class="col-12 col-xs-6 q-mb-sm full-width"
+          color="primary"
+          icon="photo_library"
+          no-caps
+          @click="illustrate"
 
-          >
-            &nbsp;{{beforeParen('Illustrating the whole book (Take a snapshot of each page)')}}
-            <br>
-            &nbsp;{{afterParen('Illustrating the whole book (Take a snapshot of each page)')}}
-          </q-btn>
-          <q-btn
-            @click="narrate"
-            class="col-12 col-xs-6  q-mb-sm full-width"
-            color="primary"
-            icon="mic"
-            no-caps
-          >
-            &nbsp;{{beforeParen('Narrating the whole book (Read each page)')}}
-            <br>
-            &nbsp;{{afterParen('Narrating the whole book (Read each page)')}}
+        >
+          &nbsp;{{ beforeParen('Illustrating the whole book (Take a snapshot of each page)') }}
+          <br>
+          &nbsp;{{ afterParen('Illustrating the whole book (Take a snapshot of each page)') }}
+        </q-btn>
+        <q-btn
+          class="col-12 col-xs-6  q-mb-sm full-width"
+          color="primary"
+          icon="mic"
+          no-caps
+          @click="narrate"
+        >
+          &nbsp;{{ beforeParen('Narrating the whole book (Read each page)') }}
+          <br>
+          &nbsp;{{ afterParen('Narrating the whole book (Read each page)') }}
 
-          </q-btn>
+        </q-btn>
 
-          <!--
-          <q-btn
-          class=q-mb-sm
-            icon="library books"
-            color="primary"
-            @click="pageByPage"
-            label="Page by Page"
-          />
+        <!--
+        <q-btn
+        class=q-mb-sm
+          icon="library books"
+          color="primary"
+          @click="pageByPage"
+          label="Page by Page"
+        />
 -->
         <q-stepper-navigation>
           <q-btn
-            @click="$refs.newBookCycle.previous()"
             class="q-mb-sm q-mr-sm"
             color="secondary"
             label="Back"
+            @click="$refs.newBookCycle.previous()"
           />
           <q-btn
             :label="$t('Cancel')"
-            @click="$router.push('/')"
             class="q-mb-sm q-mr-sm"
             color="secondary"
+            @click="$router.push('/')"
           />
         </q-stepper-navigation>
       </q-step>
@@ -280,114 +288,126 @@
 </template>
 
 <script>
-  import { mixinDropbox } from '../components/mixinDropbox'
-  // import { mixinBook } from '../components/mixinBook'
-  // import { mixinCamera } from '../components/mixinCamera'
-  import RecordCamcord from '../components/RecordCamcord'
+import {mixinDropbox} from '../components/mixinDropbox'
+// import { mixinBook } from '../components/mixinBook'
+// import { mixinCamera } from '../components/mixinCamera'
+import RecordCamcord from '../components/RecordCamcord'
+import {mapGetters} from 'vuex'
 
 
-  export default {
-      computed: {
-          pOrL () {
-              if (this.$q.screen.height > this.$q.screen.width) {
-                  console.log('orientation: Portrait')
-                  return 'col-12'
-              }
-              else {
-                  console.log('orientation: landscape')
-                  return 'col-8'
-              }
-          },
-          rest () {
-              if (this.$q.screen.height > this.$q.screen.width) {
-                  return 'col-12'
-              }
-              else {
-                  return 'col-4'
-              }
-          }
+export default {
+  computed: {
+    ...mapGetters(['videoDevicesAsOptions', 'currentVideo']),
+    activeDevice: {
+      get: function () {
+        return this.currentVideo
       },
-    methods: {
-        beforeParen (key) {
-            let phrase = this.$t(key)
-            let parts = phrase.split('(')
-            return parts[0]
-        },
-        afterParen (key) {
-            let phrase = this.$t(key)
-            let parts = phrase.split('(')
-            return '(' + parts[1]
-        },
-      newBookIllustrated (completed) {
-
-        this.imageTaken = completed
-        this.$store.commit('unlock')
-        // run when image correctly taken in RecordCamcord
-      },
-      async narrate () {
-
-        await this.createBookAndAdvance()
-
-        this.$router.push('/narrate')
-      },
-      async illustrate () {
-
-        await this.createBookAndAdvance()
-
-        this.$router.push('/illustrate')
-      },
-      async pageByPage () {
-
-        await this.createBookAndAdvance()
-
-        this.$router.push('/pageByPage')
-      },
-      async createBookAndAdvance () {
-        this.filename = 'book_cover.jpg'
-        let newFolder = this.cleanFileNameForDropbox(this.bookTitle)
-        await this.createActiveFolder(newFolder)
-        await this.$refs.recordCamCord.createNewBookCoverPage(this.filename, this.tags, this.pageStyle)
-        // this.uploadFile()
-      },
-      next () {
-        this.$refs.newBookCycle.next()
-      },
-      previous () {
-        this.$refs.newBookCycle.previous()
-      },
-    },
-    name: 'newBook',
-    mixins: [mixinDropbox],
-    components: {RecordCamcord},
-    props: ['step'],
-    data () {
-      return {
-        currentStep: 'title',
-
-        bookTitle: '',
-        tags: '',
-        pageStyle: 'page',
-        illustrating: false,
-        image: false,
-        imageTaken: false,
-        available: 'general',
+      set: function (val) {
+        this.$store.commit('setCurrentVideo', val)
       }
     },
-    mounted () {
-      // this.date = date
-      window.jim = window.jim || {}
-      window.jim.newBook = this
+    pOrL () {
+      if (this.$q.screen.height > this.$q.screen.width) {
+        console.log('orientation: Portrait')
+        return 'col-12'
+      }
+      else {
+        console.log('orientation: landscape')
+        return 'col-8'
+      }
     },
-  }
+    rest () {
+      if (this.$q.screen.height > this.$q.screen.width) {
+        return 'col-12'
+      }
+      else {
+        return 'col-4'
+      }
+    },
+  },
+  methods: {
+    beforeParen (key) {
+      let phrase = this.$t(key)
+      let parts = phrase.split('(')
+      return parts[0]
+    },
+    afterParen (key) {
+      let phrase = this.$t(key)
+      let parts = phrase.split('(')
+      return '(' + parts[1]
+    },
+    newBookIllustrated (completed) {
+
+      this.imageTaken = completed
+      this.$store.commit('unlock')
+      // run when image correctly taken in RecordCamcord
+    },
+    async narrate () {
+
+      await this.createBookAndAdvance()
+
+      this.$router.push('/narrate')
+    },
+    async illustrate () {
+
+      await this.createBookAndAdvance()
+
+      this.$router.push('/illustrate')
+    },
+    async pageByPage () {
+
+      await this.createBookAndAdvance()
+
+      this.$router.push('/pageByPage')
+    },
+    async createBookAndAdvance () {
+      this.filename = 'book_cover.jpg'
+      let newFolder = this.cleanFileNameForDropbox(this.bookTitle)
+      await this.createActiveFolder(newFolder)
+      await this.$refs.recordCamCord.createNewBookCoverPage(this.filename, this.tags, this.pageStyle)
+      // this.uploadFile()
+    },
+    next () {
+      this.$refs.newBookCycle.next()
+    },
+    previous () {
+      this.$refs.newBookCycle.previous()
+    },
+  },
+  name: 'newBook',
+  mixins: [mixinDropbox],
+  components: {RecordCamcord},
+  props: ['step'],
+  data () {
+    return {
+      currentStep: 'title',
+
+      bookTitle: '',
+      tags: '',
+      pageStyle: 'page',
+      illustrating: false,
+      image: false,
+      imageTaken: false,
+      available: 'general',
+    }
+  },
+  mounted () {
+    // this.date = date
+    window.jim = window.jim || {}
+    window.jim.newBook = this
+
+    this.$store.dispatch('getDevices')
+  },
+}
 </script>
 
 <style>
-  .snapshot-medium {
-    height: 100% !important;
-    max-height: 60vh;
-  }
+.snapshot-medium {
+  height: 100% !important;
+  max-height: 60vh;
+}
 
-  .strip {
-    height: 1em;
-  }
+.strip {
+  height: 1em;
+}
 </style>

@@ -26,8 +26,15 @@ export const mixinIllustrate = {
     this.onResize()
   },
   computed: {
-    ...mapGetters([]),
-
+    ...mapGetters(['currentVideo']),
+    activeDevice: {
+      get: function () {
+        return this.currentVideo
+      },
+      set: function (val) {
+        this.$store.commit('setCurrentVideo', val)
+      }
+    },
     modeIcon () {
       switch (this.facingMode) {
         case 'user':
@@ -75,7 +82,6 @@ export const mixinIllustrate = {
         this.getUserMedia(this.videoRef)
       }
       else {
-
       }
     },
   },
@@ -84,10 +90,13 @@ export const mixinIllustrate = {
       switch (this.facingMode) {
         case 'user':
           this.$store.commit('facingMode', {facingMode: 'environment'})
+          this.getUserMedia(this.videoRef)
           console.log('clickRear')
+
           break
         case 'environment':
           this.$store.commit('facingMode', {facingMode: 'user'})
+          this.getUserMedia(this.videoRef)
           console.log('clickFront')
           break
         default:
@@ -164,36 +173,37 @@ export const mixinIllustrate = {
         track.stop()
       })
     },
-    getUserMedia (videoRef) {
+    async getUserMedia (videoRef) {
+      if (!this.activeDevice) return false
+
       let self = this
       if (this.theStream) {
         console.log('Stopped theStream')
         this.stopMediaTracks(this.theStream)
       }
-      // note:  VUE instance must have videoRef defined
-      // navigator.mediaDevices.getUserMedia({video: {facingMode: this.facingMode}, audio: false})
-      navigator.mediaDevices.getUserMedia(
-        {
-          video: {
-            facingMode: {
-              exact: this.facingMode,
-            },
-          },
-          audio: false,
-        })
+
+      const constraints = {
+        video: {
+          deviceId: this.activeDevice
+        },
+        audio: false,
+      }
+
+      await navigator.mediaDevices.getUserMedia(constraints)
         .then(function (stream) {
 
           console.log('assigned th')
           self.theStream = stream
           videoRef.srcObject = stream
 
+          videoRef.addEventListener('canplay', self.captureCanvas, false)
           videoRef.play()
         })
         .catch(function (err) {
-          console.log('An error occured! ' + err)
+          alert('An error occured! ' + err)
         })
 
-      videoRef.addEventListener('canplay', this.captureCanvas, false)
+
 
     },
     swipeHandler (obj) {
