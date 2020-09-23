@@ -1,8 +1,6 @@
 export const getDevices = async (context) => {
   context.commit('mediaState', 'loading')
-  if (context.state.devices.length > 0) {
-    return context.state.devices
-  }
+
   const sofar = []
   if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
     context.commit('mediaState', 'present')
@@ -28,7 +26,8 @@ export const getDevices = async (context) => {
       count++
       latest = dev.deviceId
     }
-    console.dir(dev)
+    // dev.label = dev.label || 'Camera ' + count
+
     sofar.push(dev)
   })
   context.commit('setDevices', sofar)

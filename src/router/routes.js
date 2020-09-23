@@ -114,7 +114,16 @@ const routes = [
       { path: '', component: Manage }
     ],
     beforeEnter: multiguard([guardActiveFolder])
-  }
+  },
+  {
+    path: '/:access_token(.*)',
+    component: MyLayout,
+    name: 'returnDropbox',
+    children: [
+      { path: '', component: Main }
+    ],
+    beforeEnter: multiguard([noActiveFolder])
+  },
 
 ]
 

@@ -46,7 +46,9 @@ const parseQueryString = function (str) {
 }
 
 // leave the export, even if you don't use it
-export default ({app, router, Vue}) => {
+export default ({app, router, Vue}) => { parseAndJoin(app, router, Vue) }
+
+const parseAndJoin = function (app, router, Vue) {
   let store = false
 
   window.jim_DEBUG = true // devprod !!!!!
@@ -66,9 +68,11 @@ export default ({app, router, Vue}) => {
 
   // This example keeps both the authenticate and non-authenticated setions
   // in the DOM and uses this function to show/hide the correct section.
-  let queryString = parseQueryString(window.location.hash)
+  let queryString = parseQueryString(window.location.hash.substr(2))
 
+  debugger
   let saved = LocalStorage.getItem('dropbox/access_token')
+
   let access_token = queryString.access_token
   if (access_token) {
     if (!saved || saved !== access_token) {
@@ -124,6 +128,7 @@ export default ({app, router, Vue}) => {
   }
 
   let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
+  debugger
   console.log('authUrl')
   console.dir(authUrl)
   gtm.logEvent('website', store.state.general.authURL, '', false)

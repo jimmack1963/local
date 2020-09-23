@@ -89,12 +89,13 @@ export default {
       },
     }
   },
-  mounted () {
+  async mounted () {
 
     let vue = this
     window.jim = window.jim || {}
     window.jim.recordcamcord = this
 
+    await navigator.mediaDevices.getUserMedia({video: true, audio: false})
     this.$store.dispatch('getDevices')
 
     vue.videoRef = vue.$refs.video

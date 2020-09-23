@@ -172,7 +172,7 @@
           </q-item-section>
         </q-item>
         <q-item>
-          <q-item-label labelc="(c) 2019, James R. Mack"></q-item-label>
+          <q-item-label labelc="&#169; 2019, 2020 James R. Mack"></q-item-label>
         </q-item>
       </q-list>
       <a href="mailto:jim@less2do.com?Subject=Play It Again, Kid" target="_top"
@@ -258,6 +258,12 @@
         </q-item>
         <q-item>
           <a href='https://ko-fi.com/D1D31W2QH' target='_blank'><img alt='Buy Me a Coffee at ko-fi.com' border='0' height='36' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=2' style='border:0px;height:36px;' /></a>
+        </q-item>
+        <q-item>
+          &#169; Copyright 2018, 2019, 2020  James R. Mack, Jr.  All Rights Reserved
+        </q-item>
+        <q-item>
+          <a href="https://discord.gg/RVxhgAv">Get help or give feedback on Discord Chat </a>
         </q-item>
         <MenuTutorials></MenuTutorials>
       </q-list>

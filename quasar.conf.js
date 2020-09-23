@@ -33,9 +33,9 @@ module.exports = function (ctx) {
           : JSON.stringify('https://readingTogether.works')
       },
       scopeHoisting: true,
-      vueRouterMode: 'history',
+      vueRouterMode: 'hash',
       // vueCompiler: true,
-      // gzip: true,
+      gzip: true,
       // analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {

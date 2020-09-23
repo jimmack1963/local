@@ -391,11 +391,12 @@ export default {
       available: 'general',
     }
   },
-  mounted () {
+  async mounted () {
     // this.date = date
     window.jim = window.jim || {}
     window.jim.newBook = this
 
+    await navigator.mediaDevices.getUserMedia({video: true, audio: false})
     this.$store.dispatch('getDevices')
   },
 }

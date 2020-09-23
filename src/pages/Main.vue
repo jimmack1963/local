@@ -150,6 +150,9 @@ img {
 
     </q-card>
 
+
+
+
     <q-card
       v-for="(folder, offset) in TOCSorted"
       v-if="access_token && (!activeFolder || activeFolder.id === folder.id )"
@@ -328,6 +331,10 @@ img {
         </q-card-actions>
       </div>
     </q-card>
+    <div class="col-12">
+    &#169; Copyright 2018, 2019, 2020  James R. Mack, Jr.  All Rights Reserved
+      <a href='https://ko-fi.com/D1D31W2QH' target='_blank'><img alt='Buy Me a Coffee at ko-fi.com' border='0' height='36' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=2' style='border:0px;height:36px;' /></a>
+  </div>
   </q-page>
 </template>
 
