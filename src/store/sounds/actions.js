@@ -14,9 +14,7 @@ export const getDevices = async (context) => {
   // await navigator.mediaDevices.getUserMedia({video: true, audio: true})
 
   const devices = await navigator.mediaDevices.enumerateDevices()
-  const media = devices.filter(dev => (dev.kind === 'videoinput' || dev.kind === 'audioinput') &&
-  !dev.label.includes('Soundflower ')
-  )
+  const media = devices.filter(dev => (dev.kind === 'videoinput' || dev.kind === 'audioinput'))
 
   console.log('device list:')
   let count = 0
@@ -26,7 +24,7 @@ export const getDevices = async (context) => {
       count++
       latest = dev.deviceId
     }
-    // dev.label = dev.label || 'Camera ' + count
+    // dev.label = dev.label || 'Camera ' + count // can't modify this
 
     sofar.push(dev)
   })
@@ -36,3 +34,4 @@ export const getDevices = async (context) => {
 
   }
 }
+

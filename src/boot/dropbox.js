@@ -70,7 +70,6 @@ const parseAndJoin = function (app, router, Vue) {
   // in the DOM and uses this function to show/hide the correct section.
   let queryString = parseQueryString(window.location.hash.substr(2))
 
-  debugger
   let saved = LocalStorage.getItem('dropbox/access_token')
 
   let access_token = queryString.access_token
@@ -128,7 +127,7 @@ const parseAndJoin = function (app, router, Vue) {
   }
 
   let authUrl = dbx.getAuthenticationUrl(store.state.general.authURL)
-  debugger
+
   console.log('authUrl')
   console.dir(authUrl)
   gtm.logEvent('website', store.state.general.authURL, '', false)

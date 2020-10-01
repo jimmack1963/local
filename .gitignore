@@ -24,3 +24,4 @@ pwa-mat.txt
 pub-ios.txt
 pub-mat.txt
 /package-lock.json
+*-flag.d.ts
