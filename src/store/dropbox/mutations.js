@@ -73,7 +73,9 @@ export function saveThumbnail (state, payload) {
       if (target) {
         vue.set(target, 'thumbnail', payload.thumbnail)
         for (let ctr = 0; ctr < target.imageOrder.length; ctr++) {
-          if (!target.imageOrder[ctr]) target.imageOrder[ctr] = payload.thumbnail
+          if (!target.imageOrder[ctr]) {
+            target.imageOrder[ctr] = payload.thumbnail
+          }
         }
         if (window.jim_DEBUG_VUEX) console.log('TOC thumbnail set: ' + which.name)
         return true
@@ -92,7 +94,6 @@ export function saveThumbnail (state, payload) {
 
     if (payload.overridePageName) {
       if (TOC && TOC.imageOrder) {
-
         vue.set(TOC.imageOrder, myOffset, payload.thumbnail)
       }
     } else {

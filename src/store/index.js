@@ -6,6 +6,7 @@ import general from './general'
 import sounds from './sounds'
 import demos from './demos'
 import groups from './groups'
+import devices from './devices'
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ export default function (/* { ssrContext } */) {
       sounds,
       general,
       dropbox,
+      devices,
       groups,
       demos,
     }

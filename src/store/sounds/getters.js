@@ -24,31 +24,3 @@ export function mostRecentPage (state) {
 export function howlPreload (state) {
   return state.howlPreload
 }
-
-export function currentVideo (state) {
-  return state.currentVideo
-}
-
-export function audioDevices (state) {
-  return state.devices.filter(dev => (dev.kind === 'audioinput') &&
-    !dev.label.includes('Soundflower '),
-  )
-}
-
-export function videoDevices (state) {
-  return state.devices.filter(dev => (dev.kind === 'videoinput') &&
-    !dev.label.includes('Soundflower '),
-  )
-}
-
-export function videoDevicesAsOptions (state) {
-  return state.devices.filter(dev => (dev.kind === 'videoinput') &&
-    !dev.label.includes('Soundflower '))
-    .map(dev => {
-      return {
-        label: dev.label,
-        value: dev.deviceId,
-      }
-    })
-}
-

@@ -2,12 +2,31 @@
   <q-page id="newbook" class="row">
     <!--<div class="strip">{{$t('Create a new book')}}</div>
     -->
-
     <div
-      v-if="currentStep !== 'title'"
-      :class="pOrL"
+      v-show="currentStep !== 'title'"
+      :class="pOrL + ' row'"
     >
-      <RecordCamcord
+      <q-img
+        id="camera--output"
+        alt="your camera"
+        class="col-6"
+        v-if="latestImageAsDataURL || (latestImage !== '//:0')"
+        :src="latestImage || latestImageAsDataURL"
+      />
+
+<!--      <q-card
+        v-for="url in urls"
+        :key="url"
+        class="col-2"
+      >
+        <img
+          id="camera&#45;&#45;output"
+          alt="Your Image"
+          :src="url"
+        >
+      </q-card>-->
+
+     <!-- <RecordCamcord
         ref="recordCamCord"
         :class="pOrL"
         :fileable=false
@@ -16,13 +35,13 @@
         pageName="book_cover.png"
         v-on:completed="newBookIllustrated"
       >
-      </RecordCamcord>
+      </RecordCamcord>-->
     </div>
 
     <q-stepper
       ref="newBookCycle"
       v-model="currentStep"
-      :class="rest"
+      :class="'rest' + ' col-12'"
       :vertical="true"
       contractable>
 
@@ -33,7 +52,12 @@
         <q-field
           :label="$t('Book Title')"
           class="col-xs-12 q-mx-sm">
-          <q-input id="bookTitle" v-model.lazy="bookTitle" autofocus @keyup.enter="$refs.newBookCycle.next()"></q-input>
+          <q-input
+            id="bookTitle"
+            v-model.lazy="bookTitle"
+            autofocus
+            @keyup.enter="$refs.newBookCycle.next()"
+          ></q-input>
         </q-field>
         <q-stepper-navigation>
           <q-btn
@@ -53,27 +77,36 @@
         :order="20"
         :title="$t('Cover ')"
         name="cover">
-        <div v-if="!imageTaken">
-          {{ $t('Touch image to take selfie') }}
-          <q-option-group
-            v-model="activeDevice"
-            v-if="videoDevicesAsOptions.length > 1"
-            :options="videoDevicesAsOptions"
-          />
 
+
+        <TakeOrFind
+          ref="TakeOrFind"
+          v-on:onImageTaken="imageReady = true"
+          v-on:onFile="imageReady = true"
+          :takeCaption="$t('Take Selfie')"
+          pageName="book_cover.png"
+        >
+        </TakeOrFind>
+
+        <div v-if="!(imageTaken || imageReady)">
         </div>
 
-
         <div v-else>
-          {{ $t('You can retake the cover') }}
+          <q-btn
+            @click="clearImages"
+            class="bg-warning"
+          >
+            {{ $t('Retake') }}
+          </q-btn>
         </div>
         <q-stepper-navigation>
           <q-btn
-            v-if="imageTaken"
+            v-if="imageTaken || imageReady"
             :label="$t('Next')"
             color="primary"
             @click="next"
           />
+
           <q-btn
             color="secondary"
             label="Back"
@@ -289,15 +322,24 @@
 
 <script>
 import {mixinDropbox} from '../components/mixinDropbox'
+import {mixinUpload} from '../components/mixinUpload'
 // import { mixinBook } from '../components/mixinBook'
 // import { mixinCamera } from '../components/mixinCamera'
-import RecordCamcord from '../components/RecordCamcord'
-import {mapGetters} from 'vuex'
+// import RecordCamcord from '../components/RecordCamcord'
 
+import {mapGetters} from 'vuex'
+import TakeOrFind from '../components/TakeOrFind'
 
 export default {
   computed: {
-    ...mapGetters(['videoDevicesAsOptions', 'currentVideo']),
+    ...mapGetters('devices', [
+      'latestImage',
+      'urls',
+      'latestImageAsDataURL',
+      'externals',
+      'files',
+      'selectedInfo'
+    ]),
     activeDevice: {
       get: function () {
         return this.currentVideo
@@ -323,6 +365,9 @@ export default {
       else {
         return 'col-4'
       }
+    },
+    imageTaken () {
+      return (this.latestImage !== '//:0')
     },
   },
   methods: {
@@ -361,11 +406,24 @@ export default {
       this.$router.push('/pageByPage')
     },
     async createBookAndAdvance () {
-      this.filename = 'book_cover.jpg'
+
+      this.filename = 'book_cover'
       let newFolder = this.cleanFileNameForDropbox(this.bookTitle)
       await this.createActiveFolder(newFolder)
-      await this.$refs.recordCamCord.createNewBookCoverPage(this.filename, this.tags, this.pageStyle)
-      // this.uploadFile()
+
+      if (!this.selectedInfo.useInput) {
+
+        await this.uploadImage(this.filename, this.latestImageAsDataURL, '/' + newFolder)
+      } else {
+
+        if (this.files.length < 1) {
+          alert('no file chosen')
+          return false
+        }
+        await this.uploadFileWithName(this.filename, this.files[0], '/' + newFolder)
+      }
+
+      // await this.$refs.recordCamCord.createNewBookCoverPage(this.filename, this.tags, this.pageStyle)
     },
     next () {
       this.$refs.newBookCycle.next()
@@ -373,21 +431,24 @@ export default {
     previous () {
       this.$refs.newBookCycle.previous()
     },
+    clearImages () {
+      this.$store.commit('devices/clearImages')
+    },
   },
   name: 'newBook',
-  mixins: [mixinDropbox],
-  components: {RecordCamcord},
+  mixins: [mixinUpload, mixinDropbox],
+  components: {TakeOrFind},
   props: ['step'],
   data () {
     return {
-      currentStep: 'title',
+        currentStep: 'title',
 
-      bookTitle: '',
+        bookTitle: '',
       tags: '',
       pageStyle: 'page',
       illustrating: false,
+      imageReady: false,
       image: false,
-      imageTaken: false,
       available: 'general',
     }
   },
@@ -396,8 +457,9 @@ export default {
     window.jim = window.jim || {}
     window.jim.newBook = this
 
+    this.clearImages()
     await navigator.mediaDevices.getUserMedia({video: true, audio: false})
-    this.$store.dispatch('getDevices')
+    // this.$store.dispatch('getDevices')
   },
 }
 </script>

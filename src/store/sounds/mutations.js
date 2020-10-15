@@ -95,16 +95,3 @@ export function createHowl (state, payload) {
     if (window.jim_DEBUG_VUEX) console.dir(payload)
   }
 }
-
-export function mediaState (state, payload) {
-  state.mediaState = payload
-}
-
-export function setDevices (state, payload) {
-  state.devices = payload
-}
-
-export function setCurrentVideo (state, payload) {
-  state.currentVideo = payload
-}
-

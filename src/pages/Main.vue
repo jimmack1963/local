@@ -342,16 +342,12 @@ img {
 import {mixinSound} from '../components/mixinSound'
 import {mixinGeneral} from '../components/mixinGeneral'
 import {openURL} from 'quasar'
-import {mapState} from 'vuex'
 
 export default {
   name: 'Main',
   components: {},
   mixins: [mixinGeneral, mixinSound],
   methods: {
-    async explore () {
-      this.$store.dispatch('getDevices')
-    },
     mouseDown (event, folder) {
 
       console.log('*********************** mouseDown')
@@ -448,10 +444,7 @@ export default {
     },
   },
   computed: {
-    ...mapState({
-      devices: state => state.sounds.devices,
-    }),
-    authURL () {
+     authURL () {
       return this.$authURL
     },
   },
@@ -469,7 +462,6 @@ export default {
     let vue = this
     window.jim = window.jim || {}
     window.jim.main = this
-    this.explore()
     if (Object.keys(this.TOC).length < 1) {
       this.readDropboxFolder()
     }

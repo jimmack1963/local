@@ -13,54 +13,43 @@
         No Image
       </p>
     </div>
-    <div :class="rest" class="q-pa-sm">
-      <q-field
-        :label="$t('Next Page to Narrate')"
-      >
-        <q-input
-          v-model="nextNarration"
-        >
-        </q-input>
-      </q-field>
+    <q-card
+      bordered
+      v-bind:key="index"
+      v-for="(blob, index) in activeFolder.soundOrder"
+    >
+      <q-card-section>
+        Page {{activeFolder.pageOrder[index]}}
+      </q-card-section>
+      <q-img
+        contain
+        :src="imageForPage(index)"
+        v-if="imageForPage(index)"
+        :alt="'Image #' + index"
+      ></q-img>
 
-      <RecordAudio
-        :autoclose="true"
-        :pageName="nextNarration.toString()"
-        :ref="`record_audio_${nextNarration}`"
-        :showButtons="false"
-        :start="true"
-        v-if="activeNow[nextNarration.toString()]"
-        v-on:nextitem="nextitemplease"
-      >
-      </RecordAudio>
+      <q-card-actions>
 
-      <q-btn
-        :icon="activeRecorderOffset !== nextNarration.toString() ?  'mic' : likelyIcon"
-        :id="`narrate_${nextNarration}`"
-        :label="activeRecorderOffset !== nextNarration.toString() ?  $t('narrate page') + ' ' + nextNarration : $t(likelyAction)"
-        @click="narratePage(activeFolder, nextNarration.toString(), nextNarration)"
-        color="primary"
-        v-if="!activeFolder.soundOrder[nextNarration]"
-      ></q-btn>
 
-      <q-btn
-        :label="$t('done')"
-        @click="doneAndClosed"
-        color="secondary"
-        icon="stop"
-        id="done"
-        v-if="!activeRecorderOffset"
-      >
-      </q-btn>
+        <q-btn
+          :label="$t('play')"
+          @click="playOnePage(activeFolder, activeFolder.pageOrder[index])"
+          v-if="activeFolder.soundOrder[index]"
+          flat
+          icon="play_arrow"
+          color="primary"
+        ></q-btn>
 
-      <q-btn
-        :label="$t('manage')"
-        @click="manage_UI(activeFolder)"
-        icon="dashboard"
-        id="manage"
-
-      />
-    </div>
+        <q-btn
+          :label="$t('erase recording')"
+          @click="deleteBookSound(activeFolder, activeFolder.pageOrder[index])"
+          v-if="activeFolder.soundOrder[index]"
+          flat
+          icon="delete"
+          color="primary"
+        ></q-btn>
+      </q-card-actions>
+    </q-card>
 
     <!--<q-card class="col-12">
       <q-card-section
@@ -135,29 +124,54 @@
       </q-card-section>
     </q-card>-->
 
-    <q-item
-      v-bind:key="index"
-      v-for="(blob, index) in activeFolder.soundOrder"
-    >
-      Page {{activeFolder.pageOrder[index]}}
-         <q-btn
-           :label="$t('play')"
-           @click="playOnePage(activeFolder, activeFolder.pageOrder[index])"
-           v-if="activeFolder.soundOrder[index]"
-           flat
-           icon="play_arrow"
-           color="primary"
-         ></q-btn>
+    <div :class="rest" class="q-pa-sm">
+      <q-field
+        :label="$t('Next Page to Narrate')"
+      >
+        <q-input
+          v-model="nextNarration"
+        >
+        </q-input>
+      </q-field>
 
-        <q-btn
-          :label="$t('erase recording')"
-          @click="deleteBookSound(activeFolder, activeFolder.pageOrder[index])"
-          v-if="activeFolder.soundOrder[index]"
-          flat
-          icon="delete"
-          color="primary"
-        ></q-btn>
-    </q-item>
+      <RecordAudio
+        :autoclose="true"
+        :pageName="nextNarration.toString()"
+        :ref="`record_audio_${nextNarration}`"
+        :showButtons="false"
+        :start="true"
+        v-if="activeNow[nextNarration.toString()]"
+        v-on:nextitem="nextitemplease"
+      >
+      </RecordAudio>
+
+      <q-btn
+        :icon="activeRecorderOffset !== nextNarration.toString() ?  'mic' : likelyIcon"
+        :id="`narrate_${nextNarration}`"
+        :label="activeRecorderOffset !== nextNarration.toString() ?  $t('narrate page') + ' ' + nextNarration : $t(likelyAction)"
+        @click="narratePage(activeFolder, nextNarration.toString(), nextNarration)"
+        color="primary"
+        v-if="!activeFolder.soundOrder[nextNarration]"
+      ></q-btn>
+
+      <q-btn
+        :label="$t('done')"
+        @click="doneAndClosed"
+        color="secondary"
+        icon="stop"
+        id="done"
+        v-if="!activeRecorderOffset"
+      >
+      </q-btn>
+
+      <q-btn
+        :label="$t('manage')"
+        @click="manage_UI(activeFolder)"
+        icon="dashboard"
+        id="manage"
+
+      />
+    </div>
   </q-page>
 </template>
 

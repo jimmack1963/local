@@ -13,7 +13,7 @@ export const mixinGeneral = {
   },
   computed: {
     pOrL () {
-      if (this.$q.screen.height > this.$q.screen.width) {
+      if (this.$q.screen.height > this.$q.screen.width || !this.selectedInfo.showMedia) {
         console.log('orientation: Portrait')
         return 'col-12'
       }
@@ -23,7 +23,7 @@ export const mixinGeneral = {
       }
     },
     rest () {
-      if (this.$q.screen.height > this.$q.screen.width) {
+      if (this.$q.screen.height > this.$q.screen.width || !this.selectedInfo.showMedia) {
         return 'col-12'
       }
       else {

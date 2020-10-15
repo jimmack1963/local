@@ -30,19 +30,19 @@
       </q-card-section>
 
       <q-card-actions vertical align="center">
-        <q-btn
-          :label="$t('narrate multiple new pages')"
-          @click="narrateBook(activeFolder)"
-          flat
-          icon="mic"
-          color="primary"
-        ></q-btn>
         <!--@click="narratePage(activeFolder, 'bulk', -1, 'bulk')"-->
         <q-btn
           :label="$t('Illustrate multiple new pages')"
           @click="$router.push('/Illustrate')"
           flat
           icon="add_a_photo"
+          color="primary"
+        ></q-btn>
+        <q-btn
+          :label="$t('narrate multiple new pages')"
+          @click="narrateBook(activeFolder)"
+          flat
+          icon="mic"
           color="primary"
         ></q-btn>
 

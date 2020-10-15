@@ -183,6 +183,7 @@
     <q-drawer
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
       v-model="leftDrawerOpen"
+      :show-if-above="false"
     >
       <q-list inset-delimiter link no-border>
         <q-item @click.native="startBook_UI(false)">

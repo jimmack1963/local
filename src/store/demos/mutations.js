@@ -114,6 +114,7 @@ export function childrenLoaded (state, payload) {
   vue.set(state._TOC[entry.path_lower], 'childrenLoaded', true)
 }
 export function calc (state, payload) {
+
   let pageOrderProc = function (folder, sourceFolder) {
     // TODO: this should be a property on the TOC
     let numberTest = /^\d|$/
@@ -157,6 +158,7 @@ export function calc (state, payload) {
 
     let soundOrder = []
     let imageOrder = []
+
     let coverImage = contents.book_cover.png.length > 0 ? contents.book_cover.png[0].thumbnail : false
 
     for (let scene = 0; scene < pageOrder.length; scene++) {

@@ -70,7 +70,7 @@
 // import { mixinGeneral } from '../components/mixinGeneral'
 import {mixinDropbox} from '../components/mixinDropbox'
 // import { mixinIllustrate } from '../components/mixinIllustrate'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'recordCamcord',
@@ -94,9 +94,6 @@ export default {
     let vue = this
     window.jim = window.jim || {}
     window.jim.recordcamcord = this
-
-    await navigator.mediaDevices.getUserMedia({video: true, audio: false})
-    this.$store.dispatch('getDevices')
 
     vue.videoRef = vue.$refs.video
 
@@ -151,22 +148,7 @@ export default {
 
     // vue.clearPhotoProp()
   },
-  watch: {
-    currentVideo: function (newVal, oldVal) {
-      this.getUserMedia(this.videoRef)
-    }
-  },
   computed: {
-    ...mapGetters(['currentVideo']),
-    activeDevice: {
-      get: function () {
-        return this.currentVideo
-      },
-      set: function (val) {
-        this.$store.commit('setCurrentVideo', val)
-        this.getUserMedia(this.videoRef)
-      }
-    },
     modeIcon () {
       switch (this.facingMode) {
         case 'user':
@@ -265,21 +247,6 @@ export default {
 
       console.log('Dest page = ' + overridePage)
 
-      // let v = this
-
-      //        Problem: below sets the image on the folder holder, not the target page
-
-      /*
-            this.$store.commit('dropbox/saveThumbnail', {
-              entry: this.activeFolder,
-              overridePageName: overridePage,
-              thumbnail: this.dataURL,
-            })
-      */
-
-
-      // this.pageName = (parseInt(this.pageName) + 1).toString()
-
       if (this.dataURL && this.dataURL !== 'data:,') {
         let wholeFileName = this.generateImageName(overridePage)
         console.log('filename in useImage: ' + wholeFileName)
@@ -311,47 +278,36 @@ export default {
 
       }
     },
-    stopMediaTracks (stream) {
-      stream.getTracks().forEach(track => {
-        track.stop()
-      })
-    },
-
-    async getUserMedia (videoRef) {
-      if (!this.activeDevice) return false
-
-      const self = this
-      const vr = videoRef
-      if (!videoRef) {
-        return false
-      }
+    getUserMedia (videoRef) {
+      let self = this
       if (this.theStream) {
         console.log('Stopped theStream')
         this.stopMediaTracks(this.theStream)
       }
-
-      const constraints = {
-        video: {
-          deviceId: this.activeDevice
-        },
-        audio: false,
-      }
-
-      await navigator.mediaDevices.getUserMedia(constraints)
+      // note:  VUE instance must have videoRef defined
+      navigator.mediaDevices.getUserMedia(
+        {
+          video: {
+            facingMode: {
+              exact: this.facingMode,
+            },
+          },
+          audio: false,
+        })
         .then(function (stream) {
-          if (!vr) {
-            return false
-          }
 
+          console.log('assigned th')
           self.theStream = stream
-          vr.srcObject = stream
+          videoRef.srcObject = stream
 
-          vr.addEventListener('canplay', self.captureCanvas, false)
-          vr.play()
+          videoRef.play()
         })
         .catch(function (err) {
-          alert('An error occured! ' + err)
+          console.log('An error occured! ' + err)
         })
+
+      videoRef.addEventListener('canplay', this.captureCanvas, false)
+
     },
 
     async createNewBookCoverPage (bookTitle, tags, pageStyle) {

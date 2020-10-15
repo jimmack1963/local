@@ -42,7 +42,7 @@ try {
 
   console.log(ios_url + ' is the latest ios source')
 
-  let full = 'memoRead.me,playitagainkid.com,readingTogether.works,myFamiliarVoices.com,letsReadAStoryTogether.com'
+  let full = 'playitagainkid.com,readingTogether.works,myFamiliarVoices.com,letsReadAStoryTogether.com,memoRead.me'
   let test = 'playitagainkid.com'
   let destinations =
     full

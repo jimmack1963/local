@@ -119,7 +119,6 @@ export const mixinDropbox = {
       })
     },
     uploadFile: async function (sourceFile, fileName) {
-
       let v = this
       if (sourceFile.size < this.UPLOAD_FILE_SIZE_LIMIT) {
         try {
@@ -148,10 +147,10 @@ export const mixinDropbox = {
             })
           }
 
-          // v.$store.commit('dropbox/saveThumbnail', {
-          //   entry: response,
-          //   thumbnail: thumbnail,
-          // })
+          v.$store.commit('dropbox/saveThumbnail', {
+            entry: response,
+            thumbnail: URL.createObjectURL(sourceFile),
+          })
 
           // TODO: this has .id, .path_lower and should be used on insert #4hr
           if (window.jim_DEBUG_FULL) {
@@ -216,8 +215,66 @@ export const mixinDropbox = {
          */
       }
     },
-    uploadFileBlobImage: async function (dataURL, fileName, size) {
+    uploadFileImage: async function (file, fileName, size) {
+      let v = this
+      if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
+        if (file) {
+          // let thumbnail = this._base64ToArrayBuffer(file)
+          let response
+          try {
+            try {
+              response = await this.$dbx.filesUpload({
+                path: fileName,
+                contents: file,
+              })
+            } catch (e) {
+              console.log(e)
+            }
 
+            response.parts = pathParse(response.path_lower)
+            response.ext = response.parts.ext.toLowerCase().replace('.', '')
+            response.dir = response.parts.dir
+            response.fname = response.parts.name
+            response['.tag'] = 'file'
+
+            await v.$store.dispatch('dropbox/registerFile', {
+              folder: response.dir,
+              entry: response,
+              dbx: v.$dbx,
+              calc: true,
+            })
+
+            let folder = v.$store.state.dropbox._TOC[response.dir]
+            if (folder) {
+              v.$store.commit('dropbox/calc', {
+                TOC: folder,
+              })
+            }
+
+            v.$store.commit('dropbox/saveThumbnail', {
+              entry: response,
+              thumbnail: file,
+            })
+
+            // TODO: this has .id, .path_lower and should be used #2hr
+            if (window.jim_DEBUG_FULL) {
+              console.log('@response')
+              console.dir(response)
+            }
+          } catch (error) {
+            if (window.jim_DEBUG_FULL) {
+              console.log('@uploadFileBlobImage error')
+              console.dir(error)
+            }
+          }
+        }
+      } else {
+        // TODO: big file upload #2hr
+        alert('Size of file exceeds ' + this.UPLOAD_FILE_SIZE_LIMIT + ' bytes, need to write more code in' +
+          ' mixinDropBox.uploadFileBlobImage')
+      }
+    },
+    uploadFileBlobImage: async function (dataURL, fileName, size) {
       let v = this
       if (size < this.UPLOAD_FILE_SIZE_LIMIT) {
         if (dataURL) {
@@ -227,7 +284,6 @@ export const mixinDropbox = {
               path: fileName,
               contents: thumbnail,
             })
-
 
             response.parts = pathParse(response.path_lower)
             response.ext = response.parts.ext.toLowerCase().replace('.', '')
@@ -260,7 +316,6 @@ export const mixinDropbox = {
               console.dir(response)
             }
           } catch (error) {
-
             if (window.jim_DEBUG_FULL) {
               console.log('@uploadFileBlobImage error')
               console.dir(error)
@@ -356,7 +411,6 @@ export const mixinDropbox = {
               }
             })
             .catch((error) => {
-
               if (window.jim_DEBUG_FULL) {
                 console.log('@uploadFileBlobImage error')
                 console.dir(error)

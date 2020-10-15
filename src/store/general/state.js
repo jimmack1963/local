@@ -56,7 +56,7 @@ switch (hostname) {
   }
   default:
   case 'localhost': { // devprod !!
-    authURL = 'https://localhost:8080'
+    authURL = 'https://192.168.0.42:8080'
     title = 'My Familiar Voices'
     verb = 'record'
     subtitle = commonSubtitle
